@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json.schemastore.org/block.json",
+    "apiVersion": 3,
+    "title": "CofC Testimonial",
+    "name": "cofctheme/testimonial",
+    "category": "design",
+    "icon": "editor-quote",
+    "editorScript": "file:./index.js",
+    "attributes": {
+        "quote": {
+            "type": "string",
+            "default": ""
+        },
+        "name": {
+            "type": "string",
+            "default": ""
+        },
+        "date": {
+            "default": "",
+            "type": "string"
+        }
+    }
+}

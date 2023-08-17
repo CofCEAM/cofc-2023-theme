@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/block.json",
+  "apiVersion": 3,
+  "title": "CofC Tag Grid",
+  "name": "cofctheme/tag-grid",
+  "category": "design",
+  "icon": "grid-view",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Recent News"
+    },
+    "tags": {
+      "type": "array",
+      "default": []
+    },
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "useFullWidth": {
+      "type": "boolean",
+      "default": false
+    },
+    "includeLink": {
+      "type": "boolean",
+      "default": false
+    },
+    "linkUri": {
+      "type": "string",
+      "default": ""
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "linkNewTab": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

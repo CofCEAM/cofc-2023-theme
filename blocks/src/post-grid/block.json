@@ -1,0 +1,67 @@
+{
+    "$schema": "https://json.schemastore.org/block.json",
+    "apiVersion": 3,
+    "title": "CofC Post Grid",
+    "name": "cofctheme/post-grid",
+    "category": "design",
+    "icon": "grid-view",
+    "editorScript": "file:./index.js",
+    "attributes": {
+        "categories": {
+            "type": "array",
+            "default": []
+        },
+        "tags": {
+            "type": "array",
+            "default": []
+        },
+        "limit": {
+            "type": "number",
+            "default": 3
+        },
+        "offset": {
+            "type": "number",
+            "default": 0
+        },
+        "columns": {
+            "type": "number",
+            "default": 3
+        },
+        "title": {
+            "type": "string",
+            "default": "Recent News"
+        },
+        "useFullWidth": {
+            "type": "boolean",
+            "default": false
+        },
+        "includeLink": {
+            "type": "boolean",
+            "default": false
+        },
+        "linkUri": {
+            "type": "string",
+            "default": ""
+        },
+        "linkText": {
+            "type": "string",
+            "default": ""
+        },
+        "linkNewTab": {
+            "type": "boolean",
+            "default": false
+        },
+        "displayExcerpt": {
+            "type": "boolean",
+            "default": false
+        },
+        "displayPublishDate": {
+            "type": "boolean",
+            "default": false
+        },
+        "displayAuthor": {
+            "type": "boolean",
+            "default": false
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/block.json",
+  "apiVersion": 3,
+  "title": "CofC Media Carousel",
+  "name": "cofctheme/media-carousel",
+  "category": "design",
+  "icon": "slides",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Media Gallery"
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaItems": {
+      "type": "array",
+      "default": []
+    },
+    "includeLink": {
+      "type": "boolean",
+      "default": false
+    },
+    "linkUri": {
+      "type": "string",
+      "default": ""
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "linkNewTab": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

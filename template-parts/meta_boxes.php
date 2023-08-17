@@ -3,6 +3,34 @@
 for custom data to be added, e.g. featured videos, extra featured images, featured quotes, etc. 
 */
 
+function featured_media_carousel_description_callback($post)
+{
+    $featured_media_carousel_description = get_post_meta($post->ID, 'featured_media_carousel_description', true);
+    ?>
+    <div>
+        <label for="featured_media_carousel_description">Description of featured media (text underneath media carousel,
+            skipped if empty):
+        </label><br />
+        <textarea style="padding:.7rem; margin:0.5rem auto; width:90%;" id="featured_media_carousel_description"
+            name="featured_media_carousel_description"><?php echo $featured_media_carousel_description ?></textarea><br />
+
+        <?php
+}
+
+function featured_media_carousel_header_callback($post)
+{
+    $featured_media_carousel_header = get_post_meta($post->ID, 'featured_media_carousel_header', true);
+    ?>
+        <div>
+            <label for="featured_media_carousel_header">Featured Media Carousel Header (above carousel, skipped if empty):
+            </label><br />
+            <input value="<?php echo $featured_media_carousel_header ?>"
+                style="padding:.7rem; margin:0.5rem auto; width:90%;" id="featured_media_carousel_header"
+                name="featured_media_carousel_header"><br />
+
+            <?php
+}
+
 function featured_video_callback($post)
 {
     // Retrieve the current featured video URL if it exists
@@ -82,7 +110,7 @@ function custom_featured_image_callback($post, $args)
     $upload_button_id = 'upload-featured-image-' . $featured_image_number . '-button';
     // Output the file upload input field
     echo '
-    <label for="' . $file_upload_field_id . '">Featured Image ' . $featured_image_number . ': </label>
+    <label for="' . $file_upload_field_id . '">Featured Image ' . (int) $featured_image_number - 1 . ': </label>
     <input type="text" id="' . $file_upload_field_id . '" name="' . $file_key . '" 
     value="' . esc_attr($file_url) . '" readonly>
     <button type="button" id="' . $upload_button_id . '" class="button">Upload File</button>
@@ -148,6 +176,23 @@ function save_custom_meta_boxes($post_id)
         }
     }
 
+    // save carousel description (underneath carousel)
+    if (isset($_POST['featured_media_carousel_description'])) {
+        update_post_meta(
+            $post_id,
+            'featured_media_carousel_description',
+            sanitize_text_field($_POST['featured_media_carousel_description'])
+        );
+    }
+    // save carousel description (underneath carousel)
+    if (isset($_POST['featured_media_carousel_header'])) {
+        update_post_meta(
+            $post_id,
+            'featured_media_carousel_header',
+            sanitize_text_field($_POST['featured_media_carousel_header'])
+        );
+    }
+
     // save featured quote 
     if (isset($_POST['featured_quote'])) {
         update_post_meta(
@@ -199,12 +244,31 @@ add_action('save_post', 'save_custom_meta_boxes');
 
 function add_custom_meta_boxes()
 {
+    // Add featured media carousel header meta box. 
+    add_meta_box(
+        'featured_media_carousel_header_meta_box',
+        'Featured Media Carousel Header (above carousel)',
+        'featured_media_carousel_header_callback',
+        'post',
+        'normal',
+        'default'
+    );
+    // Add featured media carousel description meta box. 
+    add_meta_box(
+        'featured_media_carousel_description_meta_box',
+        'Featured Media Carousel Description (under carousel)',
+        'featured_media_carousel_description_callback',
+        'post',
+        'normal',
+        'default'
+    );
+
     // Add extra featured image meta boxes. 
     foreach (range(2, 5) as $num) {
         $args = array('featured_image_number' => $num);
         add_meta_box(
             'featured-image-' . $num,
-            'Featured Image ' . $num,
+            'Featured Image ' . $num - 1,
             'custom_featured_image_callback',
             'post',
             'normal',
@@ -221,6 +285,10 @@ function add_custom_meta_boxes()
         'normal',
         'default'
     );
+
+
+
+
 
     // Add featured quote meta box. 
     add_meta_box(

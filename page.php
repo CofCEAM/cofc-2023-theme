@@ -40,14 +40,6 @@
                             <?php the_content() ?>
                         </div>
                     </div>
-
-                    <section class="iframe">
-                        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0"
-                            style="width:100%;overflow:hidden;"
-                            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                            src="https://embed.podcasts.apple.com/us/podcast/bouldering-around-boulder/id1620111298?i=1000558312282&theme=light"></iframe>
-
-                    </section>
                 </div>
             </div>
 

@@ -50,57 +50,71 @@ global $post; ?>
                         </p>
                     </div>
 
-                    <section class="media  media--narrow media--article js-has-carousel">
-                        <?php
-                        $featured_image_title = get_post(get_post_thumbnail_id())->post_title;
-                        $featured_image_caption = get_post(get_post_thumbnail_id())->post_excerpt;
-                        $featured_image_description = get_post(get_post_thumbnail_id())->post_content;
-                        $featured_image_url = get_the_post_thumbnail_url($post->ID);
-                        ?>
+                    <section class="media media--narrow media--article js-has-carousel">
                         <div class="media__container">
-                            <div class="media__header">
-                                <h2 class="media__title font-h2">
-                                    <?php echo $featured_image_title ?>
-                                </h2>
-                            </div>
+                            <?php
+                            $carousel_header = get_post_meta($post->ID, 'featured_media_carousel_header', true);
+                            if (!empty($carousel_header)) {
+                                ?>
+                                <div class="media__header">
+                                    <h2 class="media__title font-h2">
+                                        <?php echo $carousel_header ?>
+                                    </h2>
+                                </div>
+                                <?php
+                            }
+                            ?>
+
 
                             <div class="media__wrapper">
                                 <div id="media_items" class="media__items">
-                                    <figure class="media__imagery media__imagery--with-video">
-                                        <img src="<?php echo $featured_image_url ?>"
-                                            alt="<?php echo $featured_image_caption ?>" class="media__image" width="836"
-                                            height="627" />
+                                    <?php
+                                    $featured_video_title = get_post_meta($post->ID, 'featured_video_title', true);
+                                    $featured_video_url = get_post_meta($post->ID, 'featured_video_url', true);
+                                    $featured_video_caption = get_post_meta($post->ID, 'featured_video_caption', true);
+                                    $featured_video_thumbnail_url = get_post_meta($post->ID, 'featured_video_thumbnail', true);
 
-                                        <a href="https://www.youtube.com/watch?v=J5OSRpRyl6g"
-                                            class="btn btn--xlarge btn--round play-button">
-                                            <span class="btn__icon">
-                                                <svg class="brei-icon brei-icon-play" focusable="false">
-                                                    <use href="#brei-icon-play"></use>
-                                                </svg>
-                                            </span>
-                                            <span class="show-for-sr">Play video</span>
-                                        </a>
+                                    if (!empty($featured_video_url) && !empty($featured_video_thumbnail_url)) { ?>
+                                        <figure class="media__imagery media__imagery--with-video">
+                                            <img src="<?php echo $featured_video_thumbnail_url ?>"
+                                                alt="<?php echo $featured_video_title ?>" class="media__image" width="836"
+                                                height="627" />
+                                            <a href="<?php echo $featured_video_url ?>"
+                                                class="btn btn--xlarge btn--round play-button">
+                                                <span class="btn__icon">
+                                                    <svg class="brei-icon brei-icon-play" focusable="false">
+                                                        <use href="#brei-icon-play"></use>
+                                                    </svg>
+                                                </span>
+                                                <span class="show-for-sr">Play video</span>
+                                            </a>
+                                            <!--span class="btn__icon"></span-->
+                                            <figcaption>
+                                                <?php echo $featured_video_caption ?>
+                                            </figcaption>
+                                        </figure>
+                                    <?php } ?>
 
-                                        <!--span class="btn__icon"></span-->
-
-                                        <figcaption>
-                                            <?php echo $featured_image_caption ?>
-                                        </figcaption>
-
-                                    </figure>
-                                    <figure class="media__imagery">
-                                        <img src="https://via.placeholder.com/926x695/ff00ff/9a9a9a"
-                                            alt="[image alt text]" class="media__image" width="836" height="627" />
-
-                                        <figcaption>Optional caption 100 characters lorem ipsum dolor sit amet
-                                            consectetur adipscing elit sed do.</figcaption>
-
-                                    </figure>
-                                    <figure class="media__imagery">
-                                        <img src="https://via.placeholder.com/926x695/00ffff/9a9a9a"
-                                            alt="[image alt text]" class="media__image" width="836" height="627" />
-                                        <figcaption>little caption</figcaption>
-                                    </figure>
+                                    <?php foreach (range(2, 5) as $num) {
+                                        $image_url = get_post_meta(
+                                            $post->ID,
+                                            'file_upload_featured_image_' . $num,
+                                            true
+                                        );
+                                        if (!empty($image_url)) {
+                                            $image_id = attachment_url_to_postid($image_url);
+                                            $image = get_post($image_id);
+                                            ?>
+                                            <figure class="media__imagery">
+                                                <img src="<?php echo $image_url ?>" alt="<?php echo $image->post_content ?>"
+                                                    class="media__image" width="836" height="627" />
+                                                <figcaption>
+                                                    <?php echo $image->post_excerpt ?>
+                                                </figcaption>
+                                            </figure>
+                                            <?php
+                                        }
+                                    } ?>
                                 </div>
                                 <div class="media__controls" data-id="media_controls">
                                     <div data-id="next"><a href="#" aria-label="See Next" class="btn btn--medium">
@@ -153,10 +167,14 @@ global $post; ?>
                                         <!--span class="btn__icon"></span-->
                                     </div>
                                 </div>
-                                <p class="media__copy font-body-lite">Structured copy max 225 char lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Nisi lacus sed viverra tellus in hac habitasse.</p>
-                                <a href="#" class="btn btn-tertiary btn-tertiary-left">
+                                <?php
+                                $featured_media_carousel_description = get_post_meta($post->ID, 'featured_media_carousel_description', true);
+                                if (!empty($featured_media_carousel_description)) {
+                                    ?>
+                                    <p class="media__copy font-body-lite">
+                                        <?php echo $featured_media_carousel_description ?>
+                                    </p>
+                                    <!-- <a href="#" class="btn btn-tertiary btn-tertiary-left">
                                     <span class="text">Optional Tertiary Button</span>
                                     <span class="text-arrow">
                                         <svg class="brei-icon brei-icon-arrows" focusable="false">
@@ -167,7 +185,11 @@ global $post; ?>
                                             <use href="#brei-icon-arrows-arrow"></use>
                                         </svg>
                                     </span>
-                                </a>
+                                </a> -->
+                                    <?php
+                                }
+                                ?>
+
 
                                 <!--span class="btn__icon"></span-->
                             </div>
@@ -176,14 +198,14 @@ global $post; ?>
 
                     </section>
 
-                    <section class="iframe">
+                    <!-- <section class="iframe">
 
                         <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0"
                             style="width:100%;overflow:hidden;"
                             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
                             src="https://embed.podcasts.apple.com/us/podcast/bouldering-around-boulder/id1620111298?i=1000558312282&theme=light"></iframe>
 
-                    </section>
+                    </section> -->
                     <div class="wysiwyg  component">
                         <div class="wysiwyg__inner  user-markup">
 
@@ -194,7 +216,7 @@ global $post; ?>
                             <?php
                             $featured_quote = get_post_meta($post->ID, 'featured_quote', true);
                             $featured_quotee = get_post_meta($post->ID, 'featured_quotee', true);
-                            if (isset($featured_quote) && isset($featured_quotee)) {
+                            if (!empty($featured_quote) && !empty($featured_quotee)) {
                                 ?>
                                 <div class="quote component">
                                     <div class="quote__wrapper">
@@ -217,74 +239,6 @@ global $post; ?>
 
                         </div>
                     </div>
-                    <?php
-                    $featured_video_title = get_post_meta($post->ID, 'featured_video_title', true);
-                    $featured_video_url = get_post_meta($post->ID, 'featured_video_url', true);
-                    $featured_video_caption = get_post_meta($post->ID, 'featured_video_caption', true);
-                    $featured_video_thumbnail_url = get_post_meta($post->ID, 'featured_video_thumbnail', true);
-
-                    if (isset($featured_video_url) && isset($featured_video_thumbnail_url)) {
-                        echo ' 
-                            <section class="media  media--narrow media--video media--article component js-has-carousel"> 
-                                <div class="media__container"> ';
-                        if (isset($featured_video_title)) {
-                            echo '
-                                <div class="media__header">
-                                    <h2 class="media__title font-h2">' . $featured_video_title . '</h2>
-                                </div>
-                                ';
-                        }
-
-                        echo '
-                            <div class="media__wrapper">
-                                <div id="media_items" class="media__items">
-                                    <figure class="media__imagery media__imagery--with-video">
-                                        <img src="' . $featured_video_thumbnail_url . '" 
-                                            alt="' . $featured_video_caption . '"
-                                            class="media__image" width="1264" height="711" />
-
-                                        <a href="' . $featured_video_url . '"
-                                            class="btn btn--xlarge btn--round play-button">
-                                            <span class="btn__icon">
-                                                <svg class="brei-icon brei-icon-play" focusable="false">
-                                                    <use href="#brei-icon-play"></use>
-                                                </svg>
-                                            </span>
-                                            <span class="show-for-sr">Play video</span>
-                                        </a>
-                                        <!--span class="btn__icon"></span-->
-                                    </figure>
-                                </div>
-                                <div class="media__caption font-caption" aria-hidden="true"></div>
-                            </div>
-                            <div class="media__bottom">
-                                <div class="media__footer">
-                                    <p class="media__copy font-body-lite">' . $featured_video_caption . '</p>
-                                    <a href="' . $featured_video_url . '" target="_blank" title="' . $featured_video_title . '" class="btn btn-tertiary btn-tertiary-left">
-                                        <span class="text">Go to Video</span>
-                                        <span class="text-arrow">
-                                            <svg class="brei-icon brei-icon-arrows" focusable="false">
-                                                <use href="#brei-icon-arrows"></use>
-                                            </svg>
-
-                                            <svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
-                                                <use href="#brei-icon-arrows-arrow"></use>
-                                            </svg>
-                                        </span>
-                                    </a>
-
-                                    <!--span class="btn__icon"></span-->
-                                </div>
-                            </div>
-                            <div class="media__wrapper__bottom"></div>
-                    </div>
-
-                    </section>
-
-                        
-                        ';
-                    }
-                    ?>
 
                     <div class="share-links">
                         <div class="share-links__content">
@@ -305,12 +259,12 @@ global $post; ?>
                             $pinterest_share_url = "https://pinterest.com/pin/create/button/?url=" . urlencode($permalink) . "&amp;description=" . $summary . "&amp;media=" . urlencode($featured_image_url);
                             $vk_share_url = "https://vk.com/share.php?url=" . urlencode($permalink) . "&amp;title=" . $title . "&amp;description=" . $summary;
                             $email_share_url = "mailto:?body=" . $permalink . "&amp;subject=" . $title;
-
-                            echo '
+                            ?>
                             <ul class="share-links__list">
                                 <li class="share-links__item">
 
-                                    <a href="' . $fb_share_url . '" class="share-links__link" aria-label="Facebook" target="_blank">
+                                    <a href="<?php echo $fb_share_url ?>" class="share-links__link"
+                                        aria-label="Facebook" target="_blank">
                                         <svg class="brei-icon brei-icon-social-facebook" focusable="false">
                                             <use href="#brei-icon-social-facebook"></use>
                                         </svg>
@@ -318,7 +272,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $twitter_share_url . '" class="share-links__link" aria-label="Twitter" target="_blank">
+                                    <a href="<?php echo $twitter_share_url ?>" class="share-links__link"
+                                        aria-label="Twitter" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-twitter" focusable="false">
                                             <use href="#brei-icon-social-twitter"></use>
@@ -327,7 +282,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $reddit_share_url . '" class="share-links__link" aria-label="Reddit" target="_blank">
+                                    <a href="<?php echo $reddit_share_url ?>" class="share-links__link"
+                                        aria-label="Reddit" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-reddit" focusable="false">
                                             <use href="#brei-icon-social-reddit"></use>
@@ -336,7 +292,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $linkedin_share_url . '" class="share-links__link" aria-label="LinkedIn" target="_blank">
+                                    <a href="<?php echo $linkedin_share_url ?>" class="share-links__link"
+                                        aria-label="LinkedIn" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-linkedin" focusable="false">
                                             <use href="#brei-icon-social-linkedin"></use>
@@ -345,7 +302,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $whatsapp_share_url . '" class="share-links__link" aria-label="WhatsApp" target="_blank">
+                                    <a href="<?php echo $whatsapp_share_url ?>" class="share-links__link"
+                                        aria-label="WhatsApp" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-whatsapp" focusable="false">
                                             <use href="#brei-icon-social-whatsapp"></use>
@@ -354,7 +312,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $tumblr_share_url . '" class="share-links__link" aria-label="Tumblr" target="_blank">
+                                    <a href="<?php echo $tumblr_share_url ?>" class="share-links__link"
+                                        aria-label="Tumblr" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-tumblr" focusable="false">
                                             <use href="#brei-icon-social-tumblr"></use>
@@ -363,7 +322,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $pinterest_share_url . '" class="share-links__link" aria-label="Pinterest" target="_blank">
+                                    <a href="<?php echo $pinterest_share_url ?>" class="share-links__link"
+                                        aria-label="Pinterest" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-pinterest" focusable="false">
                                             <use href="#brei-icon-social-pinterest"></use>
@@ -372,7 +332,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $vk_share_url . '" class="share-links__link" aria-label="VKontakte" target="_blank">
+                                    <a href=" <?php echo $vk_share_url ?>" class="share-links__link"
+                                        aria-label="VKontakte" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-vk" focusable="false">
                                             <use href="#brei-icon-social-vk"></use>
@@ -381,7 +342,8 @@ global $post; ?>
                                     </a>
                                 </li>
                                 <li class="share-links__item">
-                                    <a href="' . $email_share_url . '" class="share-links__link" aria-label="Email" target="_blank">
+                                    <a href="<?php echo $email_share_url ?>" class="share-links__link"
+                                        aria-label="Email" target="_blank">
 
                                         <svg class="brei-icon brei-icon-email" focusable="false">
                                             <use href="#brei-icon-email"></use>
@@ -398,159 +360,46 @@ global $post; ?>
                 </div>
             </div>
 
-            <div class="article__news xsmall-12 medium-10 medium-offset-1 column">
-                <section class="news-content news-content--article news-content--single component">
-                    <div class="cell xsmall-12">
-                        <h2 class="font-h2">Related News</h2>
-                        <hr />
-                    </div>
-                    <div class="news-content__cards grid-x grid-margin-x grid-margin-y">
-                        <div class="cell xsmall-12 medium-6 large-4">
-                            <div class="card-news" itemscope itemtype="https://schema.org/NewsArticle">
+            <?php
 
-                                <figure class="card-news__figure">
-                                    <img src="https://via.placeholder.com/926x695" alt="[news photo alt text]"
-                                        class="card-news__image" itemprop="image" width="926" height="695" />
-                                </figure>
 
-                                <div class="card-news__wrapper">
-                                    <div class="card-news__content">
-                                        <p class="card-news__heading font-h4"><span itemprop="headline">News Title H4
-                                                loreM ipsum dolor sit ameT consectetur elit</span></p>
-                                        <p class="card-news__date card-icon">
-                                            <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                                <use href="#brei-icon-calendar"></use>
-                                            </svg>
-                                            <span itemprop="dateline">April 16, 2023</span>
-                                        </p>
-                                        <p class="card-news__author card-icon">
-                                            <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                                <use href="#brei-icon-avatar"></use>
-                                            </svg>
-                                            <span itemprop="author">by Firstname Lastname</span>
-                                        </p>
-                                    </div>
+            $related = get_posts(array('category__in' => wp_get_post_categories($post->ID), 'numberposts' => 3, 'post__not_in' => array($post->ID)));
+            $category_slugs = wp_get_post_categories($post->ID, array('fields' => 'slugs', 'order' => 'DESC'));
+            $first_related_category_slug = $category_slugs[0];
+            $first_related_category_link = get_site_url() . '/category/' . $first_related_category_slug;
 
-                                    <div class="card-news__button">
-                                        <p class="btn btn-card" aria-hidden="true">
-                                            <span class="text-arrow">
-                                                <svg class="brei-icon brei-icon-arrows" focusable="false">
-                                                    <use href="#brei-icon-arrows"></use>
-                                                </svg>
-
-                                                <svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
-                                                    <use href="#brei-icon-arrows-arrow"></use>
-                                                </svg>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <a href="#" class="child-page-grid__link"><span class="show-for-sr">Read more about
-                                        "News Title H4 loreM ipsum dolor sit ameT consectetur elit"</span></a>
-
-                            </div>
+            if ($related) {
+                ?>
+                <div class=" article__news xsmall-12 medium-10 medium-offset-1 column">
+                    <section class="news-content news-content--article news-content--single component">
+                        <div class="cell xsmall-12">
+                            <h2 class="font-h2">Related News</h2>
+                            <hr />
                         </div>
-                        <div class="cell xsmall-12 medium-6 large-4">
-                            <div class="card-news" itemscope itemtype="https://schema.org/NewsArticle">
-
-                                <figure class="card-news__figure">
-                                    <img src="https://via.placeholder.com/926x695" alt="[news photo alt text]"
-                                        class="card-news__image" itemprop="image" width="926" height="695" />
-                                </figure>
-
-                                <div class="card-news__wrapper">
-                                    <div class="card-news__content">
-                                        <p class="card-news__heading font-h4"><span itemprop="headline">News Title H4
-                                                loreM ipsum dolor sit ameT consectetur elit</span></p>
-                                        <p class="card-news__date card-icon">
-                                            <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                                <use href="#brei-icon-calendar"></use>
-                                            </svg>
-                                            <span itemprop="dateline">April 16, 2023</span>
-                                        </p>
-                                        <p class="card-news__author card-icon">
-                                            <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                                <use href="#brei-icon-avatar"></use>
-                                            </svg>
-                                            <span itemprop="author">by Firstname Lastname</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="card-news__button">
-                                        <p class="btn btn-card" aria-hidden="true">
-                                            <span class="text-arrow">
-                                                <svg class="brei-icon brei-icon-arrows" focusable="false">
-                                                    <use href="#brei-icon-arrows"></use>
-                                                </svg>
-
-                                                <svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
-                                                    <use href="#brei-icon-arrows-arrow"></use>
-                                                </svg>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <a href="#" class="child-page-grid__link"><span class="show-for-sr">Read more about
-                                        "News Title H4 loreM ipsum dolor sit ameT consectetur elit"</span></a>
-
-                            </div>
+                        <div class="news-content__cards grid-x grid-margin-x grid-margin-y">
+                            <?php foreach ($related as $post) {
+                                display_single_post_card(
+                                    post: $post,
+                                    wide: false,
+                                    display_excerpt: false,
+                                    display_published_date: false,
+                                    display_author: true,
+                                    medium_screen_class: 'medium-4',
+                                    large_screen_class: '',
+                                    title_heading_size: 'h4'
+                                );
+                            } ?>
                         </div>
-                        <div class="cell xsmall-12 medium-6 large-4">
-                            <div class="card-news" itemscope itemtype="https://schema.org/NewsArticle">
+                        <div class="button-dotted-line">
+                            <a href="<?php echo $first_related_category_link ?>" class="btn btn--primary">
+                                <span class="text">View More Related Posts</span>
+                            </a>
 
-                                <figure class="card-news__figure">
-                                    <img src="https://via.placeholder.com/926x695" alt="[news photo alt text]"
-                                        class="card-news__image" itemprop="image" width="926" height="695" />
-                                </figure>
-
-                                <div class="card-news__wrapper">
-                                    <div class="card-news__content">
-                                        <p class="card-news__heading font-h4"><span itemprop="headline">News Title H4
-                                                loreM ipsum dolor sit ameT consectetur elit</span></p>
-                                        <p class="card-news__date card-icon">
-                                            <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                                <use href="#brei-icon-calendar"></use>
-                                            </svg>
-                                            <span itemprop="dateline">April 16, 2023</span>
-                                        </p>
-                                        <p class="card-news__author card-icon">
-                                            <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                                <use href="#brei-icon-avatar"></use>
-                                            </svg>
-                                            <span itemprop="author">by Firstname Lastname</span>
-                                        </p>
-                                    </div>
-
-                                    <div class="card-news__button">
-                                        <p class="btn btn-card" aria-hidden="true">
-                                            <span class="text-arrow">
-                                                <svg class="brei-icon brei-icon-arrows" focusable="false">
-                                                    <use href="#brei-icon-arrows"></use>
-                                                </svg>
-
-                                                <svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
-                                                    <use href="#brei-icon-arrows-arrow"></use>
-                                                </svg>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <a href="#" class="child-page-grid__link"><span class="show-for-sr">Read more about
-                                        "News Title H4 loreM ipsum dolor sit ameT consectetur elit"</span></a>
-
-                            </div>
+                            <!--span class="btn__icon"></span-->
                         </div>
-                    </div>
-                    <div class="button-dotted-line">
-                        <a href="#" class="btn btn--primary">
-                            <span class="text">Primary Large</span>
-                        </a>
-
-                        <!--span class="btn__icon"></span-->
-                    </div>
-                </section>
-            </div>
-
+                    </section>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </main>

@@ -235,8 +235,6 @@ global $post; ?>
                                 <?php
                             }
                             ?>
-                            <a href="#" class="btn btn--primary"><span class="text">Primary Large</span></a>
-
                         </div>
                     </div>
 

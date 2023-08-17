@@ -36,6 +36,8 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
     $output .= '<li class="pagination__item pagination__item--prev ' . $disabledLiClass . '">';
     if ($query) {
         $link = $base_url . '/page/' . $current_page - 1 . '?s=' . $query;
+    } else {
+        $link = $base_url . '/page/' . $current_page - 1;
     }
     $output .= '<a ' . ($current_page === 1 ? $disabledAnchorAttribute : '') . ' href="' . $link . '" class="btn btn--small" aria-label="Go to the previous page"><span class="btn__icon">';
     $output .= '<svg class="brei-icon brei-icon-chevron"> <use xlink:href="#brei-icon-chevron"></use></svg>';

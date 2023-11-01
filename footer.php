@@ -1,9 +1,6 @@
 <footer id="global-footer" class="footer component">
-
     <div class="footer__content wrapper">
-
         <?php dynamic_sidebar('footer-sidebar'); ?>
-
         <div class="footer__logo">
             <svg class="brei-icon brei-icon-logo-footer" focusable="false">
                 <use href="#brei-icon-logo-footer"></use>

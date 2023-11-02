@@ -42,17 +42,11 @@ class FeaturedPostsWidget extends WP_Widget
 
         // always exclude current post
         global $post;
-        // if post is not null
-        if ($post) {
-            error_log('widget: excluding post: ' . print_r($post, true));
-            array_push($post_not_in_arg, $post->ID);
-        }
 
         $query = new WP_Query(
             array(
                 'category__in' => $post_categories,
                 'tag__in' => $post_tags,
-                'post__not_in' => $post_not_in_arg,
                 // if exclude sticky posts and exclude post id 
                 'posts_per_page' => 4
             )

@@ -41,7 +41,10 @@ class FeaturedPostsWidget extends WP_Widget
 
         // always exclude current post
         global $post;
-        array_push($post_not_in_arg, $post->ID);
+        // if post is not null
+        if ($post) {
+            array_push($post_not_in_arg, $post->ID);
+        }
 
         $query = new WP_Query(
             array(

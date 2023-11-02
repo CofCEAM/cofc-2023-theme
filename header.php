@@ -6,8 +6,19 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="blog site template description">
-	<meta name="author" content="https://austinjhunt.com">
+	<?php
+	// Check if we are on a single post or page and get the custom field values
+	if (is_single() || is_page()) {
+		global $post;
+		$meta_description = get_post_meta($post->ID, 'meta_description', true);
+		$meta_author = get_post_meta($post->ID, 'meta_author', true);
+	}
+	?>
+
+	<meta name="description"
+		content="<?php echo esc_attr($meta_description ?? 'College of Charleston Wordpress site'); ?>">
+	<meta name="author" content="<?php echo esc_url($meta_author ?? 'https://austinjhunt.com'); ?>">
+
 	<?php
 	wp_head();
 	?>

@@ -13,20 +13,7 @@ function create_contact_info_customizer($wp_customize)
         )
     );
 
-    $wp_customize->add_control(
-        new WP_Customize_Control(
-            $wp_customize,
-            'site_logo_svg',
-            array(
-                'label' => __('Site Logo SVG Code', 'textdomain'),
-                'description' => __('Paste in your site logo as SVG code. You can convert your site logo image to SVG format using a tool like this: https://convertio.co/png-svg/. This will display in the top left of your site next to the main navigation. ', 'textdomain'),
-                'settings' => 'site_logo_svg',
-                'priority' => 10,
-                'section' => 'title_tagline',
-                'type' => 'textarea',
-            )
-        )
-    );
+
 
     /* Begin Contact Information */
     // Title of division / office / department / unit 
@@ -134,6 +121,103 @@ function create_contact_info_customizer($wp_customize)
     );
 }
 
+function create_logo_svg_customizer($wp_customize)
+{
+    // SVG Logo for site branding in top left. 
+    $wp_customize->add_setting(
+        'site_logo_svg',
+        array(
+            'default' => '',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'site_logo_svg',
+            array(
+                'label' => __('Site Logo SVG Code', 'textdomain'),
+                'description' => __('Paste in your site logo as SVG code. You can convert your site logo image to SVG format using a tool like this: https://convertio.co/png-svg/. This will display in the top left of your site next to the main navigation. ', 'textdomain'),
+                'settings' => 'site_logo_svg',
+                'priority' => 10,
+                'section' => 'title_tagline',
+                'type' => 'textarea',
+            )
+        )
+    );
+}
+
+function create_meta_customizer($wp_customize)
+{
+    // Add section to the Customizer
+    $wp_customize->add_section(
+        'cofctheme_meta_section',
+        array(
+            'title' => __('Homepage Meta', 'cofctheme'),
+            'priority' => 30,
+        )
+    );
+
+    // SVG Logo for site branding in top left. 
+    $wp_customize->add_setting(
+        'meta_description',
+        array(
+            'default' => '',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    // SVG Logo for site branding in top left. 
+    $wp_customize->add_setting(
+        'meta_author',
+        array(
+            'default' => '',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'meta_description',
+            array(
+                'label' => __('Site Meta Description', 'textdomain'),
+                'description' => __('Provide a meta description for your site (this will show in the <meta name="description"...> tag in the header.', 'textdomain'),
+                'settings' => 'meta_description',
+                'priority' => 10,
+                'section' => 'title_tagline',
+                'type' => 'textarea',
+            )
+        )
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'meta_author',
+            array(
+                'label' => __('Site Meta Author', 'textdomain'),
+                'description' => __('Provide an author name for your site (this will show in the <meta name="author"...> tag in the header.', 'textdomain'),
+                'settings' => 'meta_author',
+                'priority' => 10,
+                'section' => 'title_tagline',
+                'type' => 'text',
+            )
+        )
+    );
+}
+
 function create_social_media_customizer($wp_customize)
 {
     // create a new section for contact information
@@ -215,25 +299,10 @@ function create_social_media_customizer($wp_customize)
 
 function add_customizer_fields($wp_customize)
 {
-
-
-    // SVG Logo for site branding in top left. 
-    $wp_customize->add_setting(
-        'site_logo_svg',
-        array(
-            'default' => '',
-            'type' => 'option',
-            'transport' => 'postMessage',
-            // you can also use 'theme_mod'
-            'capability' => 'edit_theme_options'
-        ),
-    );
-
+    create_logo_svg_customizer($wp_customize);
+    create_meta_customizer($wp_customize);
     create_contact_info_customizer($wp_customize);
     create_social_media_customizer($wp_customize);
-
-
-    /* End Contact Information */
 }
 add_action('customize_register', 'add_customizer_fields');
 
@@ -246,7 +315,8 @@ add_action('customize_register', 'add_customizer_fields');
 function cofctheme_customizer_live_preview()
 {
     wp_enqueue_script(
-        'cofctheme-customizer', //Give the script an ID
+        'cofctheme-customizer',
+        //Give the script an ID
         get_template_directory_uri() . '/assets/js/customizer.js',
         //Point to file
         array('jquery', 'customize-preview'),

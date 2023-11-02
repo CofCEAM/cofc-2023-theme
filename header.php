@@ -8,10 +8,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php
 	// Check if we are on a single post or page and get the custom field values
-	if (is_single() || is_page()) {
+	if (is_front_page() || is_home()) {
+		$meta_description = esc_attr(get_option('meta_description'));
+		$meta_author = esc_attr(get_option('meta_author'));
+	} else if (is_single() || is_page()) {
 		global $post;
-		$meta_description = get_post_meta($post->ID, 'meta_description', true);
-		$meta_author = get_post_meta($post->ID, 'meta_author', true);
+		$meta_description = get_the_excerpt();
+		$meta_author = get_the_author();
 	}
 	?>
 

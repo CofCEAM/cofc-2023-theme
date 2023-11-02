@@ -19,6 +19,7 @@ class FeaturedPostsWidget extends WP_Widget
     function widget($args, $instance)
     {
         error_log('widget: args: ' . print_r($args, true));
+        error_log('widget: instance: ' . print_r($instance, true));
         $defaults = array(
             'post_categories' => array(),
             'post_tags' => array(),

@@ -18,9 +18,8 @@
 	}
 	?>
 
-	<meta name="description"
-		content="<?php echo esc_attr($meta_description ?? 'College of Charleston Wordpress site'); ?>">
-	<meta name="author" content="<?php echo esc_url($meta_author ?? 'https://austinjhunt.com'); ?>">
+	<meta name="description" content="<?php echo esc_attr($meta_description); ?>">
+	<meta name="author" content="<?php echo esc_attr($meta_author) ?>">
 
 	<?php
 	wp_head();

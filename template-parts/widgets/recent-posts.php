@@ -51,8 +51,8 @@ class RecentPostsWidget extends WP_Widget
 
         $query = new WP_Query(
             array(
-                'category__or' => $post_categories,
-                'tag__or' => $post_tags,
+                'category__in' => $post_categories,
+                'tag__in' => $post_tags,
                 'post__not_in' => $post_not_in_arg,
                 // if exclude sticky posts and exclude post id 
                 'posts_per_page' => $posts_limit,

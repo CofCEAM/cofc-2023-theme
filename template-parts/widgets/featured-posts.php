@@ -18,6 +18,7 @@ class FeaturedPostsWidget extends WP_Widget
 
     function widget($args, $instance)
     {
+        error_log('widget: args: ' . print_r($args, true));
         $defaults = array(
             'post_categories' => array(),
             'post_tags' => array(),
@@ -28,7 +29,6 @@ class FeaturedPostsWidget extends WP_Widget
         $instance = wp_parse_args((array) $instance, $defaults);
 
         extract($args);
-        $posts_limit = 4;
 
         $post_categories = $instance['post_categories'];
         $post_tags = $instance['post_tags'];
@@ -55,7 +55,7 @@ class FeaturedPostsWidget extends WP_Widget
                 'posts_per_page' => 4
             )
         );
-
+        error_log('widget: query: ' . print_r($query, true));
         if ($query->have_posts()) {
             $counter = 0;
             while ($query->have_posts()) {
@@ -92,6 +92,7 @@ class FeaturedPostsWidget extends WP_Widget
 
     function update($new_instance, $old_instance)
     {
+        error_log('update: new_instance: ' . print_r($new_instance, true));
         $instance = $old_instance;
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
@@ -99,6 +100,7 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
+        error_log('update: post_categories: ' . print_r($post_categories, true));
         $instance['post_categories'] = $post_categories;
 
         $post_tags = array();
@@ -107,12 +109,18 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
+        error_log('update: post_tags: ' . print_r($post_tags, true));
         $instance['post_tags'] = $post_tags;
 
         // what to display 
         $instance['display_post_excerpt'] = $new_instance['display_post_excerpt'] == 'yes';
         $instance['display_post_published_date'] = $new_instance['display_post_published_date'] == 'yes';
         $instance['display_post_author'] = $new_instance['display_post_author'] == 'yes';
+        // log each of these 
+        error_log('update: display_post_excerpt: ' . print_r($instance['display_post_excerpt'], true));
+        error_log('update: display_post_published_date: ' . print_r($instance['display_post_published_date'], true));
+        error_log('update: display_post_author: ' . print_r($instance['display_post_author'], true));
+
 
         return $instance;
     }

@@ -49,3 +49,4 @@ uploads
 wp-admin/*
 wp-includes/*
 *.zip
+*.log

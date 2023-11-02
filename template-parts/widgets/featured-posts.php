@@ -44,6 +44,7 @@ class FeaturedPostsWidget extends WP_Widget
         global $post;
         // if post is not null
         if ($post) {
+            error_log('widget: excluding post: ' . print_r($post, true));
             array_push($post_not_in_arg, $post->ID);
         }
 

@@ -19,7 +19,7 @@ add_action(
         register_sidebar(
             array(
                 'name' => 'Rail / Primary Sidebar',
-                'description' => 'Add CofC Theme Social Media and/or CofC Theme Rail News Sections to this area. This will show on the homepage if you set your Homepage to display latest posts under Settings > Reading.',
+                'description' => 'Add CofC Theme Social Media and/or CofC Theme Rail News Sections and/or CofC Theme Rail Podcasts Section Widget to this area. This will show on the homepage if you set your Homepage to display latest posts under Settings > Reading.',
                 'id' => 'cofc-primary-sidebar',
                 'before_widget' => '',
                 'after_widget' => '',

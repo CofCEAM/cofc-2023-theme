@@ -408,10 +408,8 @@ function cofctheme_customizer_live_preview()
         get_template_directory_uri() . '/assets/js/customizer.js',
         //Point to file
         array('jquery', 'customize-preview'),
-        //Define dependencies
-        '',
-        //Define a version (optional) 
-        true //Put script in footer?
+        false,
+        true
     );
 }
 add_action('customize_preview_init', 'cofctheme_customizer_live_preview');

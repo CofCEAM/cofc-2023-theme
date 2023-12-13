@@ -16206,8 +16206,13 @@ li.pagination__item--disabled a.btn.btn--medium:before {
 .footer__logo {
   margin: 4rem 0 1rem;
 }
+.footer__logo svg,
+.footer__logo img {
+  max-width: 300px;
+}
 @media screen and (max-width: 21.875em) {
-  .footer__logo svg {
+  .footer__logo svg,
+  .footer__logo img {
     width: 95%;
   }
 }
@@ -16218,7 +16223,6 @@ li.pagination__item--disabled a.btn.btn--medium:before {
   -webkit-box-direction: normal;
   align-items: center;
   background-color: #79242f;
-  background-image: url(../images/background-footer.jpg);
   background-size: cover;
   border-radius: 40%/40px;
   border-bottom-left-radius: 0;
@@ -16325,7 +16329,6 @@ li.pagination__item--disabled a.btn.btn--medium:before {
 }
 .header__identity {
   background-color: #79242f;
-  background-image: url(../images/background-header.jpg);
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -16356,7 +16359,7 @@ li.pagination__item--disabled a.btn.btn--medium:before {
 
 .header__identity .wrapper .logo .wp_custom_site_logo img {
   height: auto;
-  max-width: 260px;
+  max-width: 300px;
 }
 .header__toggle {
   -webkit-box-pack: center;

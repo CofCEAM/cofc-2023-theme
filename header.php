@@ -31,12 +31,26 @@
 	<header id="global-header" class="header">
 		<div class="header__identity">
 			<div class="wrapper">
-				<a href="/" class="logo">
+				<?php
+				// get the home link for current site (account for multisite)
+				$home_link = get_home_url();
+				// get the current site's name
+				$site_name = get_bloginfo('name');
+				?>
+				<a href="<?php echo $home_link ?>" class="logo">
 					<span class="show-for-sr">Return to home</span>
-					<span class="logo__svg">
-						<svg class="brei-icon brei-icon-logo" focusable="false">
-							<use href="#brei-icon-logo"></use>
-						</svg>
+					<span class="logo__svg wp_custom_site_logo">
+						<?php
+						$site_logo = get_option('site_logo'); // Get the site logo ID
+						$logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image
+						
+						if ($logo_url): ?>
+							<img src="<?php echo esc_url($logo_url[0]); ?>"
+								alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+						<?php else: ?>
+							<img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+								alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+						<?php endif; ?>
 					</span>
 				</a>
 

@@ -1,10 +1,16 @@
 <footer id="global-footer" class="footer component">
-    <div class="footer__content wrapper">
+    <div class="footer__content wrapper" style="background-color: <?php echo get_option('footer_background_color') ?>">
         <?php dynamic_sidebar('footer-sidebar'); ?>
         <div class="footer__logo">
-            <svg class="brei-icon brei-icon-logo-footer" focusable="false">
-                <use href="#brei-icon-logo-footer"></use>
-            </svg>
+            <?php
+            $site_logo = get_option('site_logo'); // Get the site logo ID
+            $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image
+            if ($logo_url): ?>
+                <img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+            <?php else: ?>
+                <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+                    alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+            <?php endif; ?>
         </div>
         <?php if (!empty(get_option('primary_contact_name')) or !empty(get_option('primary_contact_address')) or !empty(get_option('primary_contact_phone')) or !empty(get_option('primary_contact_email'))) { ?>
             <div class="footer__copy">

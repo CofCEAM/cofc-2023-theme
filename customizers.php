@@ -121,7 +121,93 @@ function create_contact_info_customizer($wp_customize)
     );
 }
 
-function create_logo_svg_customizer($wp_customize)
+function create_header_footer_background_color_customizer($wp_customize)
+{
+    // create a new section 
+    $wp_customize->add_section(
+        'cofctheme_header_footer_background_color_section',
+        array(
+            'title' => __('Global Colors', 'cofctheme'),
+            'priority' => 90,
+        )
+    );
+
+    $wp_customize->add_setting(
+        'header_background_color',
+        array(
+            'default' => '#79242f',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'header_background_color',
+            array(
+                'label' => __('Header Background Color', 'cofctheme'),
+                'description' => __('Specify the background color of the header for this site (default is maroon: #79242f)', 'cofctheme'),
+                'settings' => 'header_background_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
+
+    $wp_customize->add_setting(
+        'footer_background_color',
+        array(
+            'default' => '#79242f',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_background_color',
+            array(
+                'label' => __('Footer Background Color', 'cofctheme'),
+                'description' => __('Specify the background color of the footer for this site (default is maroon: #79242f)', 'cofctheme'),
+                'settings' => 'footer_background_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
+
+    // add similar setting for top_nav_text_color 
+    $wp_customize->add_setting(
+        'top_nav_text_color',
+        array(
+            'default' => '#ffffff',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'top_nav_text_color',
+            array(
+                'label' => __('Top Navigation Text Color', 'cofctheme'),
+                'description' => __('Specify the text color of the top navigation for this site (default is white: #ffffff)', 'cofctheme'),
+                'settings' => 'top_nav_text_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
+}
+
+function create_logo_customizer($wp_customize)
 {
     // SVG Logo for site branding in top left. 
     $wp_customize->add_setting(
@@ -300,10 +386,11 @@ function create_social_media_customizer($wp_customize)
 
 function add_customizer_fields($wp_customize)
 {
-    create_logo_svg_customizer($wp_customize);
+    create_logo_customizer($wp_customize);
     create_meta_customizer($wp_customize);
     create_contact_info_customizer($wp_customize);
     create_social_media_customizer($wp_customize);
+    create_header_footer_background_color_customizer($wp_customize);
 }
 add_action('customize_register', 'add_customizer_fields');
 

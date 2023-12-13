@@ -32,8 +32,8 @@ function create_contact_info_customizer($wp_customize)
             $wp_customize,
             'primary_contact_name',
             array(
-                'label' => __('Primary Contact Name', 'textdomain'),
-                'description' => __('What is the name of the primary contact for this site?', 'textdomain'),
+                'label' => __('Primary Contact Name', 'cofctheme'),
+                'description' => __('What is the name of the primary contact for this site?', 'cofctheme'),
                 'settings' => 'primary_contact_name',
                 'priority' => 10,
                 'section' => 'cofctheme_contact_info_section',
@@ -58,8 +58,8 @@ function create_contact_info_customizer($wp_customize)
             $wp_customize,
             'primary_contact_address',
             array(
-                'label' => __('Primary Contact Address', 'textdomain'),
-                'description' => __('What is the address of the primary contact for this site?', 'textdomain'),
+                'label' => __('Primary Contact Address', 'cofctheme'),
+                'description' => __('What is the address of the primary contact for this site?', 'cofctheme'),
                 'settings' => 'primary_contact_address',
                 'priority' => 10,
                 'section' => 'cofctheme_contact_info_section',
@@ -84,8 +84,8 @@ function create_contact_info_customizer($wp_customize)
             $wp_customize,
             'primary_contact_phone',
             array(
-                'label' => __('Primary Contact Phone Number', 'textdomain'),
-                'description' => __('What is the phone number of the primary contact for this site?', 'textdomain'),
+                'label' => __('Primary Contact Phone Number', 'cofctheme'),
+                'description' => __('What is the phone number of the primary contact for this site?', 'cofctheme'),
                 'settings' => 'primary_contact_phone',
                 'priority' => 10,
                 'section' => 'cofctheme_contact_info_section',
@@ -110,8 +110,8 @@ function create_contact_info_customizer($wp_customize)
             $wp_customize,
             'primary_contact_email',
             array(
-                'label' => __('Primary Contact Email', 'textdomain'),
-                'description' => __('What is the email address of the primary contact for this site?', 'textdomain'),
+                'label' => __('Primary Contact Email', 'cofctheme'),
+                'description' => __('What is the email address of the primary contact for this site?', 'cofctheme'),
                 'settings' => 'primary_contact_email',
                 'priority' => 10,
                 'section' => 'cofctheme_contact_info_section',
@@ -125,7 +125,7 @@ function create_logo_svg_customizer($wp_customize)
 {
     // SVG Logo for site branding in top left. 
     $wp_customize->add_setting(
-        'site_logo_svg',
+        'site_logo',
         array(
             'default' => '',
             'type' => 'option',
@@ -136,17 +136,18 @@ function create_logo_svg_customizer($wp_customize)
     );
 
 
+    // add control to upload or choose a media file for logo 
     $wp_customize->add_control(
-        new WP_Customize_Control(
+        new WP_Customize_Media_Control(
             $wp_customize,
-            'site_logo_svg',
+            'site_logo',
             array(
-                'label' => __('Site Logo SVG Code', 'textdomain'),
-                'description' => __('Paste in your site logo as SVG code. You can convert your site logo image to SVG format using a tool like this: https://convertio.co/png-svg/. This will display in the top left of your site next to the main navigation. ', 'textdomain'),
-                'settings' => 'site_logo_svg',
-                'priority' => 10,
+                'label' => __('Site Logo', 'cofctheme'),
+                'description' => __('Upload a logo for your site. This will show in the top left corner of the site.', 'cofctheme'),
                 'section' => 'title_tagline',
-                'type' => 'textarea',
+                'mime_type' => 'image',
+                'priority' => 10,
+                'settings' => 'site_logo',
             )
         )
     );
@@ -192,8 +193,8 @@ function create_meta_customizer($wp_customize)
             $wp_customize,
             'meta_description',
             array(
-                'label' => __('Site Meta Description', 'textdomain'),
-                'description' => __('Provide a meta description for your site (this will show in the <meta name="description"...> tag in the header.', 'textdomain'),
+                'label' => __('Site Meta Description', 'cofctheme'),
+                'description' => __('Provide a meta description for your site (this will show in the <meta name="description"...> tag in the header.', 'cofctheme'),
                 'settings' => 'meta_description',
                 'priority' => 10,
                 'section' => 'title_tagline',
@@ -207,8 +208,8 @@ function create_meta_customizer($wp_customize)
             $wp_customize,
             'meta_author',
             array(
-                'label' => __('Site Meta Author', 'textdomain'),
-                'description' => __('Provide an author name for your site (this will show in the <meta name="author"...> tag in the header.', 'textdomain'),
+                'label' => __('Site Meta Author', 'cofctheme'),
+                'description' => __('Provide an author name for your site (this will show in the <meta name="author"...> tag in the header.', 'cofctheme'),
                 'settings' => 'meta_author',
                 'priority' => 10,
                 'section' => 'title_tagline',
@@ -284,8 +285,8 @@ function create_social_media_customizer($wp_customize)
                 $wp_customize,
                 $slug,
                 array(
-                    'label' => __($label, 'textdomain'),
-                    'description' => __('Optionally provide a link to a relevant ' . $label, 'textdomain'),
+                    'label' => __($label, 'cofctheme'),
+                    'description' => __('Optionally provide a link to a relevant ' . $label, 'cofctheme'),
                     'settings' => $slug,
                     'priority' => 10,
                     'section' => 'cofctheme_social_media_section',

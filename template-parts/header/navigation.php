@@ -129,7 +129,7 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
         $title = apply_filters('nav_menu_item_title', $title, $menu_item, $args, $depth);
 
         $item_output = $args->before;
-        $item_output .= '<a class="menu-audience font-bold" ' . $attributes . '><span class="text">';
+        $item_output .= '<a class="menu-audience font-bold" ' . $attributes . '><span class="text" style="color: ' . get_option('top_nav_text_color') . '">';
         $item_output .= $args->link_before . $title . $args->link_after;
         $item_output .= '</span></a>';
         $item_output .= $args->after;

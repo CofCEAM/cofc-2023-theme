@@ -28,7 +28,8 @@
 
 <body>
 	<?php do_action('after_body_open_tag'); ?>
-	<header id="global-header" class="header">
+	<header id="global-header" class="header"
+		style="background-color: <?php echo get_option('header_background_color') ?>">
 		<div class="header__identity" style="background-color: <?php echo get_option('header_background_color') ?>">
 			<div class="wrapper">
 				<?php

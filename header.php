@@ -73,7 +73,8 @@
 						<button class="search-desktop__toggle" aria-controls="search-form" aria-pressed="false"
 							aria-label="Open site search">
 
-							<svg class="brei-icon brei-icon-search" focusable="false">
+							<svg class="brei-icon brei-icon-search" focusable="false"
+								style="color: <?php echo get_option('top_nav_text_color') ?>">
 								<use href="#brei-icon-search"></use>
 							</svg>
 

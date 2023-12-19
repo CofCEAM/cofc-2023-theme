@@ -16,12 +16,45 @@
     });
   });
 
+  wp.customize("footer_bar_background_color", function (value) {
+    value.bind(function (newval) {
+      // Update the footer bar background color
+      document.querySelector(".footer__bar").style.backgroundColor = newval;
+    });
+  });
+
+  wp.customize("footer_bar_text_color", function (value) {
+    value.bind(function (newval) {
+      // Update the footer bar text color
+      document.querySelectorAll(".footer__bar svg").forEach((el) => {
+        el.style.color = newval;
+      });
+      document.querySelector(".footer__bar .footer__copyright").style.color = newval;
+    });
+  });
+
+  wp.customize("footer_text_color", function (value) {
+    value.bind(function (newval) {
+      // Update the footer text color
+      document.querySelector(".footer__content").style.color = newval;
+      document.querySelectorAll(".footer__content a").forEach((el) => {
+        el.style.color = newval;
+      });
+      document.querySelectorAll(".footer__content span.link-divider").forEach((el) => {
+        el.style.backgroundColor = newval;
+      });
+    });
+  });
+
   wp.customize("top_nav_text_color", function (value) {
     value.bind(function (newval) {
       // Update the footer text color
       document.querySelectorAll(".nav-primary li.nav-primary__item.menu-item span.text").forEach((el) => {
         el.style.color = newval;
       });
+      document.querySelector(
+        "#global-header > div.header__identity > div > div > div > button > svg.brei-icon.brei-icon-search"
+      ).style.color = newval;
     });
   });
 

@@ -1,5 +1,6 @@
 <footer id="global-footer" class="footer component">
-    <div class="footer__content wrapper" style="background-color: <?php echo get_option('footer_background_color') ?>">
+    <div class="footer__content wrapper"
+        style="background-color: <?php echo get_option('footer_background_color') ?>; color: <?php echo get_option('footer_text_color') ?>">
         <?php dynamic_sidebar('footer-sidebar'); ?>
         <div class="footer__logo">
             <?php
@@ -27,9 +28,10 @@
                         </span>
                     <?php } ?>
                     <?php if (!empty(get_option('primary_contact_phone'))) { ?>
-                        <span class="link-divider"></span>
+                        <span class="link-divider"
+                            style="background-color: <?php echo get_option('footer_text_color') ?>"></span>
                         <a id="primary-contact--phone" href="tel:<?php echo get_option('primary_contact_phone') ?>"
-                            class="menu-tertiary">
+                            class="menu-tertiary" style="color: <?php echo get_option('footer_text_color') ?>">
                             <span class="text">
                                 <?php echo get_option('primary_contact_phone') ?>
                             </span>
@@ -37,9 +39,10 @@
                     <?php } ?>
 
                     <?php if (!empty(get_option('primary_contact_email'))) { ?>
-                        <span class="link-divider"></span>
+                        <span class="link-divider"
+                            style="background-color: <?php echo get_option('footer_text_color') ?>"></span>
                         <a id="primary-contact--email" href="mailto:<?php echo get_option('primary_contact_email') ?>"
-                            class="menu-tertiary">
+                            style="color: <?php echo get_option('footer_text_color') ?>" class="menu-tertiary">
                             <span class="text">
                                 <?php echo get_option('primary_contact_email') ?>
                             </span>
@@ -51,8 +54,8 @@
         <?php } ?>
 
 
-        <div class="footer__bar">
-            <div class="footer__copyright">
+        <div class="footer__bar" style="background-color: <?php echo get_option('footer_bar_background_color') ?>; ">
+            <div class="footer__copyright" style="color: <?php echo get_option('footer_bar_text_color') ?>;">
                 Copyright © 2023 College of Charleston. <br />All Right Reserved.
             </div>
             <?php
@@ -117,9 +120,11 @@
                                 }
                                 ?>
                                 <li class="<?php echo $class ?>" id="social-media-footer-link-<?php echo $slug ?>">
-                                    <a href="<?php echo $link ?>" class="social-links__link" aria-label="<?php echo $label ?>"
+                                    <a style="color: <?php echo get_option('footer_bar_text_color') ?>;"
+                                        href="<?php echo $link ?>" class="social-links__link" aria-label="<?php echo $label ?>"
                                         target="_blank">
-                                        <svg class="brei-icon <?php echo $icon ?>" focusable="false">
+                                        <svg style="color: <?php echo get_option('footer_bar_text_color') ?>;"
+                                            class="brei-icon <?php echo $icon ?>" focusable="false">
                                             <use href="#<?php echo $icon ?>"></use>
                                         </svg>
                                     </a>

@@ -205,6 +205,84 @@ function create_header_footer_background_color_customizer($wp_customize)
             )
         )
     );
+
+    // similar setting for footer text color 
+    $wp_customize->add_setting(
+        'footer_text_color',
+        array(
+            'default' => '#ffffff',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_text_color',
+            array(
+                'label' => __('Footer Text Color', 'cofctheme'),
+                'description' => __('Specify the text color of the footer for this site (default is white: #ffffff)', 'cofctheme'),
+                'settings' => 'footer_text_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
+
+    // similar setting for footer bar background color 
+    $wp_customize->add_setting(
+        'footer_bar_background_color',
+        array(
+            'default' => '#ffffff',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_bar_background_color',
+            array(
+                'label' => __('Footer Bar Background Color', 'cofctheme'),
+                'description' => __('Specify the background color of the footer bar for this site (default is white: #ffffff)', 'cofctheme'),
+                'settings' => 'footer_bar_background_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
+
+    // similar setting for footer bar text color
+
+    $wp_customize->add_setting(
+        'footer_bar_text_color',
+        array(
+            'default' => '#800000',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_bar_text_color',
+            array(
+                'label' => __('Footer Bar Text Color', 'cofctheme'),
+                'description' => __('Specify the text color of the footer bar for this site (default is maroon: #800000)', 'cofctheme'),
+                'settings' => 'footer_bar_text_color',
+                'section' => 'cofctheme_header_footer_background_color_section',
+                'type' => 'text',
+            )
+        )
+    );
 }
 
 function create_logo_customizer($wp_customize)

@@ -99,8 +99,8 @@ $query = new WP_Query($args);
 									<div class="component">
 										<div class="row level__row">
 											<div class="level__content large-8 large-push-2 columns">
-												<h1 class="page-title">No posts were found matching your query "
-													<?php echo $s ?>"
+												<h1 class="page-title">
+													<?php echo "No posts were found matching your query " . $s ?>
 												</h1>
 											</div>
 										</div>

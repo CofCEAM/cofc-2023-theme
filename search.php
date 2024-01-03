@@ -5,6 +5,7 @@
 get_header();
 $s = get_search_query();
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // Get the current page number  
+$current_blog_id = get_current_blog_id();
 $args = array(
 	's' => $s,
 	'paged' => $paged,
@@ -18,6 +19,7 @@ $args = array(
 $query = new WP_Query($args);
 ?>
 <main id="main" class="search-results">
+	<!-- current blog ID: <?php echo $current_blog_id ?> -->
 	<div class="search-results__wrapper wrapper">
 		<div class="row">
 			<div class="search-results__content xsmall-12 cell">
@@ -76,12 +78,32 @@ $query = new WP_Query($args);
 								<?php if ($query->have_posts()) {
 									while ($query->have_posts()) {
 										$query->the_post();
-										?>
-										<div class="cell xsmall-12 medium-6 large-4">
-											<?php
-											display_featured_post_card($post, wide: false);
+										if ($current_blog_id != $post->site) {
+											echo "<!-- current blog id " . $current_blog_id . " NOT EQUAL TO post site ID " . $post->site . "-->";
+											switch_to_blog($post->site);
+											$post = get_post($post->ID);
 											?>
-										</div>
+											<div class="cell xsmall-12 medium-6 large-4">
+
+												<?php
+												display_featured_post_card($post, wide: false);
+												?>
+											</div>
+											<?php
+											restore_current_blog();
+										} else {
+											echo "<!-- current blog id " . $current_blog_id . " EQUAL TO post site ID " . $post->site . "-->";
+											$post = get_post($post->ID);
+											?>
+											<div class="cell xsmall-12 medium-6 large-4">
+												<?php
+												display_featured_post_card($post, wide: false);
+												?>
+											</div>
+											<?php
+										}
+										?>
+
 										<?php
 									}
 									wp_reset_postdata(); // At the end reset your query 

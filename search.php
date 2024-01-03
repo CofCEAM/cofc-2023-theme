@@ -47,11 +47,11 @@ $query = new WP_Query($args);
 				<div id="results-full-container" class="aggregate__set">
 					<div id="results-info-container" class="row level_search--navigation aggregate__info">
 						<div id="results-count" class="level__pages xsmall-12 large-order-2 column aggregate__count ">
-							Page
-							<?php echo $paged ?> of
-							<?php echo $query->max_num_pages ?>
+							<?php if ($query->have_posts()) {
+								echo "Page " . $paged . " of " . $query->max_num_pages;
+							}
+							?>
 						</div>
-
 					</div>
 
 					<!--div id="results_loader" class="aggregate__loading">
@@ -86,14 +86,14 @@ $query = new WP_Query($args);
 									}
 									wp_reset_postdata(); // At the end reset your query 
 									?>
-								<div class="xsmall-12">
-									<div id="js-pagination" role="navigation" class="pagination aggregate__pagination">
-										<?php
-										echo custom_pagination_links(max_num_pages: $query->max_num_pages, current_page: $paged, base_url: '', query: $s);
-										?>
+									<div class="xsmall-12">
+										<div id="js-pagination" role="navigation" class="pagination aggregate__pagination">
+											<?php
+											echo custom_pagination_links(max_num_pages: $query->max_num_pages, current_page: $paged, base_url: '', query: $s);
+											?>
+										</div>
 									</div>
-								</div>
-								<?php
+									<?php
 								} else {
 									?>
 									<div class="component">

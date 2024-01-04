@@ -9,7 +9,7 @@ $current_blog_id = get_current_blog_id();
 $args = array(
 	's' => $s,
 	'paged' => $paged,
-	'engine' => 'custom-search-engine',
+	'engine' => 'cofcengine',
 	// pull default posts per page from settings
 	'posts_per_page' => get_option('posts_per_page'),
 	// Set the number of posts per page

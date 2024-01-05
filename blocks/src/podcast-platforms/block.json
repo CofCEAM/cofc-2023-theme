@@ -1,0 +1,35 @@
+{
+    "$schema": "https://json.schemastore.org/block.json",
+    "apiVersion": 3,
+    "title": "CofC Podcast Platforms",
+    "name": "cofctheme/podcast-platforms",
+    "category": "design",
+    "icon": "slides",
+    "editorScript": "file:./index.js",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Subscribe on your preferred platform"
+        },
+        "apple": {
+            "type": "string",
+            "default": ""
+        },
+        "google": {
+            "type": "string",
+            "default": ""
+        },
+        "spotify": {
+            "type": "string",
+            "default": ""
+        },
+        "stitcher": {
+            "type": "string",
+            "default": ""
+        },
+        "iheart": {
+            "type": "string",
+            "default": ""
+        }
+    }
+}

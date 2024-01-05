@@ -185,16 +185,16 @@ function display_single_post_card(
 ) {
 
 	/* 
-	$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-	is a number between 1 and 12, indicating a proportion of container width to take up
-	on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-	
-	$large_screen_class is optional. Default is empty. Can be "large-<int> where int
-	is a number between 1 and 12, indicating a proportion of container width to take up
-	on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+													$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+													is a number between 1 and 12, indicating a proportion of container width to take up
+													on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+													
+													$large_screen_class is optional. Default is empty. Can be "large-<int> where int
+													is a number between 1 and 12, indicating a proportion of container width to take up
+													on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-	Cards are full width on mobile by default. No adjustment there.
-	*/
+													Cards are full width on mobile by default. No adjustment there.
+													*/
 	$wideclass = $wide ? 'card-news--wide' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
@@ -320,23 +320,23 @@ function display_post_card_grid_by_category(
 	string $large_screen_class = ''
 ) {
 	/* 
-	Display a card grid of posts in a given category. 
-	Optionally provide a limit (i.e. only display up to 3). 
-	Optionally provide an offset (e.g. offset = 1 to skip the 
-	first if that was already displayed in a wide card on the 
-	top of the page.)
+													Display a card grid of posts in a given category. 
+													Optionally provide a limit (i.e. only display up to 3). 
+													Optionally provide an offset (e.g. offset = 1 to skip the 
+													first if that was already displayed in a wide card on the 
+													top of the page.)
 
-	$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-	is a number between 1 and 12, indicating a proportion of container width to take up
-	on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-	
-	$large_screen_class is optional. Default is empty. Can be "large-<int> where int
-	is a number between 1 and 12, indicating a proportion of container width to take up
-	on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+													$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+													is a number between 1 and 12, indicating a proportion of container width to take up
+													on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+													
+													$large_screen_class is optional. Default is empty. Can be "large-<int> where int
+													is a number between 1 and 12, indicating a proportion of container width to take up
+													on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-	Cards are full width on mobile by default. No adjustment there.
-	
-	*/
+													Cards are full width on mobile by default. No adjustment there.
+													
+													*/
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(
@@ -434,6 +434,13 @@ require get_template_directory() . '/template-parts/header/navigation.php';
 
 
 // Custom blocks 
+
+function localize_block_vars()
+{
+	return array(
+		'template_directory_uri' => get_template_directory_uri()
+	);
+}
 function cofctheme_enqueue_custom_block_scripts()
 {
 	// register all of the scripts for each custom block - each block has a distribution file called bundle.js
@@ -441,7 +448,8 @@ function cofctheme_enqueue_custom_block_scripts()
 		'post-grid',
 		'media-carousel',
 		'testimonial',
-		'tag-grid'
+		'tag-grid',
+		'podcast-platforms',
 	);
 	$deps = array(
 		'wp-blocks',
@@ -458,6 +466,11 @@ function cofctheme_enqueue_custom_block_scripts()
 			$version,
 			true
 		);
+		wp_localize_script(
+			'cofctheme/' . $block,
+			'cofctheme',
+			localize_block_vars()
+		);
 	}
 }
 
@@ -465,4 +478,5 @@ require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';
 require get_template_directory() . '/blocks/src/testimonial/index.php';
 require get_template_directory() . '/blocks/src/tag-grid/index.php';
+require get_template_directory() . '/blocks/src/podcast-platforms/index.php';
 // End custom blocks 

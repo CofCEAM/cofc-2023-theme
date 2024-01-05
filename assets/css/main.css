@@ -17747,3 +17747,13 @@ img.mfp-img {
 ul.comment-list ul.children {
   margin-left: 1rem;
 }
+
+/* Remove bad top margin when a component is inside wp-block */
+@media print, screen and (min-width: 64em) {
+  .wp-block-column .component {
+    margin-top: 0rem;
+  }
+  .wp-block-column .component {
+    margin-top: 0rem;
+  }
+}

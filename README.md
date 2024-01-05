@@ -33,12 +33,18 @@ You may want to create a custom block if you want to display specific kinds of e
    b. You need to add your block to [functions.php](functions.php). At the bottom of that file, you need to add your block name to the $blocks aray in the `cofctheme_enqueue_custom_block_scripts` function. You also need to add a require statement pointing at the `blocks/src/<your block name>/index.php` file at the end of functions.php, same as the others. Otherwise, your block file will be ignored.
    c. Also, since you're dealing with React components with custom blocks, you need to run `npm run build` from the CLI inside the `blocks` folder any time you make changes to your custom block, particularly if you are editing either the block.json file, the index.js file, or the React component file.
    d. When you have done those steps, you can open a test page, add a new block, and search the gallery for your block name. If you don't see it, chances are it is not being included properly in the functions.php file. If you see it and you click it and it throws an error or doesn't render correctly, you're on the right path, but you need to view the console in the dev tools to track the error down.
-6. When you are finished building your custom block and it is working completely as expected, you need to increment the version number in [style.css](style.css). This is critical in order for the Git Updater plugin on the WordPress site to recognize that a change has been made.
-7. Now, stage and commit your changes to your `some-new-feature` branch:
+
+## Committing and Pushing Your Changes
+
+0. I again want to emphasize that you should be on a feature branch, rather than pushing directly to main. Even if you have already made your changes on your local `main` branch, you can still switch over to a new feature branch and maintain your edits with `git checkout -b some-new-feature`.
+1. When you are finished making your changes and they are working completely as expected, you need to increment the version number in [style.css](style.css). This is critical in order for the `Git Updater` plugin on the target WordPress site(s) to recognize that a change has been made.
+2. Now, stage and commit your changes to your `some-new-feature` branch:
    a. `git add -p . ` - type y for all of the changes you want to stage for commit
    b. `git commit -m "message describing your changes" `
-8. Push your changes to the CofCEAM/cofc-2023-theme repo (the repo that is connected to the Git Updater plugin on the CofC Wordpress sites). `git push`
-9. Assuming the site using the theme is on Pantheon:
+3. Push your changes to the CofCEAM/cofc-2023-theme repo (the repo that is connected to the Git Updater plugin on the CofC Wordpress sites). `git push -u origin some-new-feature`
+4. Open the repo in a browser. You should see a prompt to create a new pull request from the new branch into main. Create that pull request, and IDEALLY, have another team member review those changes. Once those changes have been reviewed and approved, go ahead and merge that feature branch into main (click Merge in the open pull request).
+5. Now we move on to pulling that updated theme code from the repo into the site using Git Updater.
+6. Assuming the site using the theme is on Pantheon:
    a. Open the DEV site's admin dashboard. Go to settings > Git Updater. Click Refresh Cache.
    b. You should see a new update notification next to Themes in the left navigation. Click Themes.
    c. You should see the CofC 2023 Theme has an update. Click update now.

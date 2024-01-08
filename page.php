@@ -10,30 +10,38 @@
                             <?php echo get_the_title() ?>
                         </h1>
                         <div class="article-header__info">
-                            <div class="article-header__data">
-                                <span class="article-header__icon">
-                                    <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                        <use href="#brei-icon-calendar"></use>
-                                    </svg>
-                                </span>
-                                <span class="article-header__label">
-                                    <?php echo get_the_date('F j, Y', $post) ?>
-                                </span>
-                            </div>
-                            <div class="article-header__data">
-                                <span class="article-header__icon">
-                                    <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                        <use href="#brei-icon-avatar"></use>
-                                    </svg>
-                                </span>
-                                <span class="article-header__label">
-                                    <?php echo get_the_author_meta('display_name', $post->post_author) ?>
-                                </span>
-                            </div>
+                            <?php if (get_option('display_page_date') == 'yes') { ?>
+                                <div class="article-header__data page__date">
+                                    <span class="article-header__icon">
+                                        <svg class="brei-icon brei-icon-calendar" focusable="false">
+                                            <use href="#brei-icon-calendar"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="article-header__label">
+                                        <?php echo get_the_date('F j, Y', $post) ?>
+                                    </span>
+                                </div>
+                            <?php }
+                            if (get_option('display_page_byline') == 'yes') { ?>
+                                <div class="article-header__data page__byline">
+                                    <span class="article-header__icon">
+                                        <svg class="brei-icon brei-icon-avatar" focusable="false">
+                                            <use href="#brei-icon-avatar"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="article-header__label">
+                                        <?php echo get_the_author_meta('display_name', $post->post_author) ?>
+                                    </span>
+                                </div>
+                            <?php } ?>
                         </div>
-                        <p class="article-header__intro">
-                            <?php echo get_the_excerpt() ?>
-                        </p>
+                        <?php
+                        if (get_option('display_page_excerpt') == 'yes') {
+                            ?>
+                            <p class="article-header__intro page__excerpt">
+                                <?php echo get_the_excerpt() ?>
+                            </p>
+                        <?php } ?>
                     </div>
                     <div class="wysiwyg  component">
                         <div class="wysiwyg__inner">

@@ -116,4 +116,71 @@
       });
     });
   });
+
+  wp.customize("display_page_date", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__data.page__date").style.display = "block";
+      } else {
+        document.querySelector(".article-header__data.page__date").style.display = "none";
+      }
+    });
+  });
+  wp.customize("display_page_byline", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__data.page__byline").style.display = "block";
+      } else {
+        document.querySelector(".article-header__data.page__byline").style.display = "none";
+      }
+    });
+  });
+  wp.customize("display_page_excerpt", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__intro.page__excerpt").style.display = "block";
+      } else {
+        document.querySelector(".article-header__intro.page__excerpt").style.display = "none";
+      }
+    });
+  });
+
+  wp.customize("display_post_date", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__data.post__date").style.display = "block";
+      } else {
+        document.querySelector(".article-header__data.post__date").style.display = "none";
+      }
+    });
+  });
+  wp.customize("display_post_byline", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__data.post__byline").style.display = "block";
+      } else {
+        document.querySelector(".article-header__data.post__byline").style.display = "none";
+      }
+    });
+  });
+
+  wp.customize("display_post_excerpt", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__intro.post__excerpt").style.display = "block";
+      } else {
+        document.querySelector(".article-header__intro.post__excerpt").style.display = "none";
+      }
+    });
+  });
+
+  wp.customize("display_post_categories_list", function (value) {
+    value.bind(function (newval) {
+      if (newval === "yes") {
+        document.querySelector(".article-header__data.post__categories-list").style.display = "block";
+      } else {
+        document.querySelector(".article-header__data.post__categories-list").style.display = "none";
+      }
+    });
+  });
 })(jQuery);

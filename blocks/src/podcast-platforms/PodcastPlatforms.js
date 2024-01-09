@@ -83,7 +83,7 @@ const PodcastPlatforms = ({ attributes }) => {
           <li className="rail-podcast__item">
             <a href={iheart} class="rail-podcast__link" aria-label="" target="_blank">
               <img
-                src={`${cofctheme.template_directory_uri}/assets/images/icon-iheartradio.svg`}
+                src={`${cofctheme.template_directory_uri}/assets/images/icon-iheart-radio.svg`}
                 alt="iHeartRadio"
                 width="25"
                 height="25"

@@ -1,6 +1,4 @@
 const MediaCarousel = ({ attributes }) => {
-  console.log(attributes);
-
   const getYouTubeThumbnail = (videoLink) => {
     // Extract the video ID from the link
     const videoId = extractVideoId(videoLink);

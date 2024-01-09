@@ -317,6 +317,226 @@ function create_logo_customizer($wp_customize)
     );
 }
 
+
+function create_page_post_display_customizers($wp_customize)
+{
+    // Add section to the Customizer
+    $wp_customize->add_section(
+        'cofctheme_page_post_display_section',
+        array(
+            'title' => __('Page and Post Display Settings', 'cofctheme'),
+            'priority' => 100,
+        )
+    );
+
+    // display page byline (radio "yes" or "no)
+    $wp_customize->add_setting(
+        'display_page_byline',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_page_byline',
+            array(
+                'label' => __('Display Page Byline?', 'cofctheme'),
+                'description' => __('Do you want to display the byline (author) on pages?', 'cofctheme'),
+                'settings' => 'display_page_byline',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+    // display page date (radio "yes" or "no")
+    $wp_customize->add_setting(
+        'display_page_date',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_page_date',
+            array(
+                'label' => __('Display Page Date?', 'cofctheme'),
+                'description' => __('Do you want to display the date on pages?', 'cofctheme'),
+                'settings' => 'display_page_date',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+    // display page excerpt (radio "yes" or "no")   
+    $wp_customize->add_setting(
+        'display_page_excerpt',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_page_excerpt',
+            array(
+                'label' => __('Display Page Excerpt?', 'cofctheme'),
+                'description' => __('Do you want to display the excerpt on pages?', 'cofctheme'),
+                'settings' => 'display_page_excerpt',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+
+    // do the same thing for posts 
+    // display post byline (radio "yes" or "no)
+    $wp_customize->add_setting(
+        'display_post_byline',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_post_byline',
+            array(
+                'label' => __('Display Post Byline?', 'cofctheme'),
+                'description' => __('Do you want to display the byline (author) on posts?', 'cofctheme'),
+                'settings' => 'display_post_byline',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+    // display post date (radio "yes" or "no")
+    $wp_customize->add_setting(
+        'display_post_date',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_post_date',
+            array(
+                'label' => __('Display Post Date?', 'cofctheme'),
+                'description' => __('Do you want to display the date on posts?', 'cofctheme'),
+                'settings' => 'display_post_date',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+    // display post excerpt (radio "yes" or "no")
+    $wp_customize->add_setting(
+        'display_post_excerpt',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_post_excerpt',
+            array(
+                'label' => __('Display Post Excerpt?', 'cofctheme'),
+                'description' => __('Do you want to display the excerpt on posts?', 'cofctheme'),
+                'settings' => 'display_post_excerpt',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+    // display post categories list (radio "yes" or "no")
+    $wp_customize->add_setting(
+        'display_post_categories_list',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'display_post_categories_list',
+            array(
+                'label' => __('Display Post Categories List?', 'cofctheme'),
+                'description' => __('Do you want to display the list of categories on posts?', 'cofctheme'),
+                'settings' => 'display_post_categories_list',
+                'section' => 'cofctheme_page_post_display_section',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+
+}
 function create_meta_customizer($wp_customize)
 {
     // Add section to the Customizer
@@ -361,7 +581,7 @@ function create_meta_customizer($wp_customize)
                 'description' => __('Provide a meta description for your site (this will show in the <meta name="description"...> tag in the header.', 'cofctheme'),
                 'settings' => 'meta_description',
                 'priority' => 10,
-                'section' => 'title_tagline',
+                'section' => 'cofctheme_meta_section',
                 'type' => 'textarea',
             )
         )
@@ -376,7 +596,7 @@ function create_meta_customizer($wp_customize)
                 'description' => __('Provide an author name for your site (this will show in the <meta name="author"...> tag in the header.', 'cofctheme'),
                 'settings' => 'meta_author',
                 'priority' => 10,
-                'section' => 'title_tagline',
+                'section' => 'cofctheme_meta_section',
                 'type' => 'text',
             )
         )
@@ -469,6 +689,7 @@ function add_customizer_fields($wp_customize)
     create_contact_info_customizer($wp_customize);
     create_social_media_customizer($wp_customize);
     create_header_footer_background_color_customizer($wp_customize);
+    create_page_post_display_customizers($wp_customize);
 }
 add_action('customize_register', 'add_customizer_fields');
 

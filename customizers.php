@@ -679,8 +679,84 @@ function create_social_media_customizer($wp_customize)
             )
         );
     }
-
 }
+
+
+function create_podcast_platforms_customizer($wp_customize)
+{
+
+    // create a new section for contact information
+    $wp_customize->add_section(
+        'cofctheme_podcast_platforms_section',
+        array(
+            'title' => __('Podcast Platforms', 'cofctheme'),
+            'priority' => 40,
+        )
+    );
+    $podcast_platforms = array(
+        array(
+            'label' => 'Spotify',
+            'slug' => 'podcast_platform__spotify',
+            'default' => 'https://open.spotify.com/show/0HECe7feGqv8NV9tBZvOeG?si=ef7a37fa93234f30'
+        ),
+        array(
+            'label' => 'iHeart Radio',
+            'slug' => 'podcast_platform__iheart',
+            'default' => 'https://www.iheart.com/podcast/269-speaking-of-college-of-cha-89902073/'
+        ),
+        array(
+            'label' => 'Apple Podcasts',
+            'slug' => 'podcast_platform__apple',
+            'default' => 'https://podcasts.apple.com/us/podcast/speaking-of-college-of-charleston/id1596970737'
+        ),
+        array(
+            'label' => 'Stitcher',
+            'slug' => 'podcast_platform__stitcher',
+            'default' => 'https://www.stitcher.com/show/speaking-of-college-of-charleston'
+        ),
+        array(
+            'label' => 'Google Podcasts',
+            'slug' => 'podcast_platform__google',
+            'default' => 'https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5idXp6c3Byb3V0LmNvbS8xNzQ1MTU5LnJzcw?sa=X&ved=0CBwQ27cFahcKEwio_L62_-z7AhUAAAAAHQAAAAAQTg'
+        )
+    );
+    foreach ($podcast_platforms as $platform) {
+        $label = $platform['label'];
+        $slug = $platform['slug'];
+        $default = $platform['default'];
+        $wp_customize->add_setting(
+            $slug,
+            array(
+                'default' => $default,
+                'type' => 'option',
+                'transport' => 'postMessage',
+                // you can also use 'theme_mod'
+                'capability' => 'edit_theme_options'
+            ),
+        );
+
+        $wp_customize->add_control(
+            new WP_Customize_Control(
+                $wp_customize,
+                $slug,
+                array(
+                    'label' => __($label, 'cofctheme'),
+                    'description' => __('Optionally provide a link to your podcast on ' . $label, 'cofctheme'),
+                    'settings' => $slug,
+                    'priority' => 10,
+                    'section' => 'cofctheme_podcast_platforms_section',
+                    'type' => 'text',
+                )
+            )
+        );
+
+
+
+    }
+}
+
+
+
 
 function add_customizer_fields($wp_customize)
 {
@@ -688,6 +764,7 @@ function add_customizer_fields($wp_customize)
     create_meta_customizer($wp_customize);
     create_contact_info_customizer($wp_customize);
     create_social_media_customizer($wp_customize);
+    create_podcast_platforms_customizer($wp_customize);
     create_header_footer_background_color_customizer($wp_customize);
     create_page_post_display_customizers($wp_customize);
 }

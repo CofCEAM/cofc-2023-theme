@@ -183,4 +183,19 @@
       }
     });
   });
+
+  ["spotify", "apple", "iheart", "stitcher", "google"].forEach((platform) => {
+    let key = `podcast_platform__${platform}`;
+    wp.customize(key, function (value) {
+      value.bind(function (newval) {
+        let elem = document.querySelector(`.rail-podcast__item.${key}`);
+        if (newval === "") {
+          elem.style.display = "none";
+        } else {
+          elem.style.display = "block";
+          elem.querySelector("a").href = newval;
+        }
+      });
+    });
+  });
 })(jQuery);

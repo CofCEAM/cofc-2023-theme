@@ -35,22 +35,22 @@ class RailPodcastSectionWidget extends WP_Widget
 
         $defaults = array(
             'title' => 'Subscribe on your preferred platform',
-            'apple_podcast_link' => '',
-            'spotify_podcast_link' => '',
-            'stitcher_podcast_link' => '',
-            'google_podcast_link' => '',
-            'iheart_podcast_link' => '',
         );
         $instance = wp_parse_args((array) $instance, $defaults);
 
-        // only display if at least one of the links is provided 
-        if (empty($instance['apple_podcast_link']) && empty($instance['spotify_podcast_link']) && empty($instance['stitcher_podcast_link']) && empty($instance['google_podcast_link']) && empty($instance['iheart_podcast_link'])) {
+        $platform_options = array(
+            'spotify' => get_option('podcast_platform__spotify'),
+            'apple' => get_option('podcast_platform__apple'),
+            'stitcher' => get_option('podcast_platform__stitcher'),
+            'google' => get_option('podcast_platform__google'),
+            'iheart' => get_option('podcast_platform__iheart'),
+        );
+
+        // return if all are empty 
+        if (empty($platform_options['spotify']) && empty($platform_options['apple']) && empty($platform_options['stitcher']) && empty($platform_options['google']) && empty($platform_options['iheart'])) {
             return;
         }
         ?>
-
-
-
 
         <div class="rail-podcast">
             <div class="rail-podcast__content">
@@ -59,86 +59,66 @@ class RailPodcastSectionWidget extends WP_Widget
                 </h2>
                 <hr>
                 <ul class="rail-podcast__list">
-                    <?php
-                    if ($instance['apple_podcast_link'] != '') {
-                        ?>
-                        <li class="rail-podcast__item">
-                            <a href="<?php echo esc_attr($instance['apple_podcast_link']) ?>" class="rail-podcast__link"
-                                aria-label="" target="_blank">
-                                <img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25"
-                                    aria-hidden="true">
-                                <div class="rail-podcast__text">
-                                    Listen on<br><span>Apple Podcasts</span>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    if ($instance['spotify_podcast_link'] != '') {
-                        ?>
-                        <li class="rail-podcast__item">
-                            <a href="<?php echo esc_attr($instance['spotify_podcast_link']) ?>" class="rail-podcast__link"
-                                aria-label="" target="_blank">
-                                <img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25"
-                                    aria-hidden="true">
-                                <div class="rail-podcast__text">
-                                    Listen on<br><span>Spotify</span>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    if ($instance['stitcher_podcast_link'] != '') {
-                        ?>
-                        <li class="rail-podcast__item">
-                            <a href="<?php echo esc_attr($instance['stitcher_podcast_link']) ?>" class="rail-podcast__link"
-                                aria-label="" target="_blank">
-                                <img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25"
-                                    aria-hidden="true">
-                                <div class="rail-podcast__text">
-                                    Listen on<br><span>Stitcher</span>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    if ($instance['google_podcast_link'] != '') {
-                        ?>
-                        <li class="rail-podcast__item">
-                            <a href="<?php echo esc_attr($instance['google_podcast_link']) ?>" class="rail-podcast__link"
-                                aria-label="" target="_blank">
-                                <img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25"
-                                    aria-hidden="true">
-                                <div class="rail-podcast__text">
-                                    Listen on<br><span>Google Podcasts</span>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
-                    <?php
-                    if ($instance['iheart_podcast_link'] != '') {
-                        ?>
-                        <li class="rail-podcast__item">
-                            <a href="<?php echo esc_attr($instance['iheart_podcast_link']) ?>" class="rail-podcast__link"
-                                aria-label="" target="_blank">
-                                <img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25"
-                                    aria-hidden="true">
-                                <div class="rail-podcast__text">
-                                    Listen on<br><span>iHeartRadio</span>
-                                </div>
-                            </a>
-                        </li>
-                        <?php
-                    }
-                    ?>
+                    <li class="rail-podcast__item podcast_platform__apple" <?php if ($platform_options['apple'] == '') {
+                        echo 'style="display:none';
+                    } ?>>
+                        <a href="<?php echo esc_attr($instance['apple_podcast_link']) ?>" class="rail-podcast__link"
+                            aria-label="" target="_blank">
+                            <img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25"
+                                aria-hidden="true">
+                            <div class="rail-podcast__text">
+                                Listen on<br><span>Apple Podcasts</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="rail-podcast__item podcast_platform__spotify" <?php if ($platform_options['spotify'] == '') {
+                        echo 'style="display:none';
+                    } ?>>
+                        <a href="<?php echo esc_attr($instance['spotify_podcast_link']) ?>" class="rail-podcast__link"
+                            aria-label="" target="_blank">
+                            <img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25"
+                                aria-hidden="true">
+                            <div class="rail-podcast__text">
+                                Listen on<br><span>Spotify</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="rail-podcast__item podcast_platform__stitcher" <?php if ($platform_options['stitcher'] == '') {
+                        echo 'style="display:none';
+                    } ?>>
+                        <a href="<?php echo esc_attr($instance['stitcher_podcast_link']) ?>" class="rail-podcast__link"
+                            aria-label="" target="_blank">
+                            <img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25"
+                                aria-hidden="true">
+                            <div class="rail-podcast__text">
+                                Listen on<br><span>Stitcher</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="rail-podcast__item podcast_platform__google" <?php if ($platform_options['google'] == '') {
+                        echo 'style="display:none';
+                    } ?>>
+                        <a href="<?php echo esc_attr($instance['google_podcast_link']) ?>" class="rail-podcast__link"
+                            aria-label="" target="_blank">
+                            <img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25"
+                                aria-hidden="true">
+                            <div class="rail-podcast__text">
+                                Listen on<br><span>Google Podcasts</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="rail-podcast__item podcast_platform__iheart" <?php if ($platform_options['iheart'] == '') {
+                        echo 'style="display:none';
+                    } ?>>
+                        <a href="<?php echo esc_attr($instance['iheart_podcast_link']) ?>" class="rail-podcast__link"
+                            aria-label="" target="_blank">
+                            <img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25"
+                                aria-hidden="true">
+                            <div class="rail-podcast__text">
+                                Listen on<br><span>iHeartRadio</span>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -149,11 +129,6 @@ class RailPodcastSectionWidget extends WP_Widget
     {
         $instance = $old_instance;
         $instance['title'] = $new_instance['title'];
-        $instance['apple_podcast_link'] = $new_instance['apple_podcast_link'];
-        $instance['spotify_podcast_link'] = $new_instance['spotify_podcast_link'];
-        $instance['stitcher_podcast_link'] = $new_instance['stitcher_podcast_link'];
-        $instance['google_podcast_link'] = $new_instance['google_podcast_link'];
-        $instance['iheart_podcast_link'] = $new_instance['iheart_podcast_link'];
         return $instance;
     } //update
 
@@ -161,42 +136,15 @@ class RailPodcastSectionWidget extends WP_Widget
     {
         $defaults = array(
             'title' => 'Section Title',
-            'apple_podcast_link' => '',
-            'spotify_podcast_link' => '',
-            'stitcher_podcast_link' => '',
-            'google_podcast_link' => '',
-            'iheart_podcast_link' => '',
         );
         $instance = wp_parse_args((array) $instance, $defaults);
         ?>
         <div>
-            <h3>Title</h3>
+            <p>Podcast Links are Globally Edited in Appearance > Customize > Podcast Platforms. You can adjust the section title
+                above those podcast links in the sidebar here.</p>
             <label class="widefat" for="<?php echo $this->get_field_id('title') ?>">Section Title</label>
             <input class="widefat" value="<?php echo esc_attr($instance['title']) ?>"
                 id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>">
-            <hr />
-            <h3>Podcast Links</h3>
-            <label class="widefat" for="<?php echo $this->get_field_id('apple_podcast_link') ?>">Apple Podcast Link</label>
-            <input class="widefat" value="<?php echo esc_attr($instance['apple_podcast_link']) ?>"
-                id="<?php echo $this->get_field_id('apple_podcast_link') ?>"
-                name="<?php echo $this->get_field_name('apple_podcast_link') ?>">
-            <label class="widefat" for="<?php echo $this->get_field_id('spotify_podcast_link') ?>">Spotify Podcast Link</label>
-            <input class="widefat" value="<?php esc_attr($instance['spotify_podcast_link']) ?>"
-                id="<?php echo $this->get_field_id('spotify_podcast_link') ?>"
-                name="<?php echo $this->get_field_name('spotify_podcast_link') ?>">
-            <label class="widefat" for="<?php echo $this->get_field_id('stitcher_podcast_link') ?>">Stitcher Podcast
-                Link</label>
-            <input class="widefat" value="<?php echo esc_attr($instance['stitcher_podcast_link']) ?>"
-                id="<?php echo $this->get_field_id('stitcher_podcast_link') ?>"
-                name="<?php echo $this->get_field_name('stitcher_podcast_link') ?>">
-            <label class="widefat" for="<?php echo $this->get_field_id('google_podcast_link') ?>">Google Podcast Link</label>
-            <input class="widefat" value="<?php echo esc_attr($instance['google_podcast_link']) ?>"
-                id="<?php echo $this->get_field_id('google_podcast_link') ?>"
-                name="<?php echo $this->get_field_name('google_podcast_link') ?>">
-            <label class="widefat" for="<?php echo $this->get_field_id('iheart_podcast_link') ?>">iHeart Podcast Link</label>
-            <input class="widefat" value="<?php echo esc_attr($instance['iheart_podcast_link']) ?>"
-                id="<?php echo $this->get_field_id('iheart_podcast_link') ?>"
-                name="<?php echo $this->get_field_name('iheart_podcast_link') ?>">
 
         </div>
         <?php

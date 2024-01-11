@@ -130,9 +130,6 @@ class PhotoGalleryWidget extends WP_Widget
                             </a>
                             <?php
                         } ?>
-
-
-                        <!--span class="btn__icon"></span-->
                     </div>
                 </div>
             </section>

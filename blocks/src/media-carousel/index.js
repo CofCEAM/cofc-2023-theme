@@ -61,7 +61,7 @@ registerBlockType(metadata.name, {
     const [selectedVideoTitle, setSelectedVideoTitle] = useState("");
     const [selectedVideoCaption, setSelectedVideoCaption] = useState("");
     const { title, description, mediaItems, includeLink, linkUri, linkText, linkNewTab } = attributes;
-
+    
     const getRandomInt = () => {
       return Math.floor(Math.random() * 10000);
     };

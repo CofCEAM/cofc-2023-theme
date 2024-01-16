@@ -87,8 +87,9 @@
 						<form id="search-form" class="search-desktop__form" method="get"
 							action="<?php echo get_site_url() ?>" hidden>
 							<label class="show-for-sr" for="q">What're you looking for?</label>
-							<input name="s" id="s-desktop" class="search-desktop__input" type="search"
-								placeholder="What're you looking for?" aria-label="Search" tabindex="-1">
+							<input name="<?php echo get_option('search_query_parameter_key') ?>" id="s-desktop"
+								class="search-desktop__input" type="search" placeholder="What're you looking for?"
+								aria-label="Search" tabindex="-1">
 						</form>
 
 					</div>
@@ -115,8 +116,8 @@
 					<form id="search-form-mobile" class="form__field form__field--is-search" method="get"
 						action="<?php echo get_site_url() ?>">
 						<label for="s-mobile" class="show-for-sr">What're you looking for?</label>
-						<input name="s" id="s-mobile" type="search" aria-label="Search"
-							placeholder="What're you looking for?">
+						<input name="<?php echo get_option('search_query_parameter_key') ?>s" id="s-mobile"
+							type="search" aria-label="Search" placeholder="What're you looking for?">
 						<button type="submit" class="search-button">
 							<span class="show-for-sr">Search</span>
 							<svg class="brei-icon brei-icon-search" focusable="false">

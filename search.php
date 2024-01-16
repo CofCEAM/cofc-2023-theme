@@ -124,7 +124,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 										<div id="js-pagination" role="navigation" class="pagination aggregate__pagination">
 											<?php
 											echo custom_pagination_links(
-												max_num_pages: $searchwp_query->max_num_pages->max_num_pages,
+												max_num_pages: $searchwp_query->max_num_pages,
 												current_page: $search_page,
 												base_url: '',
 												query: $search_query

@@ -1,5 +1,23 @@
 <?php
 
+
+/* 
+WordPress uses a specific query variable, s, for its built-in search functionality. When you pass s as a query argument, WordPress automatically loads the search template.
+However, in your case, you're using a custom search query variable searchwp. WordPress doesn't recognize this as a search query, so it doesn't load the search template.
+To tell WordPress to load the search template when the searchwp query variable is present, you can use the template_include filter. This filter allows you to change the template that WordPress loads based on the current request.
+You can add the following code to your theme's functions.php file:
+*/
+
+add_filter('template_include', 'load_search_template');
+function load_search_template($template)
+{
+	if (isset($_GET['searchwp'])) {
+		return locate_template('search.php');  // Change 'search.php' to your search template path if different
+	}
+
+	return $template;
+}
+
 function cc_mime_types($mimes)
 {
 	$mimes['svg'] = 'image/svg+xml';

@@ -318,6 +318,74 @@ function create_logo_customizer($wp_customize)
 }
 
 
+function create_search_customizer($wp_customize)
+{
+
+    // create a new section for contact information
+    $wp_customize->add_section(
+        'cofctheme_search_section',
+        array(
+            'title' => __('Search', 'cofctheme'),
+            'priority' => 40,
+        )
+    );
+    // configure the search_query_parameter_ke with Radio (searchwp or s)
+    $wp_customize->add_setting(
+        'search_query_parameter_key',
+        array(
+            'default' => 's',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+    // radio control  (searchwp or s)
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'search_query_parameter_key',
+            array(
+                'label' => __('Search Query Parameter Key', 'cofctheme'),
+                'description' => __('What is the query parameter key to use for search? Choose searchwp if you are leveraging the SearchWP plugin. (default is "s" for native search, "searchwp" for SearchWP plugin use with custom SearchWP engine)', 'cofctheme'),
+                'settings' => 'search_query_parameter_key',
+                'priority' => 10,
+                'section' => 'cofctheme_search_section',
+                'type' => 'radio',
+                'choices' => array(
+                    's' => 's',
+                    'searchwp' => 'searchwp'
+                )
+            )
+        )
+    );
+
+    // searchwp engine name
+    $wp_customize->add_setting(
+        'searchwp_engine_name',
+        array(
+            'default' => 'cofcengine',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'searchwp_engine_name',
+            array(
+                'label' => __('SearchWP Engine Name', 'cofctheme'),
+                'description' => __('What is the name of the SearchWP engine to use for search results? This only applies if you are leveraging the SearchWP plugin. (default is "cofcengine")', 'cofctheme'),
+                'settings' => 'searchwp_engine_name',
+                'priority' => 10,
+                'section' => 'cofctheme_search_section',
+                'type' => 'text',
+            )
+        )
+    );
+}
+
 function create_page_post_display_customizers($wp_customize)
 {
     // Add section to the Customizer
@@ -767,6 +835,7 @@ function add_customizer_fields($wp_customize)
     create_podcast_platforms_customizer($wp_customize);
     create_header_footer_background_color_customizer($wp_customize);
     create_page_post_display_customizers($wp_customize);
+    create_search_customizer($wp_customize);
 }
 add_action('customize_register', 'add_customizer_fields');
 

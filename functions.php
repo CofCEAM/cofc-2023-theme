@@ -12,9 +12,12 @@ add_filter('template_include', 'load_search_template');
 function load_search_template($template)
 {
 	if (isset($_GET['searchwp'])) {
-		return locate_template('search.php');  // Change 'search.php' to your search template path if different
+		// searchwp search
+		return locate_template('searchwp.php');
+	} elseif (isset($_GET['s'])) {
+		// native search
+		return locate_template('search.php');
 	}
-
 	return $template;
 }
 

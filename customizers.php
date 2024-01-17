@@ -384,6 +384,31 @@ function create_search_customizer($wp_customize)
             )
         )
     );
+
+    // allow addition of multiple site ids to include in search 
+    $wp_customize->add_setting(
+        'search_site_ids',
+        array(
+            'default' => 'all',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'search_site_ids',
+            array(
+                'label' => __('SearchWP Site IDs to Include', 'cofctheme'),
+                'description' => __('What are the site IDs to include in search (if using SearchWP) ? (comma separated list). Default is "all". Use "all" to include all sites in the network. If including multiple sites, all included sites must have a SearchWP engine with a similar configuration.', 'cofctheme'),
+                'settings' => 'search_site_ids',
+                'priority' => 40,
+                'section' => 'cofctheme_search_section',
+                'type' => 'text',
+            )
+        )
+    );
 }
 
 function create_page_post_display_customizers($wp_customize)

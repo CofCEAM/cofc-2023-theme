@@ -9,6 +9,13 @@ global $post;
 // appearance > customize > search options 
 $searchwp_engine_name = get_option('searchwp_engine_name');
 $searchwp_engine_name = empty($searchwp_engine_name) ? 'cofcengine' : $searchwp_engine_name;
+$search_site_ids = str_replace(' ', '', get_option('search_site_ids'));
+$search_site_ids = empty($search_site_ids) ? 'all' : $search_site_ids;
+// if not "all", then convert to array
+$search_site_ids = $search_site_ids == 'all' ? $search_site_ids : explode(',', $search_site_ids);
+// convert each element to int (site id)
+$search_site_ids = array_map('intval', $search_site_ids);
+
 
 // get query and page number from URL
 $search_query = isset($_GET['searchwp']) ? sanitize_text_field($_GET['searchwp']) : null;
@@ -23,6 +30,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 	$searchwp_query = new \SearchWP\Query($search_query, [
 		'engine' => $searchwp_engine_name, // The Engine name.
 		'fields' => 'all',          // Load proper native objects of each result.
+		'site' => $search_site_ids, // Limit results to specified sites
 		'page' => $search_page,
 		'posts_per_page' => get_option('posts_per_page'),
 	]);

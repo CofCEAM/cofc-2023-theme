@@ -30,7 +30,7 @@ $search_pagination = '';
 if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 	$searchwp_query = new \SearchWP\Query($search_query, [
 		'engine' => $searchwp_engine_name, // The Engine name.
-		'fields' => 'all',          // Load proper native objects of each result.
+		'fields' => 'default',          // Retain site ID info with results.
 		'site' => $search_site_ids, // Limit results to specified sites
 		'page' => $search_page,
 		'posts_per_page' => get_option('posts_per_page'),
@@ -107,7 +107,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 								<?php if (!empty($search_query) && !empty($search_results)) {
 									foreach ($search_results as $search_result) {
 										$post = $search_result;
-										if ($current_blog_id != $post->site) {
+										if ($current_blog_id !== $post->site) {
 											echo "<!-- current blog id " . $current_blog_id . " NOT EQUAL TO post site ID " . $post->site . "-->";
 											switch_to_blog($post->site);
 											$post = get_post($post->ID);

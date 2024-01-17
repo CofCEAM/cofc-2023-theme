@@ -52,8 +52,8 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 		<div class="row">
 			<div class="search-results__content xsmall-12 cell">
 				<div class="search-results__inner">
-					<h1 class="font-special-2">
-						<?php printf(esc_html__('Search Results for: %s', 'torba'), '<span>' . get_search_query() . '</span>'); ?>
+					<h1>
+						<?php echo 'Search results for "' . $search_query . '"' ?>
 					</h1>
 					<hr>
 					<form class="search-results__search" role="search" method="get"

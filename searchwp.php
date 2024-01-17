@@ -106,13 +106,12 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 
 								<?php if (!empty($search_query) && !empty($search_results)) {
 									foreach ($search_results as $search_result) {
-										$post = $search_result;
-										if ($current_blog_id !== $post->site) {
-											echo "<!-- current blog id " . $current_blog_id . " NOT EQUAL TO post site ID " . $post->site . "-->";
-											switch_to_blog($post->site);
-											$post = get_post($post->ID);
+										if ($current_blog_id !== $search_result->site) {
+											echo "<!-- current blog id " . $current_blog_id . " NOT EQUAL TO search result site ID " . $search_result->site . "-->";
+											switch_to_blog($search_result->site);
+											$post = get_post($search_result->id);
 											?>
-											<div class="cell xsmall-12 medium-6 large-4">
+											<div class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?>">
 												<?php
 												display_featured_post_card($post, wide: false);
 												?>
@@ -120,8 +119,8 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 											<?php
 											restore_current_blog();
 										} else {
-											echo "<!-- current blog id " . $current_blog_id . " EQUAL TO post site ID " . $post->site . "-->";
-											$post = get_post($post->ID);
+											echo "<!-- current blog id " . $current_blog_id . " EQUAL TO post site ID " . $search_result->site . "-->";
+											$post = get_post($search_result->id);
 											?>
 											<div class="cell xsmall-12 medium-6 large-4">
 												<?php

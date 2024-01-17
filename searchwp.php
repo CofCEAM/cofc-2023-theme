@@ -13,9 +13,10 @@ $search_site_ids = str_replace(' ', '', get_option('search_site_ids'));
 $search_site_ids = empty($search_site_ids) ? 'all' : $search_site_ids;
 // if not "all", then convert to array
 $search_site_ids = $search_site_ids == 'all' ? $search_site_ids : explode(',', $search_site_ids);
-// convert each element to int (site id)
-$search_site_ids = array_map('intval', $search_site_ids);
-
+// if $search_site_ids is an array, then convert each element to int (site id) 
+if (is_array($search_site_ids)) {
+	$search_site_ids = array_map('intval', $search_site_ids);
+}
 
 // get query and page number from URL
 $search_query = isset($_GET['searchwp']) ? sanitize_text_field($_GET['searchwp']) : null;

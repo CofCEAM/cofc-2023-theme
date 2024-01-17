@@ -15169,7 +15169,7 @@ li.pagination__item--disabled a.btn.btn--medium:before {
 @media print, screen and (min-width: 48em) {
   .pager__item,
   .pagination__item {
-    margin: 0 0.625rem;
+    margin: 0 0.25rem;
   }
 }
 .pager__link,

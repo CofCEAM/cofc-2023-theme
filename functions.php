@@ -1,13 +1,6 @@
 <?php
 
 
-/* 
-WordPress uses a specific query variable, s, for its built-in search functionality. When you pass s as a query argument, WordPress automatically loads the search template.
-However, in your case, you're using a custom search query variable searchwp. WordPress doesn't recognize this as a search query, so it doesn't load the search template.
-To tell WordPress to load the search template when the searchwp query variable is present, you can use the template_include filter. This filter allows you to change the template that WordPress loads based on the current request.
-You can add the following code to your theme's functions.php file:
-*/
-
 add_filter('template_include', 'load_search_template');
 function load_search_template($template)
 {
@@ -45,7 +38,7 @@ register_nav_menus(
 );
 
 // Custom paginate_links filter
-function custom_pagination_links($max_num_pages, $current_page, $base_url = '', $query = null)
+function custom_pagination_links($max_num_pages, $current_page, $base_url = '', $query = null, $searchwp_pagination = false)
 {
 	$output = '<ul class="pagination__list clearfix" aria-label="Pagination">';
 	$base_url = get_site_url() . $base_url;
@@ -79,7 +72,12 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 		} elseif (abs($i - $current_page) === 1 or abs($max_num_pages - $i) <= 2 or abs($i - 1) <= 2) {
 			// if one page away from current page or close to end or beginning, show number
 			if ($query) {
-				$link = $base_url . '/page/' . $i . '?s=' . $query;
+				if ($searchwp_pagination) {
+					$link = $base_url . '/?swppg=' . $i . '&?searchwp=' . $query;
+				} else {
+					// native search pagination
+					$link = $base_url . '/page/' . $i . '?s=' . $query;
+				}
 			} else {
 				$link = $base_url . '/page/' . $i;
 			}
@@ -110,7 +108,12 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 	// Next link 
 	$output .= '<li class="pagination__item pagination__item--next ' . $disabledLiClass . '">';
 	if ($query) {
-		$link = $base_url . '/page/' . $current_page + 1 . '?s=' . $query;
+		if ($searchwp_pagination) {
+			$link = $base_url . '/?swppg=' . $current_page + 1 . '&?searchwp=' . $query;
+		} else {
+			//native search (?s) pagination
+			$link = $base_url . '/page/' . $current_page + 1 . '?s=' . $query;
+		}
 	} else {
 		$link = $base_url . '/page/' . $current_page + 1;
 	}
@@ -206,16 +209,16 @@ function display_single_post_card(
 ) {
 
 	/* 
-													$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-													is a number between 1 and 12, indicating a proportion of container width to take up
-													on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-													
-													$large_screen_class is optional. Default is empty. Can be "large-<int> where int
-													is a number between 1 and 12, indicating a proportion of container width to take up
-													on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+																													  $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+																													  is a number between 1 and 12, indicating a proportion of container width to take up
+																													  on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+																													  
+																													  $large_screen_class is optional. Default is empty. Can be "large-<int> where int
+																													  is a number between 1 and 12, indicating a proportion of container width to take up
+																													  on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-													Cards are full width on mobile by default. No adjustment there.
-													*/
+																													  Cards are full width on mobile by default. No adjustment there.
+																													  */
 	$wideclass = $wide ? 'card-news--wide' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
@@ -341,23 +344,23 @@ function display_post_card_grid_by_category(
 	string $large_screen_class = ''
 ) {
 	/* 
-													Display a card grid of posts in a given category. 
-													Optionally provide a limit (i.e. only display up to 3). 
-													Optionally provide an offset (e.g. offset = 1 to skip the 
-													first if that was already displayed in a wide card on the 
-													top of the page.)
+																													  Display a card grid of posts in a given category. 
+																													  Optionally provide a limit (i.e. only display up to 3). 
+																													  Optionally provide an offset (e.g. offset = 1 to skip the 
+																													  first if that was already displayed in a wide card on the 
+																													  top of the page.)
 
-													$medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-													is a number between 1 and 12, indicating a proportion of container width to take up
-													on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-													
-													$large_screen_class is optional. Default is empty. Can be "large-<int> where int
-													is a number between 1 and 12, indicating a proportion of container width to take up
-													on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+																													  $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+																													  is a number between 1 and 12, indicating a proportion of container width to take up
+																													  on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+																													  
+																													  $large_screen_class is optional. Default is empty. Can be "large-<int> where int
+																													  is a number between 1 and 12, indicating a proportion of container width to take up
+																													  on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-													Cards are full width on mobile by default. No adjustment there.
-													
-													*/
+																													  Cards are full width on mobile by default. No adjustment there.
+																													  
+																													  */
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(

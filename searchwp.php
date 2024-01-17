@@ -111,7 +111,8 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 											switch_to_blog($search_result->site);
 											$post = get_post($search_result->id);
 											?>
-											<div class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?>">
+											<div
+												class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?> site-<?php echo $search_result->site ?>">
 												<?php
 												display_featured_post_card($post, wide: false);
 												?>
@@ -122,7 +123,8 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 											echo "<!-- current blog id " . $current_blog_id . " EQUAL TO post site ID " . $search_result->site . "-->";
 											$post = get_post($search_result->id);
 											?>
-											<div class="cell xsmall-12 medium-6 large-4">
+											<div
+												class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?> site-<?php echo $search_result->site ?>">
 												<?php
 												display_featured_post_card($post, wide: false);
 												?>
@@ -139,7 +141,8 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 												max_num_pages: $searchwp_query->max_num_pages,
 												current_page: $search_page,
 												base_url: '',
-												query: $search_query
+												query: $search_query,
+												searchwp_pagination: true
 											);
 											?>
 										</div>

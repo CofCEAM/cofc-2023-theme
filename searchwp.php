@@ -95,7 +95,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 					</div-->
 
 					<h2 class="show-for-sr">
-						<?php printf(esc_html__('Search Results for: %s', 'torba'), '<span>' . get_search_query() . '</span>'); ?>
+						<?php echo 'Search results for "' . $search_query . '"' ?>
 					</h2>
 
 					<div id="results-listings-container"

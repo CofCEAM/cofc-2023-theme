@@ -49,7 +49,12 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 
 	$output .= '<li class="pagination__item pagination__item--prev ' . $disabledLiClass . '">';
 	if ($query) {
-		$link = $base_url . '/page/' . $current_page - 1 . '?s=' . $query;
+		if ($searchwp_pagination) {
+			$link = $base_url . '/?swppg=' . $current_page - 1 . '&searchwp=' . $query;
+		} else {
+			// native search pagination
+			$link = $base_url . '/page/' . $current_page - 1 . '?s=' . $query;
+		}
 	} else {
 		$link = $base_url . '/page/' . $current_page - 1;
 	}

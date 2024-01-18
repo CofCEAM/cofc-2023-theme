@@ -456,7 +456,6 @@ add_theme_support('customize-selective-refresh-widgets');
 
 
 require get_template_directory() . '/customizers.php';
-require get_template_directory() . '/template-parts/meta_boxes.php';
 require get_template_directory() . '/template-parts/svg_defs.php';
 require get_template_directory() . '/template-parts/widgets/index.php';
 require get_template_directory() . '/template-parts/header/navigation.php';

@@ -12291,7 +12291,10 @@ figure.img {
 }
 .user-markup figure {
   margin: 0.375rem 0.75rem 1.5rem 0;
-  max-width: 25.6875rem;
+  /* 
+  images too small when you do this. 
+  max-width: 25.6875rem; */
+
   position: relative;
 }
 .user-markup figure img {

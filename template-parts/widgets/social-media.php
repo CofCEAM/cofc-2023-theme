@@ -20,6 +20,7 @@ class SocialMediaWidget extends WP_Widget
             'twitter' => 'https://twitter.com/cofc',
             'linkedin' => 'https://www.linkedin.com/school/college-of-charleston',
             'youtube' => 'https://www.youtube.com/user/collegeofcharleston',
+            'tiktok' => 'https://www.tiktok.com/@collegeofcharleston',
             'instagram' => 'https://www.instagram.com/collegeofcharleston/',
             'email' => 'mailto:admissions.cofc.edu',
             'rss' => ''
@@ -58,6 +59,13 @@ class SocialMediaWidget extends WP_Widget
                 'link' => $instance['youtube'],
                 'icon' => 'brei-icon-social-youtube',
                 'example' => 'https://www.youtube.com/user/collegeofcharleston'
+            ),
+            array(
+                'label' => 'TikTok URL',
+                'slug' => 'tiktok',
+                'link' => $instance['tiktok'],
+                'icon' => 'brei-icon-social-tiktok',
+                'example' => 'https://www.tiktok.com/@collegeofcharleston'
             ),
             array(
                 'label' => 'Instagram URL',
@@ -119,7 +127,7 @@ class SocialMediaWidget extends WP_Widget
             </div>
             </div>
             </div>
-<?php
+            <?php
         }
 
 

@@ -733,6 +733,11 @@ function create_social_media_customizer($wp_customize)
             'example' => 'https://www.instagram.com/collegeofcharleston/'
         ),
         array(
+            'label' => 'TikTok Account',
+            'slug' => 'tiktok',
+            'example' => 'https://www.tiktok.com/@collegeofcharleston'
+        ),
+        array(
             'label' => 'Email Address',
             'slug' => 'email',
             'example' => 'mailto:admissions.cofc.edu'

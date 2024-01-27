@@ -214,16 +214,16 @@ function display_single_post_card(
 ) {
 
 	/* 
-																																	 $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																	 
-																																	 $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+																																											   $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+																																											   is a number between 1 and 12, indicating a proportion of container width to take up
+																																											   on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+																																											   
+																																											   $large_screen_class is optional. Default is empty. Can be "large-<int> where int
+																																											   is a number between 1 and 12, indicating a proportion of container width to take up
+																																											   on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-																																	 Cards are full width on mobile by default. No adjustment there.
-																																	 */
+																																											   Cards are full width on mobile by default. No adjustment there.
+																																											   */
 	$wideclass = $wide ? 'card-news--wide' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
@@ -307,7 +307,10 @@ function display_single_post_card(
 
 
 function display_single_rail_post_card(
-	WP_Post $post
+	WP_Post $post,
+	bool $display_excerpt = false,
+	bool $display_published_date = true,
+	bool $display_author = true,
 ) {
 	/* display a simple card in the sidebar (rail) with a post title and excerpt; link it to the post permalink */
 	?>
@@ -316,9 +319,33 @@ function display_single_rail_post_card(
 			<p class="rail-news__title font-h6">
 				<?php echo $post->post_title ?>
 			</p>
-			<p class="rail-news__copy">
-				<?php echo $post->post_excerpt ?>
-			</p>
+			<?php if ($display_excerpt) { ?>
+				<p class="rail-news__copy">
+					<?php echo $post->post_excerpt ?>
+				</p>
+			<?php } ?>
+
+			<?php if ($display_published_date) { ?>
+				<p class="rail-news__date card-icon">
+					<svg class="brei-icon brei-icon-calendar" focusable="false">
+						<use href="#brei-icon-calendar"></use>
+					</svg>
+					<span itemprop="dateline">
+						<?php echo get_the_date('F j, Y', $post) ?>
+					</span>
+				</p>
+			<?php } ?>
+
+			<?php if ($display_author) { ?>
+				<p class="rail-news__author card-icon">
+					<svg class="brei-icon brei-icon-avatar" focusable="false">
+						<use href="#brei-icon-avatar"></use>
+					</svg>
+					<span itemprop="author">by
+						<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+					</span>
+				</p>
+			<?php } ?>
 
 			<a href="<?php echo get_post_permalink($post) ?>" class="btn btn-tertiary btn-tertiary-left">
 				<span class="text">Read more</span>
@@ -332,6 +359,7 @@ function display_single_rail_post_card(
 					</svg>
 				</span>
 			</a>
+
 
 			<!--span class="btn__icon"></span-->
 		</div>
@@ -349,23 +377,23 @@ function display_post_card_grid_by_category(
 	string $large_screen_class = ''
 ) {
 	/* 
-																																	 Display a card grid of posts in a given category. 
-																																	 Optionally provide a limit (i.e. only display up to 3). 
-																																	 Optionally provide an offset (e.g. offset = 1 to skip the 
-																																	 first if that was already displayed in a wide card on the 
-																																	 top of the page.)
+																																											   Display a card grid of posts in a given category. 
+																																											   Optionally provide a limit (i.e. only display up to 3). 
+																																											   Optionally provide an offset (e.g. offset = 1 to skip the 
+																																											   first if that was already displayed in a wide card on the 
+																																											   top of the page.)
 
-																																	 $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																	 
-																																	 $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on large screens (over 64em). Empty means large screen inherits from medium screen styles.
+																																											   $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
+																																											   is a number between 1 and 12, indicating a proportion of container width to take up
+																																											   on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
+																																											   
+																																											   $large_screen_class is optional. Default is empty. Can be "large-<int> where int
+																																											   is a number between 1 and 12, indicating a proportion of container width to take up
+																																											   on large screens (over 64em). Empty means large screen inherits from medium screen styles.
 
-																																	 Cards are full width on mobile by default. No adjustment there.
-																																	 
-																																	 */
+																																											   Cards are full width on mobile by default. No adjustment there.
+																																											   
+																																											   */
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(

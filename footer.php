@@ -85,6 +85,12 @@
                     'icon' => 'brei-icon-social-youtube'
                 ),
                 array(
+                    'label' => 'TikTok',
+                    'slug' => 'tiktok',
+                    'link' => get_option('tiktok'),
+                    'icon' => 'brei-icon-social-tiktok'
+                ),
+                array(
                     'label' => 'Instagram',
                     'slug' => 'instagram',
                     'link' => get_option('instagram'),

@@ -15382,6 +15382,13 @@ li.pagination__item--disabled a.btn.btn--medium:before {
   border-radius: 16px;
   margin-bottom: 1.25rem;
 }
+.rail-news__date.card-icon,
+.rail-news__author.card-icon {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
 @media print, screen and (min-width: 64em) {
   .rail-news:nth-child(odd):not(.rail-news--dotless) {
     border-bottom: 3px dotted #fefefe;
@@ -17609,6 +17616,8 @@ img.mfp-img {
   margin-right: auto;
   position: relative;
   top: 0;
+  /* custom. added 1/26/2024 to allow featured video to render full width */
+  width: 100% !important;
 }
 .slick-track:after,
 .slick-track:before {

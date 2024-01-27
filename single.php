@@ -9,54 +9,60 @@ global $post; ?>
                         <h1 class="article-header__title font-h1">
                             <?php wp_title() ?>
                         </h1>
-                        <div class="article-header__info">
-                            <?php if (get_option('display_post_date') == 'yes') { ?>
-                                <div class="article-header__data post__date">
-                                    <span class="article-header__icon">
-                                        <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                            <use href="#brei-icon-calendar"></use>
-                                        </svg>
-                                    </span>
-                                    <span class="article-header__label">
-                                        <?php echo get_the_date('F j, Y') ?>
-                                    </span>
-                                </div>
-                            <?php }
-                            if (get_option('display_post_byline') == 'yes') { ?>
-                                <div class="article-header__data post__byline">
-                                    <span class="article-header__icon">
-                                        <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                            <use href="#brei-icon-avatar"></use>
-                                        </svg>
-                                    </span>
-                                    <span class="article-header__label">
-                                        <?php
-                                        echo get_the_author_meta('display_name', $post->post_author) ?>
-                                    </span>
-                                </div>
-                            <?php }
-                            if (get_option('display_post_categories_list') == 'yes') {
-                                ?>
+                        <?php
+                        if (get_option('display_post_date') == 'yes' || get_option('display_post_byline') == 'yes' || get_option('display_post_categories_list') == 'yes') { ?>
+                            <div class="article-header__info">
+                                <?php if (get_option('display_post_date') == 'yes') { ?>
+                                    <div class="article-header__data post__date">
+                                        <span class="article-header__icon">
+                                            <svg class="brei-icon brei-icon-calendar" focusable="false">
+                                                <use href="#brei-icon-calendar"></use>
+                                            </svg>
+                                        </span>
+                                        <span class="article-header__label">
+                                            <?php echo get_the_date('F j, Y') ?>
+                                        </span>
+                                    </div>
+                                <?php }
+                                if (get_option('display_post_byline') == 'yes') { ?>
+                                    <div class="article-header__data post__byline">
+                                        <span class="article-header__icon">
+                                            <svg class="brei-icon brei-icon-avatar" focusable="false">
+                                                <use href="#brei-icon-avatar"></use>
+                                            </svg>
+                                        </span>
+                                        <span class="article-header__label">
+                                            <?php
+                                            echo get_the_author_meta('display_name', $post->post_author) ?>
+                                        </span>
+                                    </div>
+                                <?php }
+                                if (get_option('display_post_categories_list') == 'yes') {
+                                    ?>
 
-                                <div class="article-header__data post__categories-list">
-                                    <span class="article-header__icon post__categories">
-                                        <svg class="brei-icon brei-icon-tag" focusable="false">
-                                            <use href="#brei-icon-tag"></use>
-                                        </svg>
-                                    </span>
-                                    <span class="article-header__label">
-                                        <?php
-                                        $categories = wp_get_post_categories($post->ID, array('fields' => 'names', 'order' => 'DESC'));
-                                        $categories = implode(', ', $categories);
-                                        echo $categories; ?>
-                                    </span>
-                                </div>
-                            <?php } ?>
-                        </div>
-
-                        <?php if (get_option('display_post_excerpt') == 'yes') { ?>
+                                    <div class="article-header__data post__categories-list">
+                                        <span class="article-header__icon post__categories">
+                                            <svg class="brei-icon brei-icon-tag" focusable="false">
+                                                <use href="#brei-icon-tag"></use>
+                                            </svg>
+                                        </span>
+                                        <span class="article-header__label">
+                                            <?php
+                                            $categories = wp_get_post_categories($post->ID, array('fields' => 'names', 'order' => 'DESC'));
+                                            $categories = implode(', ', $categories);
+                                            echo $categories; ?>
+                                        </span>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <?php
+                        }
+                        // strip the excerpt - remove whitespace
+                        $excerpt = get_the_excerpt($post->ID);
+                        $excerpt = trim($excerpt);
+                        if (get_option('display_post_excerpt') == 'yes' && !empty($excerpt)) { ?>
                             <p class="article-header__intro post__excerpt">
-                                <?php echo get_the_excerpt($post->ID) ?>
+                                <?php echo $excerpt ?>
                             </p>
                         <?php } ?>
                     </div>

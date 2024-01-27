@@ -14446,7 +14446,6 @@ li.pagination__item--disabled a.btn.btn--medium:before {
   .card-news--wide .card-news__figure {
     border-radius: 16px;
     margin: 2rem;
-    flex-basis: 30%;
   }
   .card-news--wide .card-news__wrapper {
     -webkit-box-orient: vertical;

@@ -37,9 +37,6 @@ class FeaturedPostsWidget extends WP_Widget
         $display_post_excerpt = $instance['display_post_excerpt'];
         $display_post_published_date = $instance['display_post_published_date'];
         $display_post_author = $instance['display_post_author'];
-
-        $post_not_in_arg = array();
-
         // always exclude current post
         global $post;
 

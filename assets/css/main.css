@@ -15699,6 +15699,7 @@ li.pagination__item--disabled a.btn.btn--medium:before {
   z-index: -1;
 }
 .share-links {
+  clear: both;
   background-image: url(../images/background-share-sm.png);
   background-position: 0 0;
   background-repeat: no-repeat;
@@ -15784,6 +15785,7 @@ li.pagination__item--disabled a.btn.btn--medium:before {
 }
 @media print, screen and (min-width: 64em) {
   .share-links {
+    clear: both;
     background-image: url(../images/background-share.png);
     margin: 4.5rem 0 0;
     padding: 2rem;

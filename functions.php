@@ -202,6 +202,8 @@ function display_featured_post_card(
 	<?php
 }
 
+
+
 function display_single_post_card(
 	WP_Post $post,
 	bool $wide = false,
@@ -213,17 +215,6 @@ function display_single_post_card(
 	string $title_heading_size = 'h4'
 ) {
 
-	/* 
-																																											   $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																											   is a number between 1 and 12, indicating a proportion of container width to take up
-																																											   on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																											   
-																																											   $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																											   is a number between 1 and 12, indicating a proportion of container width to take up
-																																											   on large screens (over 64em). Empty means large screen inherits from medium screen styles.
-
-																																											   Cards are full width on mobile by default. No adjustment there.
-																																											   */
 	$wideclass = $wide ? 'card-news--wide' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
@@ -368,6 +359,146 @@ function display_single_rail_post_card(
 }
 
 
+function display_main_feature_magazine_article_card(
+	WP_Post $post,
+) {
+	?>
+	<div class="card-news card-news--wide card-news--featured" itemscope itemtype="https://schema.org/NewsArticle">
+		<?php
+		$featured_image_id = get_post_thumbnail_id($post->ID);
+		$featured_image = get_post($featured_image_id);
+		if (!is_null($featured_image)) {
+			// conditionally display featured image
+			$featured_image_title = $featured_image->post_title;
+			$featured_image_url = get_the_post_thumbnail_url($post->ID);
+			?>
+			<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
+				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image"
+					itemprop="image" width="926" height="695" />
+			</figure>
+		<?php } ?>
+
+		<div class="card-news__wrapper">
+			<div class="card-news__content">
+				<p class="card-news__heading font-h3">
+					<span itemprop="headline">
+						<?php echo $post->post_title ?>
+					</span>
+				</p>
+				<p class="card-news__date card-icon">
+					<svg class="brei-icon brei-icon-calendar" focusable="false">
+						<use href="#brei-icon-calendar"></use>
+					</svg>
+					<span itemprop="dateline">
+						<?php echo get_the_date('F j, Y', $post) ?>
+					</span>
+				</p>
+				<p class="card-news__author card-icon">
+					<svg class="brei-icon brei-icon-avatar" focusable="false">
+						<use href="#brei-icon-avatar"></use>
+					</svg>
+					<span itemprop="author">by
+						<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+					</span>
+				</p>
+			</div>
+
+			<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
+				class="card-news__button">
+				<p class="btn btn-card" aria-hidden="true">
+					<span class="text-arrow">
+						<svg class="brei-icon brei-icon-arrows" focusable="false">
+							<use href="#brei-icon-arrows"></use>
+						</svg>
+
+						<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+							<use href="#brei-icon-arrows-arrow"></use>
+						</svg>
+					</span>
+				</p>
+			</a>
+		</div>
+		<a href="<?php echo get_permalink($post); ?>" class="child-page-grid__link">
+			<span class="show-for-sr">Read more about "
+				<?php echo $post->post_title ?>"
+			</span>
+		</a>
+	</div>
+	<?php
+}
+
+function display_single_magazine_article_card(
+	WP_Post $post,
+	string $medium_screen_class = 'medium-6',
+	string $large_screen_class = '',
+) {
+	?>
+	<div class="aggregate__content xsmall-12 <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cell">
+		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle">
+			<?php
+			$featured_image_id = get_post_thumbnail_id($post->ID);
+			$featured_image = get_post($featured_image_id);
+			if (!is_null($featured_image)) {
+				// conditionally display featured image
+				$featured_image_title = $featured_image->post_title;
+				$featured_image_url = get_the_post_thumbnail_url($post->ID);
+				?>
+				<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
+					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>"
+						class="card-news__image" itemprop="image" />
+				</figure>
+			<?php } ?>
+
+			<div class="card-news__wrapper">
+				<div class="card-news__content">
+					<p class="card-news__heading font-h4"><span itemprop="headline">
+							<?php echo $post->post_title ?>
+						</span></p>
+					<p class="card-news__date card-icon">
+						<svg class="brei-icon brei-icon-calendar" focusable="false">
+							<use href="#brei-icon-calendar"></use>
+						</svg>
+						<span itemprop="dateline">
+							<?php echo get_the_date('F j, Y', $post) ?>
+						</span>
+					</p>
+					<p class="card-news__author card-icon">
+						<svg class="brei-icon brei-icon-avatar" focusable="false">
+							<use href="#brei-icon-avatar"></use>
+						</svg>
+						<span itemprop="author">by
+							<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+						</span>
+					</p>
+				</div>
+
+				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
+					class="card-news__button">
+					<p class="btn btn-card" aria-hidden="true">
+						<span class="text-arrow">
+							<svg class="brei-icon brei-icon-arrows" focusable="false">
+								<use href="#brei-icon-arrows"></use>
+							</svg>
+
+							<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+								<use href="#brei-icon-arrows-arrow"></use>
+							</svg>
+						</span>
+					</p>
+				</a>
+			</div>
+			<a href="<?php echo get_permalink($post); ?>" class="child-page-grid__link">
+				<span class="show-for-sr">Read more about "
+					<?php echo $post->post_title ?>"
+				</span>
+			</a>
+		</div>
+	</div>
+	<?php
+}
+
+
+
 
 function display_post_card_grid_by_category(
 	string $category_name,
@@ -376,24 +507,7 @@ function display_post_card_grid_by_category(
 	string $medium_screen_class = 'medium-6',
 	string $large_screen_class = ''
 ) {
-	/* 
-																																											   Display a card grid of posts in a given category. 
-																																											   Optionally provide a limit (i.e. only display up to 3). 
-																																											   Optionally provide an offset (e.g. offset = 1 to skip the 
-																																											   first if that was already displayed in a wide card on the 
-																																											   top of the page.)
 
-																																											   $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																											   is a number between 1 and 12, indicating a proportion of container width to take up
-																																											   on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																											   
-																																											   $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																											   is a number between 1 and 12, indicating a proportion of container width to take up
-																																											   on large screens (over 64em). Empty means large screen inherits from medium screen styles.
-
-																																											   Cards are full width on mobile by default. No adjustment there.
-																																											   
-																																											   */
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(
@@ -424,6 +538,61 @@ function display_post_card_grid_by_category(
 			}
 		}
 	}
+}
+
+function display_tag_grid(array $tags = null, string $title = "Tags")
+{
+	// array structure: 
+	// array(
+	// array ( 
+	// 	'slug' => 'tag-slug',
+	// 	'name' => 'tag name',
+	//  'link_text' => 'link text',
+	//  'featured_image' => array('url' => 'image url', 'alt' => 'image alt text')
+	// ) 
+
+	if (is_null($tags) || sizeof($tags) == 0) {
+		return;
+	}
+	?>
+	<div class="aggregate__subset">
+		<div class="row level__row grid-x grid-margin-x grid-margin-y">
+			<div class="content xsmall-12 cell">
+				<h2 class="aggregate__latest font-h1">
+					<?php echo $title ?>
+				</h2>
+				<hr>
+			</div>
+			<?php
+			foreach ($tags as $tag) {
+				?>
+				<div class="aggregate__content xsmall-12 medium-6 large-4 cell">
+					<div class="card-magazine">
+						<figure class="card-magazine__figure">
+							<img src="<?php echo $tag->media_url ?>" alt="<?php echo $tag->media_alt ?>"
+								class="card-magazine__image" itemprop="image">
+						</figure>
+
+						<div class="card-magazine__button">
+							<p class="btn btn--primary">
+								<span class="text">
+									<?php echo $tag->label ?>
+								</span>
+							</p>
+						</div>
+						<a href="#" class="card-magazine__link"><span class="show-for-sr">
+								<?php echo $tag->label ?>
+							</span></a>
+
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+	</div>
+
+	<?php
 }
 
 
@@ -497,6 +666,8 @@ function localize_block_vars()
 		'template_directory_uri' => get_template_directory_uri()
 	);
 }
+
+
 function cofctheme_enqueue_custom_block_scripts()
 {
 	// register all of the scripts for each custom block - each block has a distribution file called bundle.js
@@ -529,6 +700,14 @@ function cofctheme_enqueue_custom_block_scripts()
 		);
 	}
 }
+
+
+// enqueue JS for widget editors 
+function enqueue_widget_editor_scripts()
+{
+	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
+}
+add_action('admin_enqueue_scripts', 'enqueue_widget_editor_scripts');
 
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';

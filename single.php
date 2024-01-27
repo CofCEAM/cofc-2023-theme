@@ -95,7 +95,6 @@ global $post; ?>
                             ?>
                             <ul class="share-links__list">
                                 <li class="share-links__item">
-
                                     <a href="<?php echo $fb_share_url ?>" class="share-links__link"
                                         aria-label="Facebook" target="_blank">
                                         <svg class="brei-icon brei-icon-social-facebook" focusable="false">

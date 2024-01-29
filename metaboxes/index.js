@@ -1,7 +1,7 @@
 var TEMPLATE_METABOX_MAP = [
   {
     filename: "news_aggregate.php",
-    display_name: "News Aggregate",
+    display_name: "Filterable News Aggregate",
     metaboxes: [
       "news_aggregate_info_meta_box",
       "news_aggregate_filterable_category_ids_meta_box",
@@ -32,6 +32,7 @@ var TEMPLATE_METABOX_MAP = [
       "podcast_aggregate_filterable_tag_ids_meta_box",
       "podcast_aggregate_filterable_years_meta_box",
       "podcast_aggregate_filter_headline_meta_box",
+      "podcast_aggregate_podcast_main_filter_meta_box",
     ],
   },
 ];
@@ -67,16 +68,12 @@ jQuery(document).ready(function ($) {
   setTimeout(() => {
     getTemplateName()
       .then((template) => {
-        console.log("Template name: ", template);
         toggleMetaBoxes({ templateName: template });
-        console.log("Adding listener to template change button");
         document.querySelector("div.edit-post-post-template button").addEventListener("click", () => {
           // now the select element is present so you can add a listener to it
-          console.log("Adding listener to select element");
           // wait for .edit-post-post-template__form select to be added to the DOM
           setTimeout(() => {
             document.querySelector(".edit-post-post-template__form select").addEventListener("change", () => {
-              console.log("Template dropdown changed");
               getTemplateName()
                 .then((template) => {
                   toggleMetaBoxes({ templateName: template });
@@ -110,7 +107,6 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
       let option = document.createElement("option");
       option.value = category.term_id;
       option.text = category.name;
-      option.onclick = () => console.log("clicked");
       valueSelector.add(option);
     });
   } else if (filterType === "tag") {
@@ -122,7 +118,6 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
       let option = document.createElement("option");
       option.value = tag.term_id;
       option.text = tag.name;
-      option.onclick = () => console.log("clicked");
       valueSelector.add(option);
     });
   }
@@ -130,6 +125,5 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
 
 const updateMainFilterValue = ({ filterValue = null }) => {
   const filterValueInput = document.querySelector("#podcast_aggregate_podcast_main_filter_value");
-  console.log("filterValue: ", filterValue);
   filterValueInput.value = filterValue;
 };

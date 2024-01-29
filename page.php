@@ -9,37 +9,42 @@
                         <h1 class="article-header__title font-h1">
                             <?php echo get_the_title() ?>
                         </h1>
-                        <div class="article-header__info">
-                            <?php if (get_option('display_page_date') == 'yes') { ?>
-                                <div class="article-header__data page__date">
-                                    <span class="article-header__icon">
-                                        <svg class="brei-icon brei-icon-calendar" focusable="false">
-                                            <use href="#brei-icon-calendar"></use>
-                                        </svg>
-                                    </span>
-                                    <span class="article-header__label">
-                                        <?php echo get_the_date('F j, Y', $post) ?>
-                                    </span>
-                                </div>
-                            <?php }
-                            if (get_option('display_page_byline') == 'yes') { ?>
-                                <div class="article-header__data page__byline">
-                                    <span class="article-header__icon">
-                                        <svg class="brei-icon brei-icon-avatar" focusable="false">
-                                            <use href="#brei-icon-avatar"></use>
-                                        </svg>
-                                    </span>
-                                    <span class="article-header__label">
-                                        <?php echo get_the_author_meta('display_name', $post->post_author) ?>
-                                    </span>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <?php
-                        if (get_option('display_page_excerpt') == 'yes') {
+                        <?php if (get_option('display_page_date') == 'yes' || get_option('display_page_byline') == 'yes') { ?>
+                            <div class="article-header__info">
+                                <?php if (get_option('display_page_date') == 'yes') { ?>
+                                    <div class="article-header__data page__date">
+                                        <span class="article-header__icon">
+                                            <svg class="brei-icon brei-icon-calendar" focusable="false">
+                                                <use href="#brei-icon-calendar"></use>
+                                            </svg>
+                                        </span>
+                                        <span class="article-header__label">
+                                            <?php echo get_the_date('F j, Y', $post) ?>
+                                        </span>
+                                    </div>
+                                <?php }
+                                if (get_option('display_page_byline') == 'yes') { ?>
+                                    <div class="article-header__data page__byline">
+                                        <span class="article-header__icon">
+                                            <svg class="brei-icon brei-icon-avatar" focusable="false">
+                                                <use href="#brei-icon-avatar"></use>
+                                            </svg>
+                                        </span>
+                                        <span class="article-header__label">
+                                            <?php echo get_the_author_meta('display_name', $post->post_author) ?>
+                                        </span>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <?php
+                        }
+                        // strip the excerpt - remove whitespace
+                        $excerpt = get_the_excerpt();
+                        $excerpt = trim($excerpt);
+                        if (get_option('display_page_excerpt') == 'yes' && !empty($excerpt)) {
                             ?>
                             <p class="article-header__intro page__excerpt">
-                                <?php echo get_the_excerpt() ?>
+                                <?php echo $excerpt ?>
                             </p>
                         <?php } ?>
                     </div>

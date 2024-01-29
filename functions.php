@@ -2,6 +2,24 @@
 
 
 add_filter('template_include', 'load_search_template');
+
+function update_array_meta($post_id, $key)
+{
+	if (isset($_POST[$key])) {
+		// if string, convert to array
+		$items = array();
+		if (isset($_POST[$key]) && is_array($_POST[$key])) {
+			foreach ($_POST[$key] as $item) {
+				$items[] = sanitize_text_field($item);
+			}
+		}
+		update_post_meta(
+			$post_id,
+			$key,
+			$items
+		);
+	}
+}
 function load_search_template($template)
 {
 	if (isset($_GET['searchwp'])) {
@@ -38,7 +56,7 @@ register_nav_menus(
 );
 
 // Custom paginate_links filter
-function custom_pagination_links($max_num_pages, $current_page, $base_url = '', $query = null, $searchwp_pagination = false)
+function custom_pagination_links($max_num_pages, $current_page, $base_url = '', $query = null, $searchwp_pagination = false, $append_to_end_of_url = '')
 {
 	$output = '<ul class="pagination__list clearfix" aria-label="Pagination">';
 	$base_url = get_site_url() . $base_url;
@@ -58,6 +76,7 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 	} else {
 		$link = $base_url . '/page/' . $current_page - 1;
 	}
+	$link = $link . $append_to_end_of_url;
 	$output .= '<a ' . ($current_page === 1 ? $disabledAnchorAttribute : '') . ' href="' . $link . '" class="btn btn--small" aria-label="Go to the previous page"><span class="btn__icon">';
 	$output .= '<svg class="brei-icon brei-icon-chevron"> <use xlink:href="#brei-icon-chevron"></use></svg>';
 	$output .= '</span></a>';
@@ -86,6 +105,7 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 			} else {
 				$link = $base_url . '/page/' . $i;
 			}
+			$link = $link . $append_to_end_of_url;
 			$itemclass = 'pagination__item--small';
 			$content .= '<a  href="' . $link . '" data-page="' . $i . '" class="pagination__link" aria-label="Page ' . $i . '">' . $i . '</a>';
 		} elseif (
@@ -122,6 +142,7 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 	} else {
 		$link = $base_url . '/page/' . $current_page + 1;
 	}
+	$link = $link . $append_to_end_of_url;
 	$output .= '<a  ' . ($current_page == $max_num_pages ? $disabledAnchorAttribute : '') . ' href="' . $link . '" class="btn btn--small" aria-label="Go to the next page"><span class="btn__icon">';
 	$output .= '<svg class="brei-icon brei-icon-chevron"> <use xlink:href="#brei-icon-chevron"></use></svg>';
 	$output .= '</span></a>';
@@ -202,6 +223,8 @@ function display_featured_post_card(
 	<?php
 }
 
+
+
 function display_single_post_card(
 	WP_Post $post,
 	bool $wide = false,
@@ -210,24 +233,17 @@ function display_single_post_card(
 	bool $display_author = true,
 	string $medium_screen_class = '',
 	string $large_screen_class = '',
-	string $title_heading_size = 'h4'
+	string $title_heading_size = 'h4',
+	bool $podcast = false
 ) {
 
-	/* 
-																																	 $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																	 
-																																	 $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on large screens (over 64em). Empty means large screen inherits from medium screen styles.
-
-																																	 Cards are full width on mobile by default. No adjustment there.
-																																	 */
 	$wideclass = $wide ? 'card-news--wide' : '';
+	$podcastCardClass = $podcast ? 'card-news--podcast' : '';
+	$podcastBtnClass = $podcast ? 'btn-card--podcast' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
-		<div class="card-news <?php echo $wideclass ?>" itemscope itemtype="https://schema.org/NewsArticle">
+		<div class="card-news <?php echo $wideclass ?> <?php echo $podcastCardClass ?>" itemscope
+			itemtype="https://schema.org/NewsArticle">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
 			$featured_image = get_post($featured_image_id);
@@ -282,7 +298,7 @@ function display_single_post_card(
 
 				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
 					class="card-news__button">
-					<p class="btn btn-card" aria-hidden="true">
+					<p class="btn btn-card <?php echo $podcastBtnClass ?>" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
 								<use href="#brei-icon-arrows"></use>
@@ -307,7 +323,10 @@ function display_single_post_card(
 
 
 function display_single_rail_post_card(
-	WP_Post $post
+	WP_Post $post,
+	bool $display_excerpt = false,
+	bool $display_published_date = true,
+	bool $display_author = true,
 ) {
 	/* display a simple card in the sidebar (rail) with a post title and excerpt; link it to the post permalink */
 	?>
@@ -316,9 +335,33 @@ function display_single_rail_post_card(
 			<p class="rail-news__title font-h6">
 				<?php echo $post->post_title ?>
 			</p>
-			<p class="rail-news__copy">
-				<?php echo $post->post_excerpt ?>
-			</p>
+			<?php if ($display_excerpt) { ?>
+				<p class="rail-news__copy">
+					<?php echo $post->post_excerpt ?>
+				</p>
+			<?php } ?>
+
+			<?php if ($display_published_date) { ?>
+				<p class="rail-news__date card-icon">
+					<svg class="brei-icon brei-icon-calendar" focusable="false">
+						<use href="#brei-icon-calendar"></use>
+					</svg>
+					<span itemprop="dateline">
+						<?php echo get_the_date('F j, Y', $post) ?>
+					</span>
+				</p>
+			<?php } ?>
+
+			<?php if ($display_author) { ?>
+				<p class="rail-news__author card-icon">
+					<svg class="brei-icon brei-icon-avatar" focusable="false">
+						<use href="#brei-icon-avatar"></use>
+					</svg>
+					<span itemprop="author">by
+						<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+					</span>
+				</p>
+			<?php } ?>
 
 			<a href="<?php echo get_post_permalink($post) ?>" class="btn btn-tertiary btn-tertiary-left">
 				<span class="text">Read more</span>
@@ -333,11 +376,154 @@ function display_single_rail_post_card(
 				</span>
 			</a>
 
+
 			<!--span class="btn__icon"></span-->
 		</div>
 	</div>
 	<?php
 }
+
+
+function display_main_feature_article_card(
+	WP_Post $post,
+	bool $wide = true
+) {
+	$wideClass = $wide ? 'card-news--wide' : '';
+	?>
+	<div class="card-news <?php echo $wideClass ?> card-news--featured" itemscope itemtype="https://schema.org/NewsArticle">
+		<?php
+		$featured_image_id = get_post_thumbnail_id($post->ID);
+		$featured_image = get_post($featured_image_id);
+		if (!is_null($featured_image)) {
+			// conditionally display featured image
+			$featured_image_title = $featured_image->post_title;
+			$featured_image_url = get_the_post_thumbnail_url($post->ID);
+			?>
+			<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
+				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image"
+					itemprop="image" width="926" height="695" />
+			</figure>
+		<?php } ?>
+
+		<div class="card-news__wrapper">
+			<div class="card-news__content">
+				<p class="card-news__heading font-h3">
+					<span itemprop="headline">
+						<?php echo $post->post_title ?>
+					</span>
+				</p>
+				<p class="card-news__date card-icon">
+					<svg class="brei-icon brei-icon-calendar" focusable="false">
+						<use href="#brei-icon-calendar"></use>
+					</svg>
+					<span itemprop="dateline">
+						<?php echo get_the_date('F j, Y', $post) ?>
+					</span>
+				</p>
+				<p class="card-news__author card-icon">
+					<svg class="brei-icon brei-icon-avatar" focusable="false">
+						<use href="#brei-icon-avatar"></use>
+					</svg>
+					<span itemprop="author">by
+						<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+					</span>
+				</p>
+			</div>
+
+			<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
+				class="card-news__button">
+				<p class="btn btn-card" aria-hidden="true">
+					<span class="text-arrow">
+						<svg class="brei-icon brei-icon-arrows" focusable="false">
+							<use href="#brei-icon-arrows"></use>
+						</svg>
+
+						<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+							<use href="#brei-icon-arrows-arrow"></use>
+						</svg>
+					</span>
+				</p>
+			</a>
+		</div>
+		<a href="<?php echo get_permalink($post); ?>" class="child-page-grid__link">
+			<span class="show-for-sr">Read more about "
+				<?php echo $post->post_title ?>"
+			</span>
+		</a>
+	</div>
+	<?php
+}
+
+function display_single_magazine_article_card(
+	WP_Post $post,
+	string $medium_screen_class = 'medium-6',
+	string $large_screen_class = '',
+) {
+	?>
+	<div class="aggregate__content xsmall-12 <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cell">
+		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle">
+			<?php
+			$featured_image_id = get_post_thumbnail_id($post->ID);
+			$featured_image = get_post($featured_image_id);
+			if (!is_null($featured_image)) {
+				// conditionally display featured image
+				$featured_image_title = $featured_image->post_title;
+				$featured_image_url = get_the_post_thumbnail_url($post->ID);
+				?>
+				<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
+					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>"
+						class="card-news__image" itemprop="image" />
+				</figure>
+			<?php } ?>
+
+			<div class="card-news__wrapper">
+				<div class="card-news__content">
+					<p class="card-news__heading font-h4"><span itemprop="headline">
+							<?php echo $post->post_title ?>
+						</span></p>
+					<p class="card-news__date card-icon">
+						<svg class="brei-icon brei-icon-calendar" focusable="false">
+							<use href="#brei-icon-calendar"></use>
+						</svg>
+						<span itemprop="dateline">
+							<?php echo get_the_date('F j, Y', $post) ?>
+						</span>
+					</p>
+					<p class="card-news__author card-icon">
+						<svg class="brei-icon brei-icon-avatar" focusable="false">
+							<use href="#brei-icon-avatar"></use>
+						</svg>
+						<span itemprop="author">by
+							<?php echo get_the_author_meta('display_name', $post->post_author) ?>
+						</span>
+					</p>
+				</div>
+
+				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
+					class="card-news__button">
+					<p class="btn btn-card" aria-hidden="true">
+						<span class="text-arrow">
+							<svg class="brei-icon brei-icon-arrows" focusable="false">
+								<use href="#brei-icon-arrows"></use>
+							</svg>
+
+							<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+								<use href="#brei-icon-arrows-arrow"></use>
+							</svg>
+						</span>
+					</p>
+				</a>
+			</div>
+			<a href="<?php echo get_permalink($post); ?>" class="child-page-grid__link">
+				<span class="show-for-sr">Read more about "
+					<?php echo $post->post_title ?>"
+				</span>
+			</a>
+		</div>
+	</div>
+	<?php
+}
+
 
 
 
@@ -348,24 +534,7 @@ function display_post_card_grid_by_category(
 	string $medium_screen_class = 'medium-6',
 	string $large_screen_class = ''
 ) {
-	/* 
-																																	 Display a card grid of posts in a given category. 
-																																	 Optionally provide a limit (i.e. only display up to 3). 
-																																	 Optionally provide an offset (e.g. offset = 1 to skip the 
-																																	 first if that was already displayed in a wide card on the 
-																																	 top of the page.)
 
-																																	 $medium_screen_class is optional. Default is medium-6. Can be "medium-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on medium screens (over 48em, below 64em). medium-6 means each item is 1/2 container width. 
-																																	 
-																																	 $large_screen_class is optional. Default is empty. Can be "large-<int> where int
-																																	 is a number between 1 and 12, indicating a proportion of container width to take up
-																																	 on large screens (over 64em). Empty means large screen inherits from medium screen styles.
-
-																																	 Cards are full width on mobile by default. No adjustment there.
-																																	 
-																																	 */
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(
@@ -398,6 +567,61 @@ function display_post_card_grid_by_category(
 	}
 }
 
+function display_tag_grid(array $tags = null, string $title = "Tags")
+{
+	// array structure: 
+	// array(
+	// array ( 
+	// 	'slug' => 'tag-slug',
+	// 	'name' => 'tag name',
+	//  'link_text' => 'link text',
+	//  'featured_image' => array('url' => 'image url', 'alt' => 'image alt text')
+	// ) 
+
+	if (is_null($tags) || sizeof($tags) == 0) {
+		return;
+	}
+	?>
+	<div class="aggregate__subset">
+		<div class="row level__row grid-x grid-margin-x grid-margin-y">
+			<div class="content xsmall-12 cell">
+				<h2 class="aggregate__latest font-h1">
+					<?php echo $title ?>
+				</h2>
+				<hr>
+			</div>
+			<?php
+			foreach ($tags as $tag) {
+				?>
+				<div class="aggregate__content xsmall-12 medium-6 large-4 cell">
+					<div class="card-magazine">
+						<figure class="card-magazine__figure">
+							<img src="<?php echo $tag->media_url ?>" alt="<?php echo $tag->media_alt ?>"
+								class="card-magazine__image" itemprop="image">
+						</figure>
+
+						<div class="card-magazine__button">
+							<p class="btn btn--primary">
+								<span class="text">
+									<?php echo $tag->label ?>
+								</span>
+							</p>
+						</div>
+						<a href="#" class="card-magazine__link"><span class="show-for-sr">
+								<?php echo $tag->label ?>
+							</span></a>
+
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+	</div>
+
+	<?php
+}
+
 
 
 function atLeastOneAccountLinkPopulated($accounts)
@@ -426,20 +650,28 @@ function cofctheme_enqueue_scripts()
 	wp_enqueue_script('cofc-js-modernizr', get_template_directory_uri() . '/assets/js/plugins/modernizr.js', array('cofc-js-jquery'), '1.0', true);
 	wp_enqueue_script('cofc-js-vendor', get_template_directory_uri() . '/assets/js/vendor.js', array('cofc-js-modernizr'), '1.0', true);
 	wp_enqueue_script('cofc-js-main', get_template_directory_uri() . "/assets/js/main.js", array('cofc-js-vendor'), '1.0', true);
+	wp_enqueue_script('cofc-js-news-aggregate-template', get_template_directory_uri() . '/assets/js/news_aggregate.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-level', get_template_directory_uri() . '/assets/js/level.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-postgrid', get_template_directory_uri() . '/assets/js/postgrid.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-prettifymailchimpforms', get_template_directory_uri() . '/assets/js/prettifymailchimpforms.js', array('cofc-js-main'), '1.0', true);
-
-
 	cofctheme_enqueue_custom_block_scripts();
 }
+
+
+function cofctheme_enqueue_admin_scripts()
+{
+	// scripts 
+	wp_enqueue_script('cofc-js-jquery', 'https://code.jquery.com/jquery-3.6.4.min.js', array(), '3.6.4', true);
+	cofctheme_enqueue_custom_block_scripts();
+}
+
 function cofctheme_enqueue_styles_and_scripts()
 {
 	cofctheme_enqueue_styles();
 	cofctheme_enqueue_scripts();
 }
 add_action('wp_enqueue_scripts', 'cofctheme_enqueue_styles_and_scripts');
-add_action('admin_enqueue_scripts', 'cofctheme_enqueue_scripts');
+add_action('admin_enqueue_scripts', 'cofctheme_enqueue_admin_scripts');
 
 
 function enqueue_admin_media_utilities()
@@ -469,6 +701,181 @@ function localize_block_vars()
 		'template_directory_uri' => get_template_directory_uri()
 	);
 }
+
+function aggregate_rail_filter_component(
+	string $filter_headline = 'Filter By',
+	array $filterable_category_ids = array(),
+	array $filterable_tag_ids = array(),
+	array $filterable_years = array(),
+	array $checked_category_ids = array(),
+	array $checked_tag_ids = array(),
+	array $checked_years = array(),
+	string $base_url = ''
+) {
+	// used on the News Aggregate template news_aggregate.php
+	// base_url is just path 
+	// need absolute 
+	$base_url = get_site_url() . $base_url;
+	?>
+	<section class="filter">
+		<div class="filter__border">
+			<div class="filter__inner">
+				<h2 class="filter__title font-h4">
+					<?php echo $filter_headline ?>
+				</h2>
+				<hr>
+				<div class="filter__set">
+					<ul class="filter__accordion accordion" data-accordion="hvmgsx-accordion" data-multi-expand="true"
+						data-allow-all-closed="true">
+						<?php // expanded by default ?>
+						<?php if (!empty($filterable_category_ids)) { ?>
+							<li class="filter__item accordion-item is-active" data-accordion-item="">
+								<a href="#categoryFilterSection" class="filter__heading accordion-title"
+									aria-controls="categoryFilterSection" id="categoryFilterSection-label" aria-expanded="true">
+									<span class="filter__label">Filter By Category</span>
+									<span class="trigger">
+										<svg class="brei-icon brei-icon-plus" focusable="false">
+											<use href="#brei-icon-plus"></use>
+										</svg>
+										<svg class="brei-icon brei-icon-minus" focusable="false">
+											<use href="#brei-icon-minus"></use>
+										</svg>
+									</span>
+								</a>
+								<div class="filter__content accordion-content" data-tab-content="" id="categoryFilterSection"
+									role="region" aria-labelledby="categoryFilterSection-label">
+									<fieldset>
+										<legend class="show-for-sr">year</legend>
+										<?php
+										foreach ($filterable_category_ids as $category_id) {
+											$category = get_category($category_id);
+											$checked = in_array($category_id, $checked_category_ids) ? 'checked="checked"' : '';
+											?>
+											<div class="form__field">
+												<input id="catFilter-<?php echo $category_id ?>" name="catFilter[]" type="checkbox"
+													value="<?php echo $category_id ?>" <?php echo $checked ?>>
+												<label for="catFilter-<?php echo $category_id ?>">
+													<?php echo $category->name ?>
+													<span class="checkbox" role="none">
+														<svg class="brei-icon brei-icon-check" focusable="false">
+															<use href="#brei-icon-check"></use>
+														</svg>
+													</span>
+												</label>
+											</div>
+											<?php
+										} ?>
+									</fieldset>
+								</div>
+							</li>
+
+						<?php }
+						// expand if there are active tag filters
+						$expanded = sizeof($checked_tag_ids) > 0 ? 'is-active' : '';
+						if (!empty($filterable_tag_ids)) {
+							?>
+							<li class="filter__item accordion-item <?php echo $expanded ?>" data-accordion-item="">
+								<a href="#tagFilterSection" class="filter__heading accordion-title"
+									aria-controls="tagFilterSection" id="tagFilterSection-label" aria-expanded="true">
+									<span class="filter__label">Filter By Tag</span>
+									<span class="trigger">
+										<svg class="brei-icon brei-icon-plus" focusable="false">
+											<use href="#brei-icon-plus"></use>
+										</svg>
+										<svg class="brei-icon brei-icon-minus" focusable="false">
+											<use href="#brei-icon-minus"></use>
+										</svg>
+									</span>
+								</a>
+								<div class="filter__content accordion-content" data-tab-content="" id="tagFilterSection"
+									role="region" aria-labelledby="tagFilterSection-label">
+									<fieldset>
+										<legend class="show-for-sr">year</legend>
+										<?php
+										foreach ($filterable_tag_ids as $tag_id) {
+											$tag = get_term($tag_id);
+											$checked = in_array($tag_id, $checked_tag_ids) ? 'checked="checked"' : '';
+											?>
+											<div class="form__field">
+												<input id="tagFilter-<?php echo $tag_id ?>" name="tagFilter[]" type="checkbox"
+													value="<?php echo $tag_id ?>" <?php echo $checked ?>>
+												<label for="tagFilter-<?php echo $tag_id ?>">
+													<?php echo $tag->name ?>
+													<span class="checkbox" role="none">
+														<svg class="brei-icon brei-icon-check" focusable="false">
+															<use href="#brei-icon-check"></use>
+														</svg>
+													</span>
+												</label>
+											</div>
+											<?php
+										} ?>
+									</fieldset>
+								</div>
+							</li>
+							<?php
+						}
+
+						if (!empty($filterable_years)) {
+							// expand if there are active year filters
+							$expanded = sizeof($checked_years) > 0 ? 'is-active' : '';
+							?>
+							<li class="filter__item accordion-item <?php echo $expanded ?>" data-accordion-item="">
+								<a href="#yearFilterSection" class="filter__heading accordion-title"
+									aria-controls="yearFilterSection" id="yearFilterSection-label">
+									<span class="filter__label">Filter By Year</span>
+									<span class="trigger">
+										<svg class="brei-icon brei-icon-plus" focusable="false">
+											<use href="#brei-icon-plus"></use>
+										</svg>
+										<svg class="brei-icon brei-icon-minus" focusable="false">
+											<use href="#brei-icon-minus"></use>
+										</svg>
+									</span>
+								</a>
+								<div class="filter__content accordion-content" data-tab-content="" id="yearFilterSection"
+									role="region" aria-labelledby="yearFilterSection-label">
+									<fieldset>
+										<legend class="show-for-sr">year</legend>
+										<?php
+										foreach ($filterable_years as $year) {
+											$checked = in_array($year, $checked_years) ? 'checked="checked"' : '';
+											?>
+											<div class="form__field">
+												<input id="yearFilter-<?php echo $year ?>" name="yearFilter[]" type="checkbox"
+													value="<?php echo $year ?>" <?php echo $checked ?>>
+												<label for="yearFilter-<?php echo $year ?>">
+													<?php echo $year ?>
+													<span class="checkbox" role="none">
+														<svg class="brei-icon brei-icon-check" focusable="false">
+															<use href="#brei-icon-check"></use>
+														</svg>
+													</span>
+												</label>
+											</div>
+											<?php
+										} ?>
+									</fieldset>
+								</div>
+							</li>
+							<?php
+						} ?>
+					</ul>
+
+				</div>
+
+				<button class="btn btn--primary-small filter__button"
+					onclick="applyFilters({baseUrl: '<?php echo $base_url ?>'})">
+					<span class="text">Apply Filters</span>
+				</button>
+			</div>
+		</div>
+	</section>
+	<?php
+}
+
+
+
 function cofctheme_enqueue_custom_block_scripts()
 {
 	// register all of the scripts for each custom block - each block has a distribution file called bundle.js
@@ -502,9 +909,39 @@ function cofctheme_enqueue_custom_block_scripts()
 	}
 }
 
+// enqueue admin JS for meta box conditional display (dependent on selected Page Template) 
+
+// enqueue index.js
+function enqueue_metabox_display_admin_script()
+{
+	wp_enqueue_script(
+		'cofctheme_metabox_display_admin_script',
+		get_template_directory_uri() . '/metaboxes/index.js',
+		array('jquery'),
+		'1.0',
+		true
+	);
+}
+
+add_action('admin_enqueue_scripts', 'enqueue_metabox_display_admin_script');
+
+
+
+// enqueue JS for widget editors 
+function enqueue_widget_editor_scripts()
+{
+	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
+}
+add_action('admin_enqueue_scripts', 'enqueue_widget_editor_scripts');
+
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';
 require get_template_directory() . '/blocks/src/testimonial/index.php';
 require get_template_directory() . '/blocks/src/tag-grid/index.php';
 require get_template_directory() . '/blocks/src/podcast-platforms/index.php';
+
+/* meta boxes for specific templates */
+require get_template_directory() . '/metaboxes/news_aggregate/index.php';
+require get_template_directory() . '/metaboxes/prefiltered_news_aggregate/index.php';
+require get_template_directory() . '/metaboxes/podcast_aggregate/index.php';
 // End custom blocks 

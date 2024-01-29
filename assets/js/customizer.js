@@ -94,7 +94,7 @@
   });
 
   // facebook, twitter, linkedin, youtube, instagram, email, rss
-  ["facebook", "twitter", "linkedin", "youtube", "instagram", "email", "rss"].forEach((social) => {
+  ["facebook", "twitter", "linkedin", "youtube", "instagram", "tiktok", "email", "rss"].forEach((social) => {
     wp.customize(`${social}`, function (value) {
       value.bind(function (newval) {
         // update footer social links
@@ -110,7 +110,6 @@
         if (newval === "") {
           document.querySelector(railQuery).style.display = "none";
         } else {
-          document.querySelector(railQuery).style.display = "flex";
           document.querySelector(`${railQuery} > a`).href = newval;
         }
       });

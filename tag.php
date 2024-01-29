@@ -4,6 +4,7 @@
 
 $tag = get_queried_object();
 $posts = null;
+$featured = null;
 if ($tag) {
     $tag_name = $tag->name;
     $tag_id = $tag->term_id;
@@ -44,9 +45,14 @@ if ($tag) {
             </div>
             <?php
             $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // Get the current page number 
+            if ($featured) {
+                $post__not_in = array($featured->ID);
+            } else {
+                $post__not_in = array();
+            }
             $args = array(
                 'post_type' => 'post',
-                'post__not_in' => array($featured->ID),
+                'post__not_in' => $post__not_in,
                 'tag' => $tag_slug,
                 // Pass the current page number to the query
                 'paged' => $paged,

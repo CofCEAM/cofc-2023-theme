@@ -25,6 +25,8 @@ class NewsSectionWidget extends WP_Widget
             'columns' => 2,
             'posts_limit' => 4,
             'section_link' => null,
+            'section_link_label' => 'Read more',
+            'section_link_new_tab' => 'no',
             'post_categories' => array(),
             'post_tags' => array(),
             'display_post_excerpt' => true,
@@ -53,7 +55,8 @@ class NewsSectionWidget extends WP_Widget
         $display_post_excerpt = $instance['display_post_excerpt'];
         $display_post_published_date = $instance['display_post_published_date'];
         $display_post_author = $instance['display_post_author'];
-
+        $section_link_label = $instance['section_link_label'];
+        $section_link_new_tab = $instance['section_link_new_tab'] == 'yes';
         $post_not_in_arg = array();
 
         // always exclude current post
@@ -100,9 +103,12 @@ class NewsSectionWidget extends WP_Widget
             if ($instance['section_link'] != '' && !ctype_space($instance['section_link'])) {
                 ?>
                 <div class="button-dotted-line">
-                    <a target="_blank" href="<?php echo $instance['section_link'] ?>"
-                        title="Read more about the news items in this section" class="btn btn--primary">
-                        <span class="text">Read more</span>
+                    <a <?php if ($section_link_new_tab) { ?> target="_blank" <?php } ?>
+                        href="<?php echo $instance['section_link'] ?>" title="Read more about the news items in this section"
+                        class="btn btn--primary">
+                        <span class="text">
+                            <?php echo $section_link_label ?>
+                        </span>
                     </a>
                 </div>
                 <?php
@@ -118,6 +124,8 @@ class NewsSectionWidget extends WP_Widget
         $instance = $old_instance;
         $instance['title'] = $new_instance['title'];
         $instance['section_link'] = $new_instance['section_link'];
+        $instance['section_link_label'] = $new_instance['section_link_label'];
+        $instance['section_link_new_tab'] = $new_instance['section_link_new_tab'];
         $instance['columns'] = intval($new_instance['columns']);
         $instance['posts_limit'] = intval($new_instance['posts_limit']);
 
@@ -154,6 +162,7 @@ class NewsSectionWidget extends WP_Widget
         $defaults = array(
             'title' => 'Section Title',
             'section_link' => null,
+            'section_link_label' => 'Read more',
             'columns' => 3,
             'posts_limit' => 3,
             'post_categories' => array(),
@@ -179,16 +188,27 @@ class NewsSectionWidget extends WP_Widget
 
         // what to display
         echo ' 
-        
-        <div>    
-        <h3>Display</h3>';
-
-        echo '
-        <h4>Title</h4>
+        <div> 
         <p>
         <label class="widefat"  for="' . $this->get_field_id('title') . '">Section Title</label>
         <input class="widefat" value="' . $instance['title'] . '" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '"> 
+        </p>  
+        <h4>Optional Link Below Section</h4>
+        <p>
+        <label class="widefat"  for="' . $this->get_field_id('section_link') . '">Section Link URL (If you add a URL here, the widget will include a button linking to that URL in a new tab below the section. If empty, no button will display)</label> 
+        <input type="url" class="widefat" value="' . $instance['section_link'] . '" id="' . $this->get_field_id('section_link') . '" name="' . $this->get_field_name('section_link') . '"> 
         </p>
+        <p>
+        <label class="widefat"  for="' . $this->get_field_id('section_link_label') . '">Section Link Label (the text that displays on the button)</label> 
+        <input type="text" class="widefat" value="' . $instance['section_link_label'] . '" id="' . $this->get_field_id('section_link_label') . '" name="' . $this->get_field_name('section_link_label') . '"> 
+        </p> 
+        <p>
+        <h5>Open Link in New Tab?</h5>
+        <label class="widefat"  for="' . $this->get_field_id('section_link_new_tab') . '-yes">Yes</label> 
+        <input type="radio" class="widefat" value="yes" id="' . $this->get_field_id('section_link_new_tab') . '-yes" name="' . $this->get_field_name('section_link_new_tab') . '"> 
+        <label class="widefat"  for="' . $this->get_field_id('section_link_new_tab') . '-no">No</label> 
+        <input type="radio" class="widefat" value="no" id="' . $this->get_field_id('section_link_new_tab') . '-no" name="' . $this->get_field_name('section_link_new_tab') . '"> 
+        </p> 
         <h4>Layout</h4>
         <p>
         <label class="widefat"  for="' . $this->get_field_id('columns') . '">Number of Columns (between 1 and 4)?</label>
@@ -273,14 +293,7 @@ class NewsSectionWidget extends WP_Widget
              </p>
              ';
         }
-        echo '
-        <hr/>
-        <h4>Link Section to Read More</h4>
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('section_link') . '">Read More URL (If you add a URL here, the widget will include a "Read more" button linking to that URL in a new tab below the section)</label> 
-        <input type="url" class="widefat" value="' . $instance['section_link'] . '" id="' . $this->get_field_id('section_link') . '" name="' . $this->get_field_name('section_link') . '"> 
-        </p>
-        ';
+
         echo '</div>';
     }
 }

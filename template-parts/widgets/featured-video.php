@@ -50,15 +50,14 @@ class FeaturedVideoWidget extends WP_Widget
                                 <div id="media_items" class="media__items slick-initialized slick-slider" role="region"
                                     aria-label="carousel">
                                     <div class="slick-list draggable">
-                                        <div class="slick-track" style="opacity: 1; width: 1088px;">
+                                        <div class="slick-track" style="opacity: 1; width: 100%">
                                             <figure
                                                 class="media__imagery media__imagery--with-video slick-slide slick-current slick-active"
                                                 data-slick-index="0" role="group" aria-label="slide 1"
-                                                style="width: 1088px; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
+                                                style="width: 100%; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
                                                 <?php if (!empty($instance['thumbnailurl'])) { ?>
                                                     <img src="<?php echo esc_url($instance['thumbnailurl']) ?>"
-                                                        alt="<?php echo $instance['thumbnailalttext'] ?>" class="media__image"
-                                                        width="1264" height="711">
+                                                        alt="<?php echo $instance['thumbnailalttext'] ?>" class="media__image">
                                                 <?php } ?>
                                                 <a href="<?php echo esc_url($video); ?>"
                                                     class="btn btn--xlarge btn--round play-button">

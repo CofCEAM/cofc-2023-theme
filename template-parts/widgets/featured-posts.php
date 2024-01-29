@@ -48,7 +48,6 @@ class FeaturedPostsWidget extends WP_Widget
                 'posts_per_page' => 4
             )
         );
-        error_log('widget: query: ' . print_r($query, true));
         if ($query->have_posts()) {
             $counter = 0;
             while ($query->have_posts()) {
@@ -77,15 +76,13 @@ class FeaturedPostsWidget extends WP_Widget
                         title_heading_size: 'h4'
                     );
                 }
-
             }
-            echo '</div>';
         }
     } //widget
 
     function update($new_instance, $old_instance)
     {
-        error_log('update: new_instance: ' . print_r($new_instance, true));
+
         $instance = $old_instance;
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
@@ -93,7 +90,6 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        error_log('update: post_categories: ' . print_r($post_categories, true));
         $instance['post_categories'] = $post_categories;
 
         $post_tags = array();
@@ -102,18 +98,12 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
-        error_log('update: post_tags: ' . print_r($post_tags, true));
         $instance['post_tags'] = $post_tags;
 
         // what to display 
         $instance['display_post_excerpt'] = $new_instance['display_post_excerpt'] == 'yes';
         $instance['display_post_published_date'] = $new_instance['display_post_published_date'] == 'yes';
         $instance['display_post_author'] = $new_instance['display_post_author'] == 'yes';
-        // log each of these 
-        error_log('update: display_post_excerpt: ' . print_r($instance['display_post_excerpt'], true));
-        error_log('update: display_post_published_date: ' . print_r($instance['display_post_published_date'], true));
-        error_log('update: display_post_author: ' . print_r($instance['display_post_author'], true));
-
 
         return $instance;
     }
@@ -146,89 +136,77 @@ class FeaturedPostsWidget extends WP_Widget
         $tags = get_tags();
 
         // what to display
-        echo '
+        ?>
         <div>
-        <h3>Display</h3>';
-
-        echo '
-        <h4>Show Excerpts</h4>
-        <p>
-        <label  for="' . $this->get_field_id('display_post_excerpt') . '-yes">Yes</label>
-        <input ' . checked($display_post_excerpt, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_excerpt') . '-yes" name="' . $this->get_field_name('display_post_excerpt') . '"> 
-        <label for="' . $this->get_field_id('display_post_excerpt') . '-no">No</label>
-        <input ' . checked($display_post_excerpt, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_excerpt') . '-no" name="' . $this->get_field_name('display_post_excerpt') . '"> 
-        </p>';
-        echo '
-        <h4>Show Published Date</h4>
-        <p>
-        <label for="' . $this->get_field_id('display_post_published_date') . '-yes">Yes</label>
-        <input ' . checked($display_post_published_date, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_published_date') . '-yes" name="' . $this->get_field_name('display_post_published_date') . '"> 
-        <label for="' . $this->get_field_id('display_post_published_date') . '-no">No</label>
-        <input ' . checked($display_post_published_date, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_published_date') . '-no" name="' . $this->get_field_name('display_post_published_date') . '"> 
-        </p>';
-
-        echo '
-        <h4>Show Author</h4>
-        <p>
-        <label for="' . $this->get_field_id('display_post_author') . '-yes">Yes</label>
-        <input ' . checked($display_post_author, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_author') . '-yes" name="' . $this->get_field_name('display_post_author') . '"> 
-        <label for="' . $this->get_field_id('display_post_author') . '-no">No</label>
-        <input ' . checked($display_post_author, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_author') . '-no" name="' . $this->get_field_name('display_post_author') . '"> 
-        </p>';
-
-        echo '</div>';
-        // end display 
-
-        echo '<hr/>';
-
-
-        echo '<div><h3>Filtering</h3>';
-        echo '<h4>Limit to Categories</h4>';
-
-
-        echo '<div style="max-height: 250px; overflow-y: scroll">';
-        foreach ($categories as $cat) {
-            $checked = in_array($cat->cat_ID, $post_categories) ? 'checked' : '';
-            $inputId = $this->get_field_id('post_categories') . '-' . $cat->cat_ID;
-            echo '
+            <h3>Display</h3>
+            <h4>Show Excerpts</h4>
             <p>
-                <input ' .
-                $checked . '   
-                    type="checkbox" 
-                    value="' . $cat->cat_ID . '" 
-                    id="' . $inputId . '" 
-                    name="' . $this->get_field_name('post_categories') . '[]">
-                <label for="' . $inputId . '">' . $cat->name . '</label>
+                <label for="<?= $this->get_field_id('display_post_excerpt') ?>-yes">Yes</label>
+                <input <?= checked($display_post_excerpt, 'yes', false) ?> type="radio" value="yes"
+                    id="<?= $this->get_field_id('display_post_excerpt') ?>-yes"
+                    name="<?= $this->get_field_name('display_post_excerpt') ?>">
+                <label for="<?= $this->get_field_id('display_post_excerpt') ?>-no">No</label>
+                <input <?= checked($display_post_excerpt, 'no', false) ?> type="radio" value="no"
+                    id="<?= $this->get_field_id('display_post_excerpt') ?>-no"
+                    name="<?= $this->get_field_name('display_post_excerpt') ?>">
             </p>
-            ';
-        }
-        echo '</div>';
-        echo '</div>';
-        //end category checkboxes
-
-        echo '<hr/>';
-
-        // tag checkboxes
-        echo '
-         <div>
-             <h4>Limit to Tags</h4>
-         ';
-        echo '<div style="max-height: 250px; overflow-y: scroll">';
-        foreach ($tags as $tag) {
-            $inputId = $this->get_field_id('post_tags') . '-' . $tag->term_id;
-            $checked = in_array($tag->term_id, $post_tags) ? 'checked' : '';
-            echo '
-             <p>
-                 <input ' . $checked . ' 
-                 type="checkbox" value="' . $tag->term_id . '" 
-                 id="' . $inputId . '"
-                 name="' . $this->get_field_name('post_tags') . '[]">
-                 <label for="' . $inputId . '">' . $tag->name . '</label>
-             </p>
-             ';
-        }
-        echo "</div>";
-        echo '</div>';
+            <h4>Show Published Date</h4>
+            <p>
+                <label for="<?= $this->get_field_id('display_post_published_date') ?>-yes">Yes</label>
+                <input <?= checked($display_post_published_date, 'yes', false) ?> type="radio" value="yes"
+                    id="<?= $this->get_field_id('display_post_published_date') ?>-yes"
+                    name="<?= $this->get_field_name('display_post_published_date') ?>">
+                <label for="<?= $this->get_field_id('display_post_published_date') ?>-no">No</label>
+                <input <?= checked($display_post_published_date, 'no', false) ?> type="radio" value="no"
+                    id="<?= $this->get_field_id('display_post_published_date') ?>-no"
+                    name="<?= $this->get_field_name('display_post_published_date') ?>">
+            </p>
+            <h4>Show Author</h4>
+            <p>
+                <label for="<?= $this->get_field_id('display_post_author') ?>-yes">Yes</label>
+                <input <?= checked($display_post_author, 'yes', false) ?> type="radio" value="yes"
+                    id="<?= $this->get_field_id('display_post_author') ?>-yes"
+                    name="<?= $this->get_field_name('display_post_author') ?>">
+                <label for="<?= $this->get_field_id('display_post_author') ?>-no">No</label>
+                <input <?= checked($display_post_author, 'no', false) ?> type="radio" value="no"
+                    id="<?= $this->get_field_id('display_post_author') ?>-no"
+                    name="<?= $this->get_field_name('display_post_author') ?>">
+            </p>
+        </div>
+        <hr />
+        <div>
+            <h3>Filtering</h3>
+            <h4>Limit to Categories</h4>
+            <div style="max-height: 250px; overflow-y: scroll">
+                <?php foreach ($categories as $cat): ?>
+                    <p>
+                        <input <?= in_array($cat->cat_ID, $post_categories) ? 'checked' : '' ?> type="checkbox"
+                            value="<?= $cat->cat_ID ?>" id="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>"
+                            name="<?= $this->get_field_name('post_categories') ?>[]">
+                        <label for="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>">
+                            <?= $cat->name ?>
+                        </label>
+                    </p>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <h4>Limit to Tags</h4>
+            <div style="max-height: 250px; overflow-y: scroll">
+                <?php foreach ($tags as $tag): ?>
+                    <p>
+                        <input <?= in_array($tag->term_id, $post_tags) ? 'checked' : '' ?> type="checkbox"
+                            value="<?= $tag->term_id ?>" id="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>"
+                            name="<?= $this->get_field_name('post_tags') ?>[]">
+                        <label for="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>">
+                            <?= $tag->name ?>
+                        </label>
+                    </p>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php
     }
 }
 

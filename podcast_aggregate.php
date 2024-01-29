@@ -329,22 +329,18 @@ function remove_query_param_value($queryParamKey, $valueToRemove)
                             while ($query->have_posts()) {
                                 $query->the_post();
                                 $counter++;
-                                if ($counter == 1) {
-                                    // display main feature article
-                                    display_main_feature_article_card($post, wide: false);
-                                } else {
-                                    // display sub feature article
-                                    display_single_post_card(
-                                        post: $post,
-                                        wide: false,
-                                        display_excerpt: false,
-                                        display_published_date: true,
-                                        display_author: true,
-                                        medium_screen_class: 'medium-6',
-                                        large_screen_class: '',
-                                        title_heading_size: 'h4'
-                                    );
-                                }
+                                // display sub feature article
+                                display_single_post_card(
+                                    post: $post,
+                                    wide: false,
+                                    display_excerpt: false,
+                                    display_published_date: true,
+                                    display_author: true,
+                                    medium_screen_class: 'medium-6',
+                                    large_screen_class: '',
+                                    title_heading_size: 'h4',
+                                    podcast: true
+                                );
                             }
                             wp_reset_postdata(); // At the end reset your query
                         

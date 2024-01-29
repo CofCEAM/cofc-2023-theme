@@ -233,13 +233,17 @@ function display_single_post_card(
 	bool $display_author = true,
 	string $medium_screen_class = '',
 	string $large_screen_class = '',
-	string $title_heading_size = 'h4'
+	string $title_heading_size = 'h4',
+	bool $podcast = false
 ) {
 
 	$wideclass = $wide ? 'card-news--wide' : '';
+	$podcastCardClass = $podcast ? 'card-news--podcast' : '';
+	$podcastBtnClass = $podcast ? 'btn-card--podcast' : '';
 	?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
-		<div class="card-news <?php echo $wideclass ?>" itemscope itemtype="https://schema.org/NewsArticle">
+		<div class="card-news <?php echo $wideclass ?> <?php echo $podcastCardClass ?>" itemscope
+			itemtype="https://schema.org/NewsArticle">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
 			$featured_image = get_post($featured_image_id);
@@ -294,7 +298,7 @@ function display_single_post_card(
 
 				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
 					class="card-news__button">
-					<p class="btn btn-card" aria-hidden="true">
+					<p class="btn btn-card <?php echo $podcastBtnClass ?>" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
 								<use href="#brei-icon-arrows"></use>

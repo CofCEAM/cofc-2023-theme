@@ -68,11 +68,11 @@ $query = new WP_Query($args);
                 <div class="aggregate__content xsmall-12 column">
                     <div id="results-full-container" class="aggregate__set">
                         <div class="aggregate__header">
-                            <p class="font-special-2" aria-hidden="true">
+                            <h1 class="font-special-2" aria-hidden="true">
                                 <?php
                                 echo the_title();
                                 ?>
-                            </p>
+                            </h1>
                             <hr>
                         </div>
                         <?php

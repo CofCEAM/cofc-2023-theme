@@ -141,11 +141,11 @@ function remove_query_param_value($queryParamKey, $valueToRemove)
             <div class="aggregate__content xsmall-12 large-8 large-offset-1 column">
                 <div id="results-full-container" class="aggregate__set">
                     <div class="aggregate__header">
-                        <p class="font-special-2" aria-hidden="true">
+                        <h1 class="font-special-2" aria-hidden="true">
                             <?php
                             echo the_title();
                             ?>
-                        </p>
+                        </h1>
                         <hr>
                     </div>
                     <div id="results-info-container" class="row level_search--navigation aggregate__info">

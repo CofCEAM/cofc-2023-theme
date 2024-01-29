@@ -176,6 +176,14 @@ function remove_query_param_value($queryParamKey, $valueToRemove)
                         base_url: $base_url
                     );
                     ?>
+                    <!-- spacer -->
+                    <div class="aggregate__spacer" style="margin-top: 2rem"></div>
+                    <?php
+
+                    // additional widgets can be added in Appearance > Widgets > Podcat Aggregate Template - Left Rail /
+                    // Sidebar Area
+                    dynamic_sidebar('podcast-aggregate-sidebar-area');
+                    ?>
                 </div>
             </div>
 

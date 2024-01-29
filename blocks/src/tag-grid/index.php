@@ -40,13 +40,13 @@ function render_cofctheme_tag_grid($attributes): string
     )
     */
 
-    $title = $attributes['title'];
-    $tags = $attributes['tags'];
-    $columns = $attributes['columns'];
-    $includeLink = $attributes['includeLink'];
-    $linkNewTab = $attributes['linkNewTab'];
-    $linkUri = $attributes['linkUri'];
-    $linkText = $attributes['linkText'];
+    $title = isset($attributes['title']) ? $attributes['title'] : '';
+    $tags = isset($attributes['tags']) ? $attributes['tags'] : array();
+    $columns = isset($attributes['columns']) ? $attributes['columns'] : 0;
+    $includeLink = isset($attributes['includeLink']) ? $attributes['includeLink'] : false;
+    $linkNewTab = isset($attributes['linkNewTab']) ? $attributes['linkNewTab'] : false;
+    $linkUri = isset($attributes['linkUri']) ? $attributes['linkUri'] : '';
+    $linkText = isset($attributes['linkText']) ? $attributes['linkText'] : '';
 
 
     $columnsToSizeClassMap = array(1 => "", 2 => "medium-6", 3 => "medium-4", 4 => "medium-3");
@@ -61,7 +61,7 @@ function render_cofctheme_tag_grid($attributes): string
     foreach ($tags as $tag) {
         $output .= '<div class="aggregate__content xsmall-12 medium-6 large-4 cell">';
         $output .= '<div class="card-magazine"> ';
-        if (!empty($tag['image']['url'])) {
+        if (isset($tag['image']) && isset($tag['image']['url']) && !empty($tag['image']['url'])) {
             $output .= '<figure class="card-magazine__figure">';
             $output .= '<img src="' . $tag['image']['url'] . '" alt="' . $tag['image']['alt'] . '" class="card-magazine__image" itemprop="image" width="339" height="400">';
             $output .= '</figure> ';
@@ -69,7 +69,8 @@ function render_cofctheme_tag_grid($attributes): string
         $output .= '<div class="card-magazine__button">';
         $output .= '<p class="btn btn--primary"><span class="text">' . $tag['name'] . '</span></p>';
         $output .= '</div>';
-        $output .= '<a href="' . $tag['link'] . '" class="card-magazine__link"><span class="show-for-sr">Read more about "' . $tag['name'] . '</span></a> ';
+        $link = isset($tag['link']) ? $tag['link'] : '';
+        $output .= '<a href="' . $link . '" class="card-magazine__link"><span class="show-for-sr">Read more about "' . $tag['name'] . '</span></a> ';
         $output .= '</div>';
         $output .= '</div>';
     }

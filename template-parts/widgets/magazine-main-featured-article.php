@@ -60,7 +60,7 @@ class MagazineMainFeaturedArticleWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -68,6 +68,7 @@ class MagazineMainFeaturedArticleWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
+        $instance['post_categories'] = $post_categories;
         $instance['post_tags'] = $post_tags;
 
         return $instance;

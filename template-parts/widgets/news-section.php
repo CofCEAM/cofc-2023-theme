@@ -45,6 +45,7 @@ class NewsSectionWidget extends WP_Widget
             3 => 4,
             4 => 3
         );
+        $title = $instance['title'];
         $columns = $instance['columns'];
         $posts_limit = $instance['posts_limit'];
         $medium_class = 'medium-' . $columns_class_map[$columns];
@@ -56,6 +57,7 @@ class NewsSectionWidget extends WP_Widget
         $display_post_published_date = $instance['display_post_published_date'];
         $display_post_author = $instance['display_post_author'];
         $section_link_label = $instance['section_link_label'];
+        $section_link = $instance['section_link'];
         $section_link_new_tab = $instance['section_link_new_tab'] == 'yes';
         $post_not_in_arg = array();
 
@@ -76,7 +78,7 @@ class NewsSectionWidget extends WP_Widget
         <section class="news-content news-content--latest news-content--single component">
             <div class="cell xsmall-12 news-content__home">
                 <h2 class="font-h2">
-                    <?php echo $instance['title'] ?>
+                    <?php echo $title ?>
                 </h2>
                 <hr />
             </div>
@@ -100,12 +102,11 @@ class NewsSectionWidget extends WP_Widget
                 ?>
             </div>
             <?php
-            if ($instance['section_link'] != '' && !ctype_space($instance['section_link'])) {
+            if (!empty($section_link) && !ctype_space($section_link)) {
                 ?>
                 <div class="button-dotted-line">
-                    <a <?php if ($section_link_new_tab) { ?> target="_blank" <?php } ?>
-                        href="<?php echo $instance['section_link'] ?>" title="Read more about the news items in this section"
-                        class="btn btn--primary">
+                    <a <?php if ($section_link_new_tab) { ?> target="_blank" <?php } ?> href="<?php echo $section_link ?>"
+                        title="Read more about the news items in this section" class="btn btn--primary">
                         <span class="text">
                             <?php echo $section_link_label ?>
                         </span>
@@ -122,12 +123,6 @@ class NewsSectionWidget extends WP_Widget
     function update($new_instance, $old_instance)
     {
         $instance = $old_instance;
-        $instance['title'] = $new_instance['title'];
-        $instance['section_link'] = $new_instance['section_link'];
-        $instance['section_link_label'] = $new_instance['section_link_label'];
-        $instance['section_link_new_tab'] = $new_instance['section_link_new_tab'];
-        $instance['columns'] = intval($new_instance['columns']);
-        $instance['posts_limit'] = intval($new_instance['posts_limit']);
 
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
@@ -135,7 +130,7 @@ class NewsSectionWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -143,12 +138,19 @@ class NewsSectionWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
+
+        $instance['post_categories'] = $post_categories;
         $instance['post_tags'] = $post_tags;
 
-        // what to display 
-        $instance['display_post_excerpt'] = $new_instance['display_post_excerpt'] == 'yes';
-        $instance['display_post_published_date'] = $new_instance['display_post_published_date'] == 'yes';
-        $instance['display_post_author'] = $new_instance['display_post_author'] == 'yes';
+        $instance['title'] = isset($new_instance['title']) ? $new_instance['title'] : '';
+        $instance['section_link'] = isset($new_instance['section_link']) ? $new_instance['section_link'] : '';
+        $instance['section_link_label'] = isset($new_instance['section_link_label']) ? $new_instance['section_link_label'] : '';
+        $instance['section_link_new_tab'] = isset($new_instance['section_link_new_tab']) ? $new_instance['section_link_new_tab'] : '';
+        $instance['columns'] = isset($new_instance['columns']) ? intval($new_instance['columns']) : 2;
+        $instance['posts_limit'] = isset($new_instance['posts_limit']) ? intval($new_instance['posts_limit']) : 2;
+        $instance['display_post_excerpt'] = isset($new_instance['display_post_excerpt']) && $new_instance['display_post_excerpt'] == 'yes';
+        $instance['display_post_published_date'] = isset($new_instance['display_post_published_date']) && $new_instance['display_post_published_date'] == 'yes';
+        $instance['display_post_author'] = isset($new_instance['display_post_author']) && $new_instance['display_post_author'] == 'yes';
 
         return $instance;
     }

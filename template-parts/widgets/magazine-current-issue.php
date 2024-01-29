@@ -100,14 +100,14 @@ class MagazineCurrentIssueWidget extends WP_Widget
     {
 
         $instance = $old_instance;
-        $instance['title'] = strip_tags($new_instance['title']);
+
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
             foreach ($new_instance['post_categories'] as $category) {
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -115,8 +115,10 @@ class MagazineCurrentIssueWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
-        $instance['post_tags'] = $post_tags;
 
+        $instance['title'] = isset($new_instance['title']) ? strip_tags($new_instance['title']) : '';
+        $instance['post_categories'] = isset($post_categories) ? $post_categories : array();
+        $instance['post_tags'] = isset($post_tags) ? $post_tags : array();
         return $instance;
     }
     function booltostr(bool $val)
@@ -129,10 +131,13 @@ class MagazineCurrentIssueWidget extends WP_Widget
         $defaults = array(
             'post_categories' => array(),
             'post_tags' => array(),
+            'title' => 'Current Issue',
         );
 
         $instance = wp_parse_args((array) $instance, $defaults);
 
+
+        $title = $instance['title'];
         $post_categories = $instance['post_categories'];
         $post_tags = $instance['post_tags'];
 
@@ -146,7 +151,7 @@ class MagazineCurrentIssueWidget extends WP_Widget
         <div>
             <label for="<?= $this->get_field_id('title') ?>">Title</label>
             <input type="text" id="<?= $this->get_field_id('title') ?>" name="<?= $this->get_field_name('title') ?>"
-                value="<?= $instance['title'] ?>">
+                value="<?= $title ?>">
 
             <h3>Categories</h3>
             <div style="max-height: 250px; overflow-y: scroll">

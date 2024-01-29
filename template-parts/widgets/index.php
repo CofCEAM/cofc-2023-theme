@@ -12,3 +12,4 @@ require get_template_directory() . '/template-parts/widgets/rail-podcasts.php';
 require get_template_directory() . '/template-parts/widgets/magazine-sub-featured-articles.php';
 require get_template_directory() . '/template-parts/widgets/magazine-main-featured-article.php';
 require get_template_directory() . '/template-parts/widgets/magazine-current-issue.php';
+require get_template_directory() . '/template-parts/widgets/rail-link-list.php';

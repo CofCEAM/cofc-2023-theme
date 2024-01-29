@@ -21,7 +21,7 @@ class PhotoGalleryWidget extends WP_Widget
     {
 
         extract($args);
-        $title = $instance['title'];
+        $title = isset($instance['title']) ? $instance['title'] : 'Photo Gallery';
         $gallery_caption = 'Test Caption';
         $gallery_action_link = 'https://facebook.com';
         $gallery_action_link_text = 'Test Action Link';

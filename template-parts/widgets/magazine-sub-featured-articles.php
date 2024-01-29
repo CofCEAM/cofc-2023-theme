@@ -56,14 +56,14 @@ class MagazineSubFeaturedArticlesWidget extends WP_Widget
     {
 
         $instance = $old_instance;
-        $instance['offset'] = (int) $new_instance['offset'];
+
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
             foreach ($new_instance['post_categories'] as $category) {
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -71,6 +71,9 @@ class MagazineSubFeaturedArticlesWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
+
+        $instance['offset'] = isset($new_instance['offset']) ? (int) $new_instance['offset'] : 0;
+        $instance['post_categories'] = $post_categories;
         $instance['post_tags'] = $post_tags;
 
         return $instance;

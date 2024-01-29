@@ -110,5 +110,17 @@ add_action(
             )
         );
 
+
+        register_sidebar(
+            array(
+                'name' => 'Podcast Aggregate Template - Left Rail / Sidebar Area',
+                'description' => 'Add CofC Theme Rail News Sections and/or CofC Theme Rail Podcasts Section Widget to this area. This area renders below the filter options on the Podcast Aggregate template.',
+                'id' => 'podcast-aggregate-sidebar-area',
+                'before_widget' => '',
+                'after_widget' => '',
+                'before_title' => '',
+                'after_title' => '',
+            )
+        );
     }
 );

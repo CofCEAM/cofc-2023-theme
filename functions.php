@@ -592,15 +592,23 @@ function display_tag_grid(array $tags = null, string $title = "Tags")
 			</div>
 			<?php
 			foreach ($tags as $tag) {
+
 				?>
 				<div class="aggregate__content xsmall-12 medium-6 large-4 cell">
 					<div class="card-magazine">
-						<figure class="card-magazine__figure">
-							<img src="<?php echo $tag->media_url ?>" alt="<?php echo $tag->media_alt ?>"
-								class="card-magazine__image" itemprop="image">
-						</figure>
+						<?php
+						// if properties are present for media then display featured image 
+						if (isset($tag->media_url) && isset($tag->media_alt)) {
+							?>
+							<figure class="card-magazine__figure">
+								<img src="<?php echo $tag->media_url ?>" alt="<?php echo $tag->media_alt ?>"
+									class="card-magazine__image" itemprop="image">
+							</figure>
+							<?php
+						}
+						?>
 
-						<div class="card-magazine__button">
+						<div class="card-magazine__button" s>
 							<p class="btn btn--primary">
 								<span class="text">
 									<?php echo $tag->label ?>
@@ -623,10 +631,177 @@ function display_tag_grid(array $tags = null, string $title = "Tags")
 }
 
 
+function display_rail_podcast_component(
+	string $title = "Subscribe on your preferred platform",
+	bool $desktop = false
+) {
+
+	$SPOTIFY_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-spotify.svg';
+	$IHEART_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-iheart-radio.svg';
+	$APPLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-apple.svg';
+	$STITCHER_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-stitcher.svg';
+	$GOOGLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-google.svg';
+
+	$desktopClass = $desktop ? "rail-podcast--desktop" : "";
+	?>
+	<div class="rail-podcast <?php echo $desktopClass ?>">
+		<div class="rail-podcast__content">
+			<h2 class="font-h5">
+				<?php echo $title ?>
+			</h2>
+			<hr>
+			<ul class="rail-podcast__list">
+				<li class="rail-podcast__item podcast_platform__apple" <?php if (empty(get_option('podcast_platform__apple'))) {
+					echo 'style="display:none';
+				} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__apple')) ?>" class="rail-podcast__link"
+						aria-label="" target="_blank">
+						<img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25"
+							aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>Apple Podcasts</span>
+						</div>
+					</a>
+				</li>
+				<li class="rail-podcast__item podcast_platform__spotify" <?php if (empty(get_option('podcast_platform__spotify'))) {
+					echo 'style="display:none';
+				} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__spotify')) ?>" class="rail-podcast__link"
+						aria-label="" target="_blank">
+						<img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25"
+							aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>Spotify</span>
+						</div>
+					</a>
+				</li>
+				<li class="rail-podcast__item podcast_platform__stitcher" <?php if (empty(get_option('podcast_platform__stitcher'))) {
+					echo 'style="display:none';
+				} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__stitcher')) ?>" class="rail-podcast__link"
+						aria-label="" target="_blank">
+						<img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25"
+							aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>Stitcher</span>
+						</div>
+					</a>
+				</li>
+				<li class="rail-podcast__item podcast_platform__google" <?php if (empty(get_option('podcast_platform__google'))) {
+					echo 'style="display:none';
+				} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__google')) ?>" class="rail-podcast__link"
+						aria-label="" target="_blank">
+						<img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25"
+							aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>Google Podcasts</span>
+						</div>
+					</a>
+				</li>
+				<li class="rail-podcast__item podcast_platform__iheart" <?php if (empty(get_option('podcast_platform__iheart'))) {
+					echo 'style="display:none';
+				} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__iheart')) ?>" class="rail-podcast__link"
+						aria-label="" target="_blank">
+						<img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25"
+							aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>iHeartRadio</span>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<?php
+}
+
+function display_single_rail_link(array $link)
+{
+	// $link array structure:
+	// array(
+	// 	'label' => 'link label',
+	// 	'url' => 'link url'
+	//  'description' => 'link description' (optional)
+	//  'new_tab' => bool
+	// )
+	// leverage same component as rail news section rather
+	// than rebuilding the exact same thing with different class names
+	$label = isset($link['label']) ? $link['label'] : '';
+	$url = isset($link['url']) ? $link['url'] : '';
+	$display_description = isset($link['display_description']) ? $link['display_description'] : false;
+	$description = isset($link['description']) ? $link['description'] : '';
+	$new_tab = isset($link['new_tab']) ? $link['new_tab'] : false;
+	$target = $new_tab ? 'target="_blank"' : '';
+	?>
+	<div class="rail-news">
+		<div class="rail-news__inner">
+			<a href="<?php echo $url ?>" <?php echo $target ?> class="btn btn-tertiary btn-tertiary-left">
+				<span class="text">
+					<?php echo $label ?>
+				</span>
+				<span class="text-arrow">
+					<svg class="brei-icon brei-icon-arrows" focusable="false">
+						<use href="#brei-icon-arrows"></use>
+					</svg>
+
+					<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+						<use href="#brei-icon-arrows-arrow"></use>
+					</svg>
+				</span>
+			</a>
+			<?php if ($display_description && !empty($description)) { ?>
+				<p class="rail-news__copy">
+					<?php echo $description; ?>
+				</p>
+			<?php } ?>
+		</div>
+	</div>
+	<?php
+}
+
+function display_rail_links_list(
+	array $links = array(),
+	string $title = "Related Links"
+) {
+	// $title = title of rail link list section
+	// $links array structure:
+	// array(
+	// array(
+	// 	'label' => 'link label',
+	// 	'url' => 'link url'
+	//  'description' => 'link description' (optional)
+	//  'new_tab' => bool
+	// )
+	// leverage same component as rail news section rather
+	// than rebuilding the exact same thing with different class names
+
+	?>
+	<div class="rail-home__section">
+		<h2 class="rail-header">
+			<?php echo $title ?>
+		</h2>
+		<hr>
+		<?php
+		foreach ($links as $link) {
+			display_single_rail_link($link);
+		}
+		?>
+	</div>
+
+	<?php
+}
+
+
 
 function atLeastOneAccountLinkPopulated($accounts)
 {
 	foreach ($accounts as $account) {
+		if (!isset($account['slug'])) {
+			continue;
+		}
 		// check if the option from the Social Media customizer is populated
 		$accountLink = get_option($account['slug']);
 		if (!empty($accountLink)) {
@@ -701,7 +876,6 @@ function localize_block_vars()
 		'template_directory_uri' => get_template_directory_uri()
 	);
 }
-
 function aggregate_rail_filter_component(
 	string $filter_headline = 'Filter By',
 	array $filterable_category_ids = array(),
@@ -927,10 +1101,13 @@ add_action('admin_enqueue_scripts', 'enqueue_metabox_display_admin_script');
 
 
 
+
+
 // enqueue JS for widget editors 
 function enqueue_widget_editor_scripts()
 {
 	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
+	wp_enqueue_script('rail-link-list-widget-script', get_template_directory_uri() . '/assets/js/widget-editors/rail-link-list.js', array('jquery'), '1.0', true);
 }
 add_action('admin_enqueue_scripts', 'enqueue_widget_editor_scripts');
 

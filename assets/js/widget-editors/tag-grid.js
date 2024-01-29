@@ -114,7 +114,6 @@ const updateTagDetailsArea = ({ selectedTags, form }) => {
     if (form.querySelector(`#tag-${tag.term_id}-details`) === null) {
       // Add media and text fields for this tag
       const tagSpecificField = createTagSpecificField({ tag, form: form });
-      console.log("tagSpecificField", tagSpecificField);
       tagDetailsContainer.append(tagSpecificField);
     }
   });
@@ -122,11 +121,6 @@ const updateTagDetailsArea = ({ selectedTags, form }) => {
   form.querySelectorAll(".tag-specific-field").forEach((el) => {
     const fieldTagId = el.dataset.termId;
     if (selectedTags.filter((tag) => tag.term_id === fieldTagId).length === 0) {
-      console.log("selectedTags.filter((tag) => tag.term_id === fieldTagId).length === 0");
-      console.log("tag", tag);
-      console.log("fieldTagId", fieldTagId);
-      console.log("removing", el);
-
       // Remove media and text fields for this tag
       el.remove();
     }

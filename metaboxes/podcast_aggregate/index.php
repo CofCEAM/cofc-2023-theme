@@ -229,16 +229,21 @@ function save_podcast_aggregate_meta_boxes($post_id)
     update_array_meta($post_id, key: 'podcast_aggregate_filterable_tag_ids');
     update_array_meta($post_id, key: 'podcast_aggregate_filterable_years');
 
-    update_post_meta(
-        $post_id,
-        'podcast_aggregate_podcast_main_filter_type',
-        $_POST['podcast_aggregate_podcast_main_filter_type']
-    );
-    update_post_meta(
-        $post_id,
-        'podcast_aggregate_podcast_main_filter_value',
-        $_POST['podcast_aggregate_podcast_main_filter_value']
-    );
+    if (isset($_POST['podcast_aggregate_podcast_main_filter_type'])) {
+        update_post_meta(
+            $post_id,
+            'podcast_aggregate_podcast_main_filter_type',
+            $_POST['podcast_aggregate_podcast_main_filter_type']
+        );
+    }
+
+    if (isset($_POST['podcast_aggregate_podcast_main_filter_value'])) {
+        update_post_meta(
+            $post_id,
+            'podcast_aggregate_podcast_main_filter_value',
+            $_POST['podcast_aggregate_podcast_main_filter_value']
+        );
+    }
 
     // save filter_headline - this is a string
     if (isset($_POST['podcast_aggregate_filter_headline'])) {

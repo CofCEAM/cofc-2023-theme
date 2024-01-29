@@ -17,8 +17,8 @@ class MailChimpEmailSubscribeFormWidget extends WP_Widget
     function widget($args, $instance)
     {
         extract($args);
-        $title = $instance['title'];
-        $form_html = $instance['form_html'];
+        $title = isset($instance['title']) ? $instance['title'] : '';
+        $form_html = isset($instance['form_html']) ? $instance['form_html'] : '';
 
         if (empty($title)) {
             $title = 'Keep up with the latest CofC News';
@@ -37,8 +37,8 @@ class MailChimpEmailSubscribeFormWidget extends WP_Widget
     function update($new_instance, $old_instance)
     {
         $instance = $old_instance;
-        $instance['title'] = strip_tags($new_instance['title']);
-        $instance['form_html'] = $new_instance['form_html'];
+        $instance['title'] = isset($new_instance['title']) ? strip_tags($new_instance['title']) : '';
+        $instance['form_html'] = isset($new_instance['form_html']) ? $new_instance['form_html'] : '';
         return $instance;
     } //update
 

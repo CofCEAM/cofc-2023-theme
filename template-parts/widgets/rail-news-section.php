@@ -29,15 +29,9 @@ class RailNewsSectionWidget extends WP_Widget
         );
 
         $instance = wp_parse_args((array) $instance, $defaults);
-
-
-        $instance = wp_parse_args((array) $instance, $defaults);
-
         $posts_limit = $instance['posts_limit'];
-
         $post_categories = $instance['post_categories'];
         $post_tags = $instance['post_tags'];
-
         $post_not_in_arg = array();
 
         // always exclude current post
@@ -79,8 +73,7 @@ class RailNewsSectionWidget extends WP_Widget
     function update($new_instance, $old_instance)
     {
         $instance = $old_instance;
-        $instance['title'] = $new_instance['title'];
-        $instance['posts_limit'] = intval($new_instance['posts_limit']);
+
 
         $post_categories = array();
         if (isset($new_instance['post_categories']) && is_array($new_instance['post_categories'])) {
@@ -88,7 +81,7 @@ class RailNewsSectionWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -96,9 +89,13 @@ class RailNewsSectionWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
+
+
+        $instance['post_categories'] = $post_categories;
         $instance['post_tags'] = $post_tags;
 
-        // what to display 
+        $instance['title'] = $new_instance['title'];
+        $instance['posts_limit'] = intval($new_instance['posts_limit']);
         $instance['display_post_excerpt'] = $new_instance['display_post_excerpt'] == 'yes';
         $instance['display_post_published_date'] = $new_instance['display_post_published_date'] == 'yes';
         $instance['display_post_author'] = $new_instance['display_post_author'] == 'yes';

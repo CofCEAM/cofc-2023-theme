@@ -31,15 +31,14 @@ class FeaturedPostsWidget extends WP_Widget
 
         extract($args);
 
-        $post_categories = $instance['post_categories'];
-        $post_tags = $instance['post_tags'];
-        // what to display 
-        $display_post_excerpt = $instance['display_post_excerpt'];
-        $display_post_published_date = $instance['display_post_published_date'];
-        $display_post_author = $instance['display_post_author'];
+        $post_categories = isset($instance['post_categories']) ? $instance['post_categories'] : array();
+        $post_tags = isset($instance['post_tags']) ? $instance['post_tags'] : array();
+        $display_post_excerpt = isset($instance['display_post_excerpt']) ? $instance['display_post_excerpt'] : true;
+        $display_post_published_date = isset($instance['display_post_published_date']) ? $instance['display_post_published_date'] : true;
+        $display_post_author = isset($instance['display_post_author']) ? $instance['display_post_author'] : true;
+
         // always exclude current post
         global $post;
-
         $query = new WP_Query(
             array(
                 'category__in' => $post_categories,
@@ -90,7 +89,7 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_categories[] = sanitize_text_field($category);
             }
         }
-        $instance['post_categories'] = $post_categories;
+
 
         $post_tags = array();
         if (isset($new_instance['post_tags']) && is_array($new_instance['post_tags'])) {
@@ -98,12 +97,12 @@ class FeaturedPostsWidget extends WP_Widget
                 $post_tags[] = sanitize_text_field($tag);
             }
         }
-        $instance['post_tags'] = $post_tags;
 
-        // what to display 
-        $instance['display_post_excerpt'] = $new_instance['display_post_excerpt'] == 'yes';
-        $instance['display_post_published_date'] = $new_instance['display_post_published_date'] == 'yes';
-        $instance['display_post_author'] = $new_instance['display_post_author'] == 'yes';
+        $instance['post_categories'] = $post_categories;
+        $instance['post_tags'] = $post_tags;
+        $instance['display_post_excerpt'] = isset($new_instance['display_post_excerpt']) && $new_instance['display_post_excerpt'] == 'yes';
+        $instance['display_post_published_date'] = isset($new_instance['display_post_published_date']) && $new_instance['display_post_published_date'] == 'yes';
+        $instance['display_post_author'] = isset($new_instance['display_post_author']) && $new_instance['display_post_author'] == 'yes';
 
         return $instance;
     }
@@ -124,12 +123,11 @@ class FeaturedPostsWidget extends WP_Widget
 
         $instance = wp_parse_args((array) $instance, $defaults);
 
-        $post_categories = $instance['post_categories'];
-        $post_tags = $instance['post_tags'];
-        // what to display   
-        $display_post_excerpt = $this->booltostr($instance['display_post_excerpt']);
-        $display_post_published_date = $this->booltostr($instance['display_post_published_date']);
-        $display_post_author = $this->booltostr($instance['display_post_author']);
+        $post_categories = isset($instance['post_categories']) ? $instance['post_categories'] : array();
+        $post_tags = isset($instance['post_tags']) ? $instance['post_tags'] : array();
+        $display_post_excerpt = isset($instance['display_post_excerpt']) ? $this->booltostr($instance['display_post_excerpt']) : '';
+        $display_post_published_date = isset($instance['display_post_published_date']) ? $this->booltostr($instance['display_post_published_date']) : '';
+        $display_post_author = isset($instance['display_post_author']) ? $this->booltostr($instance['display_post_author']) : '';
 
 
         $categories = get_categories();

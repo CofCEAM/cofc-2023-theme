@@ -7,21 +7,20 @@
 function render_cofctheme_post_grid($attributes): string
 {
     global $post;
-    $title = $attributes['title'];
-    $categories = $attributes['categories'];
-    $tags = $attributes['tags'];
-    $limit = $attributes['limit'];
-    $offset = $attributes['offset'];
-    $columns = $attributes['columns'];
-    $useFullWidth = $attributes['useFullWidth'];
-    $displayExcerpt = $attributes['displayExcerpt'];
-    $displayPublishDate = $attributes['displayPublishDate'];
-    $displayAuthor = $attributes['displayAuthor'];
-
-    $includeLink = $attributes['includeLink'];
-    $linkNewTab = $attributes['linkNewTab'];
-    $linkUri = $attributes['linkUri'];
-    $linkText = $attributes['linkText'];
+    $title = isset($attributes['title']) ? $attributes['title'] : '';
+    $categories = isset($attributes['categories']) ? $attributes['categories'] : [];
+    $tags = isset($attributes['tags']) ? $attributes['tags'] : [];
+    $limit = isset($attributes['limit']) ? $attributes['limit'] : 10;
+    $offset = isset($attributes['offset']) ? $attributes['offset'] : 0;
+    $columns = isset($attributes['columns']) ? $attributes['columns'] : 3;
+    $useFullWidth = isset($attributes['useFullWidth']) ? $attributes['useFullWidth'] : false;
+    $displayExcerpt = isset($attributes['displayExcerpt']) ? $attributes['displayExcerpt'] : true;
+    $displayPublishDate = isset($attributes['displayPublishDate']) ? $attributes['displayPublishDate'] : true;
+    $displayAuthor = isset($attributes['displayAuthor']) ? $attributes['displayAuthor'] : true;
+    $includeLink = isset($attributes['includeLink']) ? $attributes['includeLink'] : false;
+    $linkNewTab = isset($attributes['linkNewTab']) ? $attributes['linkNewTab'] : false;
+    $linkUri = isset($attributes['linkUri']) ? $attributes['linkUri'] : '';
+    $linkText = isset($attributes['linkText']) ? $attributes['linkText'] : '';
     // Query posts based on attributes
     $args = array(
         'category__in' => $categories,

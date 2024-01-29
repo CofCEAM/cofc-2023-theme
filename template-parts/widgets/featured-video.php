@@ -21,10 +21,10 @@ class FeaturedVideoWidget extends WP_Widget
     function widget($args, $instance)
     {
         extract($args);
-        $title = $instance['title'];
-        $video = $instance['videolink'];
-        $height = $instance['height'];
-        $description = $instance['description'];
+        $title = isset($instance['title']) ? $instance['title'] : '';
+        $video = isset($instance['videolink']) ? $instance['videolink'] : '';
+        $height = isset($instance['height']) ? $instance['height'] : '';
+        $description = isset($instance['description']) ? $instance['description'] : '';
 
         if (empty($height)) {
             $height = '220';
@@ -55,9 +55,11 @@ class FeaturedVideoWidget extends WP_Widget
                                                 class="media__imagery media__imagery--with-video slick-slide slick-current slick-active"
                                                 data-slick-index="0" role="group" aria-label="slide 1"
                                                 style="width: 100%; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
-                                                <?php if (!empty($instance['thumbnailurl'])) { ?>
+                                                <?php if (isset($instance['thumbnailurl']) && !empty($instance['thumbnailurl'])) { 
+                                                    $alt = isset($instance['thumbnailalttext']) ? $instance['thumbnailalttext'] : '';
+                                                    ?>
                                                     <img src="<?php echo esc_url($instance['thumbnailurl']) ?>"
-                                                        alt="<?php echo $instance['thumbnailalttext'] ?>" class="media__image">
+                                                        alt="<?php echo $alt ?>" class="media__image">
                                                 <?php } ?>
                                                 <a href="<?php echo esc_url($video); ?>"
                                                     class="btn btn--xlarge btn--round play-button">
@@ -108,12 +110,12 @@ class FeaturedVideoWidget extends WP_Widget
     function update($new_instance, $old_instance)
     {
         $instance = $old_instance;
-        $instance['title'] = strip_tags($new_instance['title']);
-        $instance['videolink'] = strip_tags($new_instance['videolink']);
-        $instance['height'] = strip_tags($new_instance['height']);
-        $instance['description'] = strip_tags($new_instance['description']);
-        $instance['thumbnailurl'] = strip_tags($new_instance['thumbnailurl']);
-        $instance['thumbnailalttext'] = strip_tags($new_instance['thumbnailalttext']);
+        $instance['title'] = isset($new_instance['title']) ? strip_tags($new_instance['title']) : '';
+        $instance['videolink'] = isset($new_instance['videolink']) ? strip_tags($new_instance['videolink']) : '';
+        $instance['height'] = isset($new_instance['height']) ? strip_tags($new_instance['height']) : '';
+        $instance['description'] = isset($new_instance['description']) ? strip_tags($new_instance['description']) : '';
+        $instance['thumbnailurl'] = isset($new_instance['thumbnailurl']) ? strip_tags($new_instance['thumbnailurl']) : '';
+        $instance['thumbnailalttext'] = isset($new_instance['thumbnailalttext']) ? strip_tags($new_instance['thumbnailalttext']) : '';
         return $instance;
     } //update
 
@@ -133,12 +135,12 @@ class FeaturedVideoWidget extends WP_Widget
         );
 
         $instance = wp_parse_args((array) $instance, $defaults);
-        $title = $instance['title'];
-        $videolink = $instance['videolink'];
-        $height = $instance['height'];
-        $description = $instance['description'];
-        $thumbnailurl = $instance['thumbnailurl'];
-        $thumbnailalttext = $instance['thumbnailalttext'];
+        $title = isset($instance['title']) ? $instance['title'] : '';
+        $videolink = isset($instance['videolink']) ? $instance['videolink'] : '';
+        $height = isset($instance['height']) ? $instance['height'] : '';
+        $description = isset($instance['description']) ? $instance['description'] : '';
+        $thumbnailurl = isset($instance['thumbnailurl']) ? $instance['thumbnailurl'] : '';
+        $thumbnailalttext = isset($instance['thumbnailalttext']) ? $instance['thumbnailalttext'] : '';
         $upload_thumbnail_button_id = $this->get_field_id('thumbnailurl') . '-upload-button';
         ?>
         <p>

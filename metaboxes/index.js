@@ -69,19 +69,25 @@ jQuery(document).ready(function ($) {
     getTemplateName()
       .then((template) => {
         toggleMetaBoxes({ templateName: template });
-        document.querySelector("div.edit-post-post-template button").addEventListener("click", () => {
-          // now the select element is present so you can add a listener to it
-          // wait for .edit-post-post-template__form select to be added to the DOM
-          setTimeout(() => {
-            document.querySelector(".edit-post-post-template__form select").addEventListener("change", () => {
-              getTemplateName()
-                .then((template) => {
-                  toggleMetaBoxes({ templateName: template });
-                })
-                .catch((e) => console.error(e));
-            });
-          }, 1000);
-        });
+        // if button exists
+
+        try {
+          document.querySelector("div.edit-post-post-template button").addEventListener("click", () => {
+            // now the select element is present so you can add a listener to it
+            // wait for .edit-post-post-template__form select to be added to the DOM
+            setTimeout(() => {
+              document.querySelector(".edit-post-post-template__form select").addEventListener("change", () => {
+                getTemplateName()
+                  .then((template) => {
+                    toggleMetaBoxes({ templateName: template });
+                  })
+                  .catch((e) => console.error(e));
+              });
+            }, 1000);
+          });
+        } catch (error) {
+          console.log(error);
+        }
       })
       .catch((e) => console.error(e));
   }, 1000);

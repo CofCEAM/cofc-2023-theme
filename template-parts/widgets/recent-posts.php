@@ -18,6 +18,10 @@ class RecentPostsWidget extends WP_Widget
     function widget($args, $instance)
     {
         extract($args);
+        // if title not in instance
+        if (!isset($instance['title'])) {
+            $instance['title'] = 'Recent Posts';
+        }
 
         $title_url = $instance['title_url']; // clicking the title leads to a page
         $title_link = empty($title_url) ? '

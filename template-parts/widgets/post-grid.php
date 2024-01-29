@@ -17,14 +17,17 @@ class PostGridWidget extends WP_Widget
     {
         extract($args);
 
-        $title = $instance['title'];
-        $limit = $instance['limit'];
-        $offset = $instance['offset'];
-        $category_slug = $instance['category_slug'];
+        $title = isset($instance['title']) ? $instance['title'] : '';
+        $limit = isset($instance['limit']) ? $instance['limit'] : 12;
+        $offset = isset($instance['offset']) ? $instance['offset'] : 0;
+        $category_slug = isset($instance['category_slug']) ? $instance['category_slug'] : '';
+        $columns = isset($instance['columns']) ? intval($instance['columns']) : 2; // cast to int 
+
+
         $category = get_category_by_slug($category_slug);
-        $columns = $instance['columns'];
+
         // mapping from num columns to class names
-        $medium_screen_classes = array('2' => 'medium-6', '3' => 'medium-4', '4' => 'medium-3');
+        $medium_screen_classes = array(2 => 'medium-6', 3 => 'medium-4', 4 => 'medium-3');
         $medium_screen_class = $medium_screen_classes[$columns];
         ?>
         <section class="news-content news-content--latest news-content--single component">
@@ -61,7 +64,10 @@ class PostGridWidget extends WP_Widget
     {
         $instance = $old_instance;
         $instance['title'] = $new_instance['title'];
-
+        $instance['limit'] = $new_instance['limit'];
+        $instance['offset'] = $new_instance['offset'];
+        $instance['category_slug'] = $new_instance['category_slug'];
+        $instance['columns'] = intval($new_instance['columns']);
         return $instance;
     } //update
 
@@ -96,7 +102,9 @@ class PostGridWidget extends WP_Widget
                     <?php foreach (get_categories() as $category) {
                         $selected = $category_slug == $category->slug ? 'true' : 'false';
                         ?>
-                        <option selected="<?php echo $selected ?>" value="<?php echo $category->slug ?>"><?php echo $category->name ?></option>
+                        <option selected="<?php echo $selected ?>" value="<?php echo $category->slug ?>">
+                            <?php echo $category->name ?>
+                        </option>
                         <?php
                     } ?>
                 </select>

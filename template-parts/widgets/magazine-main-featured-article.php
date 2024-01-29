@@ -45,7 +45,7 @@ class MagazineMainFeaturedArticleWidget extends WP_Widget
             $query->the_post();
             $counter++;
             if ($counter == 1) {
-                display_main_feature_magazine_article_card(post: $post);
+                display_main_feature_article_card(post: $post);
             }
         }
     } //widget

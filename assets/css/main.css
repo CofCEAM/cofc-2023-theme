@@ -15256,6 +15256,9 @@ li.pagination__item--disabled a.btn.btn--medium:before {
   position: relative;
   z-index: 3;
 }
+.filter__button {
+  margin-top: 1.75rem;
+}
 .filter__accordion {
   background: transparent;
   border: 0;

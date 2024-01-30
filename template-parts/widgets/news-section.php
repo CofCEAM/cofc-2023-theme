@@ -178,7 +178,6 @@ class NewsSectionWidget extends WP_Widget
 
         $post_categories = $instance['post_categories'];
         $post_tags = $instance['post_tags'];
-        // what to display   
         $display_post_excerpt = $this->booltostr($instance['display_post_excerpt']);
         $display_post_published_date = $this->booltostr($instance['display_post_published_date']);
         $display_post_author = $this->booltostr($instance['display_post_author']);

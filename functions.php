@@ -838,6 +838,24 @@ function cofctheme_enqueue_admin_scripts()
 	// scripts 
 	wp_enqueue_script('cofc-js-jquery', 'https://code.jquery.com/jquery-3.6.4.min.js', array(), '3.6.4', true);
 	cofctheme_enqueue_custom_block_scripts();
+
+	// enqueue utilities for media file handling in Admin UI
+	wp_enqueue_script('media-upload');
+	wp_enqueue_media();
+	wp_enqueue_script('custom-media', get_template_directory_uri() . '/assets/js/media.js', array('jquery'), '1.0', false);
+
+	// enqueue admin JS for meta box conditional display (dependent on selected Page Template) 
+	wp_enqueue_script(
+		'cofctheme_metabox_display_admin_script',
+		get_template_directory_uri() . '/metaboxes/index.js',
+		array('jquery'),
+		'1.0',
+		true
+	);
+
+	// widget editor scripts 
+	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
+	wp_enqueue_script('rail-link-list-widget-script', get_template_directory_uri() . '/assets/js/widget-editors/rail-link-list.js', array('jquery'), '1.0', true);
 }
 
 function cofctheme_enqueue_styles_and_scripts()
@@ -849,15 +867,6 @@ add_action('wp_enqueue_scripts', 'cofctheme_enqueue_styles_and_scripts');
 add_action('admin_enqueue_scripts', 'cofctheme_enqueue_admin_scripts');
 
 
-function enqueue_admin_media_utilities()
-{
-
-	// define function to enqueue utilities for media file handling in Admin UI
-	wp_enqueue_script('media-upload');
-	wp_enqueue_media();
-	wp_enqueue_script('custom-media', get_template_directory_uri() . '/assets/js/media.js', array('jquery'), '1.0', false);
-}
-add_action('admin_enqueue_scripts', 'enqueue_admin_media_utilities');
 
 add_theme_support('customize-selective-refresh-widgets');
 
@@ -1083,33 +1092,11 @@ function cofctheme_enqueue_custom_block_scripts()
 	}
 }
 
-// enqueue admin JS for meta box conditional display (dependent on selected Page Template) 
-
-// enqueue index.js
-function enqueue_metabox_display_admin_script()
-{
-	wp_enqueue_script(
-		'cofctheme_metabox_display_admin_script',
-		get_template_directory_uri() . '/metaboxes/index.js',
-		array('jquery'),
-		'1.0',
-		true
-	);
-}
-
-add_action('admin_enqueue_scripts', 'enqueue_metabox_display_admin_script');
 
 
 
 
 
-// enqueue JS for widget editors 
-function enqueue_widget_editor_scripts()
-{
-	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
-	wp_enqueue_script('rail-link-list-widget-script', get_template_directory_uri() . '/assets/js/widget-editors/rail-link-list.js', array('jquery'), '1.0', true);
-}
-add_action('admin_enqueue_scripts', 'enqueue_widget_editor_scripts');
 
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';

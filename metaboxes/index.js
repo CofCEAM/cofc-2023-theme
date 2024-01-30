@@ -1,3 +1,4 @@
+console.log("metaboxes/index.js loaded");
 var TEMPLATE_METABOX_MAP = [
   {
     filename: "news_aggregate.php",
@@ -38,24 +39,36 @@ var TEMPLATE_METABOX_MAP = [
 ];
 
 jQuery(document).ready(function ($) {
+  console.log("jquery ready");
+  console.log("TEMPLATE_METABOX_MAP", TEMPLATE_METABOX_MAP);
   const getTemplateName = async () => {
+    console.log("getTemplateName start");
     return new Promise((resolve, reject) => {
-      var template = $(".edit-post-post-template__form select").val();
-      if (template === undefined) {
-        template = $("div.edit-post-post-template button").text();
+      try {
+        var template = $(".edit-post-post-template__form select").val();
+        if (template === undefined) {
+          template = $("div.edit-post-post-template button").text();
+        }
+        console.log("getTemplateName", template);
+        return resolve(template);
+      } catch (e) {
+        console.log("getTemplateName error", e);
+        return reject(e);
       }
-      return resolve(template);
     });
   };
 
   function toggleMetaBoxes({ templateName = null }) {
+    console.log("toggleMetaBoxes", templateName);
     TEMPLATE_METABOX_MAP.forEach((template) => {
       if (template.display_name === templateName || template.filename === templateName) {
+        console.log("showing", template.metaboxes);
         // Show your custom meta boxes
         template.metaboxes.forEach((metabox) => {
           $(`#${metabox}`).show();
         });
       } else {
+        console.log("hiding", template.metaboxes);
         // Hide your custom meta boxes
         template.metaboxes.forEach((metabox) => {
           $(`#${metabox}`).hide();
@@ -68,14 +81,19 @@ jQuery(document).ready(function ($) {
   setTimeout(() => {
     getTemplateName()
       .then((template) => {
+        console.log("got the template name: ", template);
+        console.log("calling toggleMetaBoxes");
         toggleMetaBoxes({ templateName: template });
         // if button exists
 
         try {
+          console.log("adding event listener to div.edit-post-post-template button");
           document.querySelector("div.edit-post-post-template button").addEventListener("click", () => {
+            console.log("div.edit-post-post-template button clicked, will add event listener to select after 0.5s");
             // now the select element is present so you can add a listener to it
             // wait for .edit-post-post-template__form select to be added to the DOM
             setTimeout(() => {
+              console.log("adding event listener to .edit-post-post-template__form select (0.5 seconds passed)");
               document.querySelector(".edit-post-post-template__form select").addEventListener("change", () => {
                 getTemplateName()
                   .then((template) => {
@@ -83,17 +101,21 @@ jQuery(document).ready(function ($) {
                   })
                   .catch((e) => console.error(e));
               });
-            }, 1000);
+            }, 500);
           });
         } catch (error) {
           console.log(error);
         }
       })
       .catch((e) => console.error(e));
-  }, 1000);
+  }, 2500);
 });
 
 const updateMainFilterValueSelector = ({ filterType = null }) => {
+  // for the podcast aggregate template specifically. when you change
+  // the type of podcast filter between Category and Tag, this function
+  // will update the options in the select element for the main filter value
+  console.log("updateMainFilterValueSelector", filterType);
   const categories_json_input = document.querySelector("#podcast_aggregate_categories_json");
   const tags_json_input = document.querySelector("#podcast_aggregate_tags_json");
   const valueSelector = document.querySelector("#podcast_aggregate_podcast_main_filter_value");
@@ -106,6 +128,7 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
   };
   // used by podcast aggregate template's meta boxes
   if (filterType === "category") {
+    console.log("filterType is category");
     // get all categories
     // populate the select element with the categories
     const categories = JSON.parse(decodeHtml(categories_json_input.value));
@@ -116,6 +139,7 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
       valueSelector.add(option);
     });
   } else if (filterType === "tag") {
+    console.log("filterType is tag");
     // get all tags
     // populate the select element with the tags
     const tags = JSON.parse(decodeHtml(tags_json_input.value));
@@ -130,6 +154,7 @@ const updateMainFilterValueSelector = ({ filterType = null }) => {
 };
 
 const updateMainFilterValue = ({ filterValue = null }) => {
+  console.log("updateMainFilterValue", filterValue);
   const filterValueInput = document.querySelector("#podcast_aggregate_podcast_main_filter_value");
   filterValueInput.value = filterValue;
 };

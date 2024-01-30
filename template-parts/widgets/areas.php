@@ -45,7 +45,7 @@ add_action(
         register_sidebar(
             array(
                 'name' => 'Magazine Template - Latest Issues Area',
-                'description' => 'Add a CofC Theme Magazine Latest Issues widget to this area. This area renders below the current issue area.',
+                'description' => 'Add a CofC Theme Tag Grid widget to this area. This area renders below the current issue area.',
                 'id' => 'magazine-latest-issues-area',
                 'before_widget' => '',
                 'after_widget' => '',

@@ -5,7 +5,7 @@ require get_template_directory() . '/template-parts/widgets/rail-news-section.ph
 require get_template_directory() . '/template-parts/widgets/mailchimp-email-subscribe-form.php';
 require get_template_directory() . '/template-parts/widgets/featured-video.php';
 require get_template_directory() . '/template-parts/widgets/recent-posts.php';
-require get_template_directory() . '/template-parts/widgets/tag-grid.php';
+require get_template_directory() . '/template-parts/widgets/image-link-grid.php';
 require get_template_directory() . '/template-parts/widgets/featured-posts.php';
 require get_template_directory() . '/template-parts/widgets/social-media.php';
 require get_template_directory() . '/template-parts/widgets/rail-podcasts.php';

@@ -567,18 +567,18 @@ function display_post_card_grid_by_category(
 	}
 }
 
-function display_tag_grid(array $tags = null, string $title = "Tags")
-{
-	// array structure: 
-	// array(
-	// array ( 
-	// 	'slug' => 'tag-slug',
-	// 	'name' => 'tag name',
-	//  'link_text' => 'link text',
-	//  'featured_image' => array('url' => 'image url', 'alt' => 'image alt text')
-	// ) 
 
-	if (is_null($tags) || sizeof($tags) == 0) {
+function display_image_link_grid(array $links = null, string $title = "Related Links")
+{
+	// Each link:
+	//  'label' => 'link label',
+	//  'url' => 'link url'
+	//  'media_alt' => 'alt text'
+	//  'media_url' => 'featured image url',
+	//  'new_tab' => bool
+	// )  
+
+	if (is_null($links) || sizeof($links) == 0) {
 		return;
 	}
 	?>
@@ -591,18 +591,23 @@ function display_tag_grid(array $tags = null, string $title = "Tags")
 				<hr>
 			</div>
 			<?php
-			foreach ($tags as $tag) {
-
+			foreach ($links as $link) {
+				$label = isset($link['label']) ? $link['label'] : '';
+				$media_url = isset($link['media_url']) ? $link['media_url'] : '';
+				$media_alt = isset($link['media_alt']) ? $link['media_alt'] : '';
+				$new_tab = isset($link['new_tab']) ? $link['new_tab'] : false;
+				$target = $new_tab ? 'target="_blank"' : '';
+				$link_url = isset($link['url']) ? $link['url'] : '';
 				?>
 				<div class="aggregate__content xsmall-12 medium-6 large-4 cell">
 					<div class="card-magazine">
 						<?php
 						// if properties are present for media then display featured image 
-						if (isset($tag->media_url) && isset($tag->media_alt)) {
+						if (!empty($media_url)) {
 							?>
 							<figure class="card-magazine__figure">
-								<img src="<?php echo $tag->media_url ?>" alt="<?php echo $tag->media_alt ?>"
-									class="card-magazine__image" itemprop="image">
+								<img src="<?php echo $media_url ?>" alt="<?php echo $media_alt ?>" class="card-magazine__image"
+									itemprop="image">
 							</figure>
 							<?php
 						}
@@ -611,12 +616,16 @@ function display_tag_grid(array $tags = null, string $title = "Tags")
 						<div class="card-magazine__button" s>
 							<p class="btn btn--primary">
 								<span class="text">
-									<?php echo $tag->label ?>
+									<?php echo $label ?>
 								</span>
 							</p>
 						</div>
-						<a href="#" class="card-magazine__link"><span class="show-for-sr">
-								<?php echo $tag->label ?>
+
+						<?php
+						?>
+						<a href="<?php echo $link_url ?>" <?php echo $target ?> class="card-magazine__link"><span
+								class="show-for-sr">
+								<?php echo $label ?>
 							</span></a>
 
 					</div>
@@ -629,6 +638,8 @@ function display_tag_grid(array $tags = null, string $title = "Tags")
 
 	<?php
 }
+
+
 
 
 function display_rail_podcast_component(
@@ -854,7 +865,7 @@ function cofctheme_enqueue_admin_scripts()
 	);
 
 	// widget editor scripts 
-	wp_enqueue_script('widget-editor-tag-grid', get_template_directory_uri() . '/assets/js/widget-editors/tag-grid.js', array('jquery'), '1.0', false);
+	wp_enqueue_script('widget-editor-image-link-grid', get_template_directory_uri() . '/assets/js/widget-editors/image-link-grid.js', array('jquery'), '1.0', false);
 	wp_enqueue_script('rail-link-list-widget-script', get_template_directory_uri() . '/assets/js/widget-editors/rail-link-list.js', array('jquery'), '1.0', true);
 }
 
@@ -1091,12 +1102,6 @@ function cofctheme_enqueue_custom_block_scripts()
 		);
 	}
 }
-
-
-
-
-
-
 
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';

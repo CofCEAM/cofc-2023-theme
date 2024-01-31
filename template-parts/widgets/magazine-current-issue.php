@@ -35,7 +35,7 @@ class MagazineCurrentIssueWidget extends WP_Widget
 
         // always exclude current post
         global $post;
-        $paged = (get_query_var('paged')) ? get_query_var('paged') : null; // Get the current page number  
+        $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // Get the current page number  
 
         $query = new WP_Query(
             array(

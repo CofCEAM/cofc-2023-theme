@@ -66,7 +66,6 @@ if (isset($_GET['yearFilter']) && !empty($_GET['yearFilter'])) {
     $yearFilterDateQuery = array_merge(array('relation' => 'OR'), $yearFilterDateQuery);
 }
 
-
 $mainCatFilter = array();
 $mainTagFilter = array();
 if ($podcast_aggregate_podcast_main_filter_type == 'category') {
@@ -83,8 +82,38 @@ if ($page_slug) {
     $base_url = '';
 }
 
-// join the user-defined filters with OR relation
-$tax_query = array('relation' => 'OR');
+# post matches (MAIN_FILTER) AND (ANY OF USER_DEFINED_FILTERS)
+if (!empty($mainCatFilter)) {
+    // Start building tax_query with primary category
+    $tax_query = array(
+        'relation' => 'AND',
+        array(
+            'taxonomy' => 'category',
+            'field' => 'term_id',
+            'terms' => $mainCatFilter,
+        ),
+        // Sub-query for user-specified filters
+        array(
+            'relation' => 'OR',
+        )
+    );
+}
+if (!empty($mainTagFilter)) {
+    // Start building tax_query with primary category
+    $tax_query = array(
+        'relation' => 'AND',
+        array(
+            'taxonomy' => 'post_tag',
+            'field' => 'term_id',
+            'terms' => $mainTagFilter,
+        ),
+        // Sub-query for user-specified filters
+        array(
+            'relation' => 'OR',
+        )
+    );
+}
+
 
 // run query; filter by tagFilter, catFilter, and yearFilter
 $args = array(
@@ -98,12 +127,11 @@ if (!empty($yearFilterDateQuery)) {
     $args['date_query'] = $yearFilterDateQuery;
 }
 
-
 if (!empty($catFilter)) {
     foreach ($catFilter as $catId) {
         if (is_numeric($catId)) {
             $catId = intval($catId);
-            $tax_query[] = array(
+            $tax_query[1][] = array(
                 'taxonomy' => 'category',
                 'field' => 'term_id',
                 'terms' => $catId,
@@ -115,7 +143,7 @@ if (!empty($tagFilter)) {
     foreach ($tagFilter as $tagId) {
         if (is_numeric($tagId)) {
             $tagId = intval($tagId);
-            $tax_query[] = array(
+            $tax_query[1][] = array(
                 'taxonomy' => 'post_tag',
                 'field' => 'term_id',
                 'terms' => $tagId,
@@ -124,21 +152,11 @@ if (!empty($tagFilter)) {
     }
 }
 
-# post matches (MAIN_FILTER) AND (ANY OF USER_DEFINED_FILTERS)
-if (!empty($mainCatFilter)) {
-    $args['category__in'] = $mainCatFilter;
-}
-if (!empty($mainTagFilter)) {
-    $args['tag__in'] = $mainTagFilter;
-}
 $args['tax_query'] = $tax_query;
-
 $query = new WP_Query($args);
 
-?>
-<!--- DUMP 
-
-<?php
+echo "TAX QUERY";
+var_dump($tax_query);
 var_dump($podcast_aggregate_filterable_category_ids);
 var_dump($podcast_aggregate_filterable_tag_ids);
 var_dump($podcast_aggregate_filter_headline);

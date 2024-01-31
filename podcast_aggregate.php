@@ -38,7 +38,7 @@ if (!$podcast_aggregate_filterable_years || empty($podcast_aggregate_filterable_
     $podcast_aggregate_filterable_years = array();
 }
 
-// init query filters
+// init query filters - $catFilter and $tagFilter are the user-defined filters
 $catFilter = array();
 $tagFilter = array();
 $yearFilter = array();
@@ -66,10 +66,13 @@ if (isset($_GET['yearFilter']) && !empty($_GET['yearFilter'])) {
     $yearFilterDateQuery = array_merge(array('relation' => 'OR'), $yearFilterDateQuery);
 }
 
+
+$mainCatFilter = array();
+$mainTagFilter = array();
 if ($podcast_aggregate_podcast_main_filter_type == 'category') {
-    $catFilter[] = $podcast_aggregate_podcast_main_filter_value;
+    $mainCatFilter[] = $podcast_aggregate_podcast_main_filter_value;
 } else if ($podcast_aggregate_podcast_main_filter_type == 'tag') {
-    $tagFilter[] = $podcast_aggregate_podcast_main_filter_value;
+    $mainTagFilter[] = $podcast_aggregate_podcast_main_filter_value;
 }
 
 // passed to pagination and to filter component
@@ -79,6 +82,10 @@ if ($page_slug) {
 } else {
     $base_url = '';
 }
+
+// join the user-defined filters with OR relation
+$tax_query = array('relation' => 'OR');
+
 // run query; filter by tagFilter, catFilter, and yearFilter
 $args = array(
     'post_type' => 'post',
@@ -86,15 +93,46 @@ $args = array(
     'posts_per_page' => 13,
     'paged' => $paged,
 );
-if (!empty($catFilter)) {
-    $args['category__in'] = $catFilter;
-}
-if (!empty($tagFilter)) {
-    $args['tag__in'] = $tagFilter;
-}
+
 if (!empty($yearFilterDateQuery)) {
     $args['date_query'] = $yearFilterDateQuery;
 }
+
+
+if (!empty($catFilter)) {
+    foreach ($catFilter as $catId) {
+        if (is_numeric($catId)) {
+            $catId = intval($catId);
+            $tax_query[] = array(
+                'taxonomy' => 'category',
+                'field' => 'term_id',
+                'terms' => $catId,
+            );
+        }
+    }
+}
+if (!empty($tagFilter)) {
+    foreach ($tagFilter as $tagId) {
+        if (is_numeric($tagId)) {
+            $tagId = intval($tagId);
+            $tax_query[] = array(
+                'taxonomy' => 'post_tag',
+                'field' => 'term_id',
+                'terms' => $tagId,
+            );
+        }
+    }
+}
+
+# post matches (MAIN_FILTER) AND (ANY OF USER_DEFINED_FILTERS)
+if (!empty($mainCatFilter)) {
+    $args['category__in'] = $mainCatFilter;
+}
+if (!empty($mainTagFilter)) {
+    $args['tag__in'] = $mainTagFilter;
+}
+$args['tax_query'] = $tax_query;
+
 $query = new WP_Query($args);
 
 ?>

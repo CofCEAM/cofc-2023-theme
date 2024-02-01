@@ -155,27 +155,6 @@ if (!empty($tagFilter)) {
 $args['tax_query'] = $tax_query;
 $query = new WP_Query($args);
 
-echo "TAX QUERY";
-var_dump($tax_query);
-var_dump($podcast_aggregate_filterable_category_ids);
-var_dump($podcast_aggregate_filterable_tag_ids);
-var_dump($podcast_aggregate_filter_headline);
-var_dump($podcast_aggregate_filterable_years);
-var_dump($paged);
-
-echo "catFilter";
-var_dump($catFilter);
-
-echo "tagFilter";
-var_dump($tagFilter);
-
-echo "main filter";
-var_dump($podcast_aggregate_podcast_main_filter_value);
-var_dump($podcast_aggregate_podcast_main_filter_type);
-?>
--->
-<?php
-
 function filterIsRemovable($filterType, $filterValue)
 {
     global $podcast_aggregate_podcast_main_filter_type;

@@ -64,6 +64,7 @@ class RailNewsSectionWidget extends WP_Widget
                         display_author: $instance['display_post_author']
                     );
                 }
+                wp_reset_postdata();
             }
             ?>
         </div>

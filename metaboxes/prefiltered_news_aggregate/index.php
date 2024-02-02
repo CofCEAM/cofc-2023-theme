@@ -43,6 +43,18 @@ function prefiltered_categories_meta_box_callback($post)
     <?php
 }
 
+function prefiltered_news_aggregate_include_left_rail_callback($post)
+{
+    $include_left_rail = get_post_meta($post->ID, 'prefiltered_news_aggregate_include_left_rail', true);
+    ?>
+    <p>If you want to include a left rail, check the box below. To populate the left rail, you'll need to add widgets to the
+        "Prefiltered News Aggregate - Left Rail / Sidebar Area" widget area in Appearance > Widgets </p>
+    <label for="prefiltered_news_aggregate_include_left_rail">Include Left Rail</label>
+    <input type="checkbox" id="prefiltered_news_aggregate_include_left_rail"
+        name="prefiltered_news_aggregate_include_left_rail" <?php echo $include_left_rail ? 'checked' : '' ?>>
+    <?php
+}
+
 // do same thing for tags
 function prefiltered_tags_meta_box_callback($post)
 {
@@ -121,6 +133,12 @@ function save_prefiltered_news_aggregate_meta_boxes($post_id)
     update_array_meta($post_id, key: 'prefiltered_news_aggregate_tag_ids');
     update_array_meta($post_id, key: 'prefiltered_news_aggregate_years');
 
+    // save include left rail - boolean 
+    if (isset($_POST['prefiltered_news_aggregate_include_left_rail'])) {
+        update_post_meta($post_id, 'prefiltered_news_aggregate_include_left_rail', true);
+    } else {
+        update_post_meta($post_id, 'prefiltered_news_aggregate_include_left_rail', false);
+    }
 }
 add_action('save_post', 'save_prefiltered_news_aggregate_meta_boxes');
 
@@ -132,6 +150,15 @@ function add_prefiltered_news_aggregate_meta_boxes()
         'prefiltered_news_aggregate_info_meta_box',
         'Template Information (News Aggregate)',
         'prefiltered_news_aggregate_info_callback',
+        'page',
+        'normal',
+        'default'
+    );
+
+    add_meta_box(
+        'prefiltered_news_aggregate_include_left_rail_meta_box',
+        'Include Left Rail',
+        'prefiltered_news_aggregate_include_left_rail_callback',
         'page',
         'normal',
         'default'

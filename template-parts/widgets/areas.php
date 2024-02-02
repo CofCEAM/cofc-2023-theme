@@ -122,5 +122,18 @@ add_action(
                 'after_title' => '',
             )
         );
+
+
+        register_sidebar(
+            array(
+                'name' => 'Prefiltered News Aggregate Template - Left Rail / Sidebar Area',
+                'description' => 'This area renders on the left side of the Prefiltered News Aggregate template IF you check "Include Left Rail" in the settings (of the page using that template). Add CofC Theme Rail News Sections and/or CofC Theme Rail Podcasts Section Widget to this area.',
+                'id' => 'prefiltered-news-aggregate-sidebar-area',
+                'before_widget' => '',
+                'after_widget' => '',
+                'before_title' => '',
+                'after_title' => '',
+            )
+        );
     }
 );

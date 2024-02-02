@@ -49,6 +49,7 @@ class MagazineSubFeaturedArticlesWidget extends WP_Widget
                 $counter++;
                 display_single_magazine_article_card(post: $post, medium_screen_class: 'medium-6', large_screen_class: '');
             }
+            wp_reset_postdata(); // At the end reset your query
         }
     } //widget
 

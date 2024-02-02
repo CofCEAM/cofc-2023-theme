@@ -98,6 +98,7 @@ class NewsSectionWidget extends WP_Widget
                             title_heading_size: 'h4'
                         );
                     }
+                    wp_reset_postdata(); // At the end reset your query
                 }
                 ?>
             </div>

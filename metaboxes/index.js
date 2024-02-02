@@ -1,14 +1,14 @@
 console.log("metaboxes/index.js loaded");
 var TEMPLATE_METABOX_MAP = [
   {
-    filename: "news_aggregate.php",
+    filename: "filterable_news_aggregate.php",
     display_name: "Filterable News Aggregate",
     metaboxes: [
-      "news_aggregate_info_meta_box",
-      "news_aggregate_filterable_category_ids_meta_box",
-      "news_aggregate_filterable_tag_ids_meta_box",
-      "news_aggregate_filterable_years_meta_box",
-      "news_aggregate_filter_headline_meta_box",
+      "filterable_news_aggregate_info_meta_box",
+      "filterable_news_aggregate_category_ids_meta_box",
+      "filterable_news_aggregate_tag_ids_meta_box",
+      "filterable_news_aggregate_years_meta_box",
+      "filterable_news_aggregate_filter_headline_meta_box",
     ],
   },
 
@@ -17,7 +17,7 @@ var TEMPLATE_METABOX_MAP = [
     display_name: "Prefiltered News Aggregate",
     metaboxes: [
       "prefiltered_news_aggregate_info_meta_box",
-      "prefiltered_news_aggregate_info_meta_box",
+      "prefiltered_news_aggregate_include_left_rail_meta_box",
       "prefiltered_news_aggregate_category_ids_meta_box",
       "prefiltered_news_aggregate_tag_ids_meta_box",
       "prefiltered_news_aggregate_years_meta_box",
@@ -39,8 +39,6 @@ var TEMPLATE_METABOX_MAP = [
 ];
 
 jQuery(document).ready(function ($) {
-  console.log("jquery ready");
-  console.log("TEMPLATE_METABOX_MAP", TEMPLATE_METABOX_MAP);
   const getTemplateName = async () => {
     console.log("getTemplateName start");
     return new Promise((resolve, reject) => {
@@ -108,7 +106,7 @@ jQuery(document).ready(function ($) {
         }
       })
       .catch((e) => console.error(e));
-  }, 2500);
+  }, 250);
 });
 
 const updateMainFilterValueSelector = ({ filterType = null }) => {

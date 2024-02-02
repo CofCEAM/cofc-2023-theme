@@ -15,24 +15,24 @@ get_header();
 
 <?php
 // get meta options
-$news_aggregate_filterable_category_ids = get_post_meta(get_the_ID(), 'news_aggregate_filterable_category_ids', true);
-$news_aggregate_filterable_tag_ids = get_post_meta(get_the_ID(), 'news_aggregate_filterable_tag_ids', true);
-$news_aggregate_filter_headline = get_post_meta(get_the_ID(), 'news_aggregate_filter_headline', true);
-if (!$news_aggregate_filter_headline) {
-    $news_aggregate_filter_headline = 'Filter Stories';
+$filterable_news_aggregate_category_ids = get_post_meta(get_the_ID(), 'filterable_news_aggregate_category_ids', true);
+$filterable_news_aggregate_tag_ids = get_post_meta(get_the_ID(), 'filterable_news_aggregate_tag_ids', true);
+$filterable_news_aggregate_filter_headline = get_post_meta(get_the_ID(), 'filterable_news_aggregate_filter_headline', true);
+if (!$filterable_news_aggregate_filter_headline) {
+    $filterable_news_aggregate_filter_headline = 'Filter Stories';
 }
-$news_aggregate_filterable_years = get_post_meta(get_the_ID(), 'news_aggregate_filterable_years', true);
+$filterable_news_aggregate_years = get_post_meta(get_the_ID(), 'filterable_news_aggregate_years', true);
 $paged = (get_query_var('paged')) ? get_query_var('paged') : 1; // Get the current page number
 
 // if any are empty or not set, set them to empty array
-if (!$news_aggregate_filterable_category_ids || empty($news_aggregate_filterable_category_ids)) {
-    $news_aggregate_filterable_category_ids = array();
+if (!$filterable_news_aggregate_category_ids || empty($filterable_news_aggregate_category_ids)) {
+    $filterable_news_aggregate_category_ids = array();
 }
-if (!$news_aggregate_filterable_tag_ids || empty($news_aggregate_filterable_tag_ids)) {
-    $news_aggregate_filterable_tag_ids = array();
+if (!$filterable_news_aggregate_tag_ids || empty($filterable_news_aggregate_tag_ids)) {
+    $filterable_news_aggregate_tag_ids = array();
 }
-if (!$news_aggregate_filterable_years || empty($news_aggregate_filterable_years)) {
-    $news_aggregate_filterable_years = array();
+if (!$filterable_news_aggregate_years || empty($filterable_news_aggregate_years)) {
+    $filterable_news_aggregate_years = array();
 }
 
 
@@ -125,10 +125,10 @@ function remove_query_param_value($queryParamKey, $valueToRemove)
                     </div>
                     <?php
                     aggregate_rail_filter_component(
-                        filter_headline: $news_aggregate_filter_headline,
-                        filterable_category_ids: $news_aggregate_filterable_category_ids,
-                        filterable_tag_ids: $news_aggregate_filterable_tag_ids,
-                        filterable_years: $news_aggregate_filterable_years,
+                        filter_headline: $filterable_news_aggregate_filter_headline,
+                        filterable_category_ids: $filterable_news_aggregate_category_ids,
+                        filterable_tag_ids: $filterable_news_aggregate_tag_ids,
+                        filterable_years: $filterable_news_aggregate_years,
                         checked_category_ids: $catFilter,
                         checked_tag_ids: $tagFilter,
                         checked_years: $yearFilter,

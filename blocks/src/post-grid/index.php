@@ -104,6 +104,7 @@ function render_cofctheme_post_grid($attributes): string
             $output .= '</div>'; //2
             $output .= '</div>'; // 1  
         }
+        wp_reset_postdata();
     }
     $output .= '</div>'; // 0 
 

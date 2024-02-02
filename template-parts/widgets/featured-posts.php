@@ -76,6 +76,7 @@ class FeaturedPostsWidget extends WP_Widget
                     );
                 }
             }
+            wp_reset_postdata(); // At the end reset your query
         }
     } //widget
 

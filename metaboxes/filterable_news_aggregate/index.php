@@ -22,16 +22,16 @@ function filterable_categories_meta_box_callback($post)
     // Add your fields here
     // display a meta box allowing selection of multiple categories
     $all_categories = get_categories();
-    $selected_filterable_category_ids = get_post_meta($post->ID, 'filterable_news_aggregate_filterable_category_ids', true);
+    $selected_filterable_category_ids = get_post_meta($post->ID, 'filterable_news_aggregate_category_ids', true);
     // if string, convert to array
     if (!is_array($selected_filterable_category_ids)) {
         $selected_filterable_category_ids = array($selected_filterable_category_ids);
     }
     // display form allowing selection of multiple categories
     ?>
-    <label for="filterable_news_aggregate_filterable_category_ids">Select Categories That Reader Can Filter By</label>
-    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_filterable_category_ids"
-        name="filterable_news_aggregate_filterable_category_ids[]">
+    <label for="filterable_news_aggregate_category_ids">Select Categories That Reader Can Filter By</label>
+    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_category_ids"
+        name="filterable_news_aggregate_category_ids[]">
         <?php
         foreach ($all_categories as $category) {
             // if this category is in the list of selected categories, mark it as selected
@@ -47,13 +47,14 @@ function filterable_categories_meta_box_callback($post)
     <?php
 }
 
+
 // do same thing for tags
 function filterable_tags_meta_box_callback($post)
 {
     // Add your fields here
     // display a meta box allowing selection of multiple categories
     $all_tags = get_tags();
-    $selected_filterable_tag_ids = get_post_meta($post->ID, 'filterable_news_aggregate_filterable_tag_ids', true);
+    $selected_filterable_tag_ids = get_post_meta($post->ID, 'filterable_news_aggregate_tag_ids', true);
 
     // if string, convert to array
     if (!is_array($selected_filterable_tag_ids)) {
@@ -62,9 +63,9 @@ function filterable_tags_meta_box_callback($post)
 
     // display form allowing selection of multiple categories
     ?>
-    <label for="filterable_news_aggregate_filterable_tag_ids">Select Tags That Reader Can Filter By </label>
-    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_filterable_tag_ids"
-        name="filterable_news_aggregate_filterable_tag_ids[]">
+    <label for="filterable_news_aggregate_tag_ids">Select Tags That Reader Can Filter By </label>
+    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_tag_ids"
+        name="filterable_news_aggregate_tag_ids[]">
         <?php
         foreach ($all_tags as $tag) {
             // if this tag is in the list of selected tags, mark it as selected
@@ -89,7 +90,7 @@ function filterable_years_meta_box_callback($post)
     for ($i = 0; $i < 10; $i++) {
         $years[] = $current_year - $i;
     }
-    $selected_filterable_years = get_post_meta($post->ID, 'filterable_news_aggregate_filterable_years', true);
+    $selected_filterable_years = get_post_meta($post->ID, 'filterable_news_aggregate_years', true);
 
     // if string, convert to array
     if (!is_array($selected_filterable_years)) {
@@ -98,9 +99,9 @@ function filterable_years_meta_box_callback($post)
 
 
     ?>
-    <label for="filterable_news_aggregate_filterable_years">Select Years That Reader Can Filter By</label>
-    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_filterable_years"
-        name="filterable_news_aggregate_filterable_years[]">
+    <label for="filterable_news_aggregate_years">Select Years That Reader Can Filter By</label>
+    <select multiple class="widefat" style="min-height: 200px" id="filterable_news_aggregate_years"
+        name="filterable_news_aggregate_years[]">
         <?php
         foreach ($years as $year) {
             // if this tag is in the list of selected tags, mark it as selected
@@ -135,9 +136,9 @@ function save_filterable_news_aggregate_meta_boxes($post_id)
 {
     // save filterable_category_ids - this is a list 
 
-    update_array_meta($post_id, key: 'filterable_news_aggregate_filterable_category_ids');
-    update_array_meta($post_id, key: 'filterable_news_aggregate_filterable_tag_ids');
-    update_array_meta($post_id, key: 'filterable_news_aggregate_filterable_years');
+    update_array_meta($post_id, key: 'filterable_news_aggregate_category_ids');
+    update_array_meta($post_id, key: 'filterable_news_aggregate_tag_ids');
+    update_array_meta($post_id, key: 'filterable_news_aggregate_years');
 
     // save filter_headline - this is a string
     if (isset($_POST['filterable_news_aggregate_filter_headline'])) {
@@ -166,7 +167,7 @@ function add_filterable_news_aggregate_meta_boxes()
 
     // Add featured media carousel header meta box. 
     add_meta_box(
-        'filterable_news_aggregate_filterable_category_ids_meta_box',
+        'filterable_news_aggregate_category_ids_meta_box',
         'Filterable Categories (what categories can reader filter by?)',
         'filterable_categories_meta_box_callback',
         'page',
@@ -175,7 +176,7 @@ function add_filterable_news_aggregate_meta_boxes()
     );
 
     add_meta_box(
-        'filterable_news_aggregate_filterable_tag_ids_meta_box',
+        'filterable_news_aggregate_tag_ids_meta_box',
         'Filterable Tags (what tags can reader filter by?)',
         'filterable_tags_meta_box_callback',
         'page',
@@ -184,7 +185,7 @@ function add_filterable_news_aggregate_meta_boxes()
     );
 
     add_meta_box(
-        'filterable_news_aggregate_filterable_years_meta_box',
+        'filterable_news_aggregate_years_meta_box',
         'Filterable Years (what years can reader filter by?)',
         'filterable_years_meta_box_callback',
         'page',

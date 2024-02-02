@@ -836,7 +836,7 @@ function cofctheme_enqueue_scripts()
 	wp_enqueue_script('cofc-js-modernizr', get_template_directory_uri() . '/assets/js/plugins/modernizr.js', array('cofc-js-jquery'), '1.0', true);
 	wp_enqueue_script('cofc-js-vendor', get_template_directory_uri() . '/assets/js/vendor.js', array('cofc-js-modernizr'), '1.0', true);
 	wp_enqueue_script('cofc-js-main', get_template_directory_uri() . "/assets/js/main.js", array('cofc-js-vendor'), '1.0', true);
-	wp_enqueue_script('cofc-js-news-aggregate-template', get_template_directory_uri() . '/assets/js/news_aggregate.js', array('cofc-js-main'), '1.0', true);
+	wp_enqueue_script('cofc-js-news-aggregate-template', get_template_directory_uri() . '/assets/js/filterable_news_aggregate.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-level', get_template_directory_uri() . '/assets/js/level.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-postgrid', get_template_directory_uri() . '/assets/js/postgrid.js', array('cofc-js-main'), '1.0', true);
 	wp_enqueue_script('cofc-js-prettifymailchimpforms', get_template_directory_uri() . '/assets/js/prettifymailchimpforms.js', array('cofc-js-main'), '1.0', true);
@@ -906,7 +906,7 @@ function aggregate_rail_filter_component(
 	array $checked_years = array(),
 	string $base_url = ''
 ) {
-	// used on the News Aggregate template news_aggregate.php
+	// used on the Filterable News Aggregate template filterable_news_aggregate.php
 	// base_url is just path 
 	// need absolute 
 	$base_url = get_site_url() . $base_url;
@@ -1110,7 +1110,7 @@ require get_template_directory() . '/blocks/src/tag-grid/index.php';
 require get_template_directory() . '/blocks/src/podcast-platforms/index.php';
 
 /* meta boxes for specific templates */
-require get_template_directory() . '/metaboxes/news_aggregate/index.php';
+require get_template_directory() . '/metaboxes/filterable_news_aggregate/index.php';
 require get_template_directory() . '/metaboxes/prefiltered_news_aggregate/index.php';
 require get_template_directory() . '/metaboxes/podcast_aggregate/index.php';
 // End custom blocks 

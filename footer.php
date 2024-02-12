@@ -50,8 +50,8 @@
                     <?php } ?>
 
                 </p>
-                <p><a href="https://charleston.edu" aria-label="College of Charleston Home Page"
-                        target="_blank">charleston.edu</a></p>
+                <p style="margin-bottom: 0"><a href="https://charleston.edu" aria-label="College of Charleston Home Page"
+                        target="_blank" style="color: <?php echo get_option('footer_text_color') ?>">charleston.edu</a></p>
             </div>
         <?php } ?>
 

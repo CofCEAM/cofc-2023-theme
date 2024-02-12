@@ -5,7 +5,7 @@
         <div class="footer__logo">
             <?php
             $site_logo = get_option('site_logo'); // Get the site logo ID
-            $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image
+            $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image 
             if ($logo_url): ?>
                 <img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
             <?php else: ?>
@@ -50,13 +50,15 @@
                     <?php } ?>
 
                 </p>
+                <p><a href="https://charleston.edu" aria-label="College of Charleston Home Page"
+                        target="_blank">charleston.edu</a></p>
             </div>
         <?php } ?>
 
 
         <div class="footer__bar" style="background-color: <?php echo get_option('footer_bar_background_color') ?>; ">
             <div class="footer__copyright" style="color: <?php echo get_option('footer_bar_text_color') ?>;">
-                Copyright © 2023 College of Charleston. <br />All Right Reserved.
+                Copyright © 2023 College of Charleston. <br />All Rights Reserved.
             </div>
             <?php
             $accounts = array(

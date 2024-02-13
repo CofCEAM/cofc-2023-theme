@@ -4,14 +4,80 @@
         <?php dynamic_sidebar('footer-sidebar'); ?>
         <div class="footer__logo">
             <?php
-            $site_logo = get_option('site_logo'); // Get the site logo ID
-            $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image 
-            if ($logo_url): ?>
-                <img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
-            <?php else: ?>
-                <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
-                    alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
-            <?php endif; ?>
+            $footer_logo = get_option('footer_logo');
+            $footer_logo_link = get_option('footer_logo_link');
+            $footer_logo_link_new_tab = get_option('footer_logo_link_new_tab');
+            $target = $footer_logo_link_new_tab == 'yes' ? 'target="_blank"' : '';
+            if ($footer_logo) {
+                // custom footer logo was configured.  
+                $footer_logo_url = wp_get_attachment_image_src($footer_logo, 'full'); // Get the URL of the image  
+                if ($footer_logo_link) {
+                    // custom footer logo link provided
+                    ?>
+                    <a href="<?php echo $footer_logo_link ?>" <?php echo $target ?>>
+
+                        <?php
+                        if ($footer_logo_url): ?>
+                            <img src="<?php echo esc_url($footer_logo_url[0]); ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php endif; ?>
+                    </a>
+                    <?php
+                } else {
+                    // no custom footer logo link provided. use the site URL
+                    ?>
+                    <a href="<?php echo get_home_url() ?>" <?php echo $target ?>>
+                        <?php
+                        if ($footer_logo_url): ?>
+                            <img src="<?php echo esc_url($footer_logo_url[0]); ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php endif; ?>
+                    </a>
+                    <?php
+                }
+
+
+                ?>
+                <?php
+            } else {
+                // custom footer logo was not configured. use the site logo.
+                $site_logo = get_option('site_logo'); // Get the site logo ID
+                $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image 
+                if ($footer_logo_link) {
+                    // custom footer logo link provided
+                    ?>
+                    <a href="<?php echo $footer_logo_link ?>" <?php echo $target ?>>
+                        <?php
+                        if ($logo_url): ?>
+                            <img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php endif; ?>
+                    </a>
+                    <?php
+                } else {
+                    // no custom footer logo link provided. use the site URL
+                    ?>
+                    <a href="<?php echo get_home_url() ?>" <?php echo $target ?>>
+                        <?php
+                        if ($logo_url): ?>
+                            <img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php else: ?>
+                            <img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
+                                alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                        <?php endif; ?>
+                    </a>
+                    <?php
+                }
+            } ?>
+
         </div>
         <?php if (!empty(get_option('primary_contact_name')) or !empty(get_option('primary_contact_address')) or !empty(get_option('primary_contact_phone')) or !empty(get_option('primary_contact_email'))) { ?>
             <div class="footer__copy">

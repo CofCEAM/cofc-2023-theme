@@ -315,6 +315,94 @@ function create_logo_customizer($wp_customize)
             )
         )
     );
+
+
+    $wp_customize->add_setting(
+        'footer_logo',
+        array(
+            'default' => '',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            // you can also use 'theme_mod'
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+
+    // add control to upload or choose a media file for logo 
+    $wp_customize->add_control(
+        new WP_Customize_Media_Control(
+            $wp_customize,
+            'footer_logo',
+            array(
+                'label' => __('Footer Logo', 'cofctheme'),
+                'description' => __('Upload a logo to use in the footer of your site if you want to use something other than your site logo. If empty, the footer will display your main site logo by default.', 'cofctheme'),
+                'section' => 'title_tagline',
+                'mime_type' => 'image',
+                'priority' => 10,
+                'settings' => 'footer_logo',
+            )
+        )
+    );
+
+    // footer logo link href 
+    $wp_customize->add_setting(
+        'footer_logo_link',
+        array(
+            'default' => '',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_logo_link',
+            array(
+                'label' => __('Footer Logo Link', 'cofctheme'),
+                'description' => __('Provide a link for the footer logo to point to (optional)', 'cofctheme'),
+                'settings' => 'footer_logo_link',
+                'priority' => 10,
+                'section' => 'title_tagline',
+                'type' => 'text',
+            )
+        )
+    );
+
+    // new tab or no (radio)
+    $wp_customize->add_setting(
+        'footer_logo_link_new_tab',
+        array(
+            'default' => 'yes',
+            'type' => 'option',
+            'transport' => 'postMessage',
+            'capability' => 'edit_theme_options'
+        ),
+    );
+
+    $wp_customize->add_control(
+        new WP_Customize_Control(
+            $wp_customize,
+            'footer_logo_link_new_tab',
+            array(
+                'label' => __('Open Footer Logo Link in New Tab?', 'cofctheme'),
+                'description' => __('Do you want the footer logo link to open in a new tab?', 'cofctheme'),
+                'settings' => 'footer_logo_link_new_tab',
+                'priority' => 10,
+                'section' => 'title_tagline',
+                'type' => 'radio',
+                'choices' => array(
+                    'yes' => 'Yes',
+                    'no' => 'No'
+                )
+            )
+        )
+    );
+
+
+
 }
 
 

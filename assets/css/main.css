@@ -11504,10 +11504,14 @@ nav ul li {
   font-size: 1.2rem;
   line-height: 1.2rem;
 }
+
+/*
+remove this. font way too big.
 .wysiwyg {
   font-size: 1.44rem;
   line-height: 2.1875rem;
 }
+*/ 
 .font-numeral {
   color: #014c44;
   font-family: cubano, sans-serif;

@@ -17621,8 +17621,6 @@ img.mfp-img {
   margin-right: auto;
   position: relative;
   top: 0;
-  /* custom. added 1/26/2024 to allow featured video to render full width */
-  width: 100% !important;
 }
 .slick-track:after,
 .slick-track:before {

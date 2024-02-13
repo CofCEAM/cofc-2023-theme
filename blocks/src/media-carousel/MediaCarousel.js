@@ -32,51 +32,43 @@ const MediaCarousel = ({ attributes }) => {
   const { title, description, mediaItems, includeLink, linkUri, linkText, linkNewTab } = attributes;
 
   return (
-    /* keys 
-    id, title, filename, url, link, alt, author, description, caption, name, status, uploadedTo, date, modified, menuOrder, mime, type, subtype, icon, dateFormatted, nonces, editLink, meta, authorName, authorLink, filesizeInBytes, filesizeHumanReadable, context, height, width, orientation, sizes, compatid, title, filename, url, link, alt, author, description, caption, name, status, uploadedTo, date, modified, menuOrder, mime, type, subtype, icon, dateFormatted, nonces, editLink, meta, authorName, authorLink, filesizeInBytes, filesizeHumanReadable, context, height, width, orientation, sizes, compatid, title, filename, url, link, alt, author, description, caption, name, status, uploadedTo, date, modified, menuOrder, mime, type, subtype, icon, dateFormatted, nonces, editLink, meta, authorName, authorLink, filesizeInBytes, filesizeHumanReadable, context, height, width, orientation, sizes, compat
-    */
     <section className="media  media--wide media--gallery component js-has-carousel">
+      <div className="media__gridtop media-grids"></div>
       <div className="media__container">
         <div className="media__header">
-          <h2 className="media__title font-h2">{title}</h2>
+          <h2 className="media__title font-h2 hide-for-large">{title}</h2>
+          <div className="hr__wrapper hide-for-large">
+            <hr />
+          </div>
         </div>
         <div className="media__wrapper">
           <div id="media_items" className="media__items">
-            {mediaItems.length > 0
-              ? mediaItems.map((item) => {
-                  console.log(item);
-                  if (item.type === "video") {
-                    const youtubeThumbnailUrl = getYouTubeThumbnail(item.url);
-                    return (
-                      <figure data-itemid={item.id} className="media__imagery media__imagery--with-video">
-                        <img
-                          src={youtubeThumbnailUrl}
-                          alt={item.title}
-                          className="media__image"
-                          width="836"
-                          height="627"
-                        />
-                        <a href={item.url} className="btn btn--xlarge btn--round play-button">
-                          <span className="btn__icon">
-                            <svg className="brei-icon brei-icon-play" focusable="false">
-                              <use href="#brei-icon-play"></use>
-                            </svg>
-                          </span>
-                          <span className="show-for-sr">Play video</span>
-                        </a>
-                        <figcaption>{item.caption}</figcaption>
-                      </figure>
-                    );
-                  } else if (item.type === "image") {
-                    return (
-                      <figure data-itemid={item.id} className="media__imagery">
-                        <img src={item.url} alt={item.alt} className="media__image" width="836" height="627" />
-                        <figcaption>{item.caption}</figcaption>
-                      </figure>
-                    );
-                  }
-                })
-              : ""}
+            {mediaItems.map((item, index) => {
+              if (item.type === "video") {
+                const youtubeThumbnailUrl = getYouTubeThumbnail(item.url);
+                return (
+                  <figure key={index} id={item.id} className="media__imagery media__imagery--with-video">
+                    <img src={youtubeThumbnailUrl} alt={item.title} className="media__image" />
+                    <a href={item.url} className="btn btn--xlarge btn--round play-button">
+                      <span className="btn__icon">
+                        <svg className="brei-icon brei-icon-play" focusable="false">
+                          <use href="#brei-icon-play"></use>
+                        </svg>
+                      </span>
+                      <span className="show-for-sr">Play video</span>
+                    </a>
+                    <figcaption>{item.caption}</figcaption>
+                  </figure>
+                );
+              } else if (item.type === "image") {
+                return (
+                  <figure key={index} id={item.id} className="media__imagery">
+                    <img src={item.url} alt={item.alt} className="media__image" />
+                    <figcaption>{item.caption}</figcaption>
+                  </figure>
+                );
+              }
+            })}
           </div>
           <div className="media__controls" data-id="media_controls">
             <div data-id="next">
@@ -90,7 +82,7 @@ const MediaCarousel = ({ attributes }) => {
             </div>
             <div className="media-amount"></div>
             <div data-id="prev">
-              <a href="#" aria-label="See Next" className="btn btn--medium">
+              <a href="#" aria-label="See Previous" className="btn btn--medium">
                 <span className="btn__icon">
                   <svg className="brei-icon brei-icon-chevron" focusable="false">
                     <use href="#brei-icon-chevron"></use>
@@ -100,12 +92,9 @@ const MediaCarousel = ({ attributes }) => {
             </div>
           </div>
           <div className="media__caption font-caption" aria-hidden="true"></div>
-        </div>
-
-        <div id="media_footer" className="media__footer">
           <div className="media__controls" data-id="media_controls_sm">
             <div data-id="prev">
-              <a href="#" aria-label="See Next" className="btn btn--medium">
+              <a href="#" aria-label="See Previous" className="btn btn--medium">
                 <span className="btn__icon">
                   <svg className="brei-icon brei-icon-chevron" focusable="false">
                     <use href="#brei-icon-chevron"></use>
@@ -124,9 +113,23 @@ const MediaCarousel = ({ attributes }) => {
               </a>
             </div>
           </div>
+        </div>
+
+        <div className="media__footer">
+          <p className="media__title font-h2 show-for-large" aria-hidden="true">
+            {title}
+          </p>
+          <div className="hr__wrapper show-for-large">
+            <hr />
+          </div>
           {description && <p className="media__copy font-body-lite">{description}</p>}
           {includeLink ? (
-            <a href={linkUri} className="btn btn-tertiary btn-tertiary-left">
+            <a
+              href={linkUri}
+              className="btn btn-tertiary btn-tertiary-left"
+              target={linkNewTab ? "_blank" : "_self"}
+              rel={linkNewTab ? "noopener noreferrer" : ""}
+            >
               <span className="text">{linkText ? linkText : "View More"}</span>
               <span className="text-arrow">
                 <svg className="brei-icon brei-icon-arrows" focusable="false">
@@ -143,6 +146,7 @@ const MediaCarousel = ({ attributes }) => {
           )}
         </div>
       </div>
+      <div className="media__gridbottom media-grids"></div>
     </section>
   );
 };

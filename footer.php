@@ -15,6 +15,7 @@
         </div>
         <?php if (!empty(get_option('primary_contact_name')) or !empty(get_option('primary_contact_address')) or !empty(get_option('primary_contact_phone')) or !empty(get_option('primary_contact_email'))) { ?>
             <div class="footer__copy">
+
                 <?php if (!empty(get_option('primary_contact_name'))) { ?>
                     <p id="primary-contact--name">
                         <?php echo get_option('primary_contact_name'); ?>
@@ -22,6 +23,7 @@
                 <?php } ?>
 
                 <p>
+
                     <?php if (!empty(get_option('primary_contact_address'))) { ?>
                         <span id="primary-contact--address">
                             <?php echo get_option('primary_contact_address'); ?>

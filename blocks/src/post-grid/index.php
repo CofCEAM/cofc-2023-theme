@@ -27,6 +27,8 @@ function render_cofctheme_post_grid($attributes): string
         'tag__in' => $tags,
         'posts_per_page' => $limit,
         'offset' => $offset,
+        'orderby' => 'date',
+        'order' => 'DESC'
     );
     $query = new WP_Query($args);
 

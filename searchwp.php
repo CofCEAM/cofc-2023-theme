@@ -33,7 +33,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 		'fields' => 'default',          // Retain site ID info with results.
 		'site' => $search_site_ids, // Limit results to specified sites
 		'page' => $search_page,
-		'posts_per_page' => get_option('posts_per_page'),
+		'per_page' => get_option('posts_per_page'), 
 	]);
 	$search_results = $searchwp_query->get_results();
 

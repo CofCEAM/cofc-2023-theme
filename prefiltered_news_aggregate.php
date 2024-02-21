@@ -48,6 +48,8 @@ $args = array(
     'post_status' => 'publish',
     'posts_per_page' => 13,
     'paged' => $paged,
+    'orderby' => 'date',
+    'order' => 'DESC'
 );
 if (!empty($prefiltered_news_aggregate_category_ids)) {
     $args['category__in'] = $prefiltered_news_aggregate_category_ids;

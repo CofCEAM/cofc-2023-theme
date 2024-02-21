@@ -78,6 +78,8 @@ $args = array(
     'post_status' => 'publish',
     'posts_per_page' => 13,
     'paged' => $paged,
+    'orderby' => 'date',
+    'order' => 'DESC'
 );
 if (!empty($catFilter)) {
     $args['category__in'] = $catFilter;

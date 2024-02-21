@@ -39,7 +39,9 @@ class MagazineSubFeaturedArticlesWidget extends WP_Widget
                 'tag__in' => $post_tags,
                 'offset' => $instance['offset'],
                 // if exclude sticky posts and exclude post id 
-                'posts_per_page' => 2
+                'posts_per_page' => 2,
+                'orderby' => 'date',
+                'order' => 'DESC'
             )
         );
         if ($query->have_posts()) {

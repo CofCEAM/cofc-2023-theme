@@ -37,7 +37,9 @@ class MagazineMainFeaturedArticleWidget extends WP_Widget
                 'category__in' => $post_categories,
                 'tag__in' => $post_tags,
                 // if exclude sticky posts and exclude post id 
-                'posts_per_page' => 3
+                'posts_per_page' => 3,
+                'orderby' => 'date',
+                'order' => 'DESC'
             )
         );
         if ($query->have_posts()) {

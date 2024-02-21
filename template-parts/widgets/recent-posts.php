@@ -60,7 +60,9 @@ class RecentPostsWidget extends WP_Widget
                 'post__not_in' => $post_not_in_arg,
                 // if exclude sticky posts and exclude post id 
                 'posts_per_page' => $posts_limit,
-                'offset' => $posts_offset
+                'offset' => $posts_offset,
+                'orderby' => 'date',
+                'order' => 'DESC'
             )
         );
 

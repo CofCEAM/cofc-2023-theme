@@ -43,6 +43,8 @@ class FeaturedPostsWidget extends WP_Widget
             array(
                 'category__in' => $post_categories,
                 'tag__in' => $post_tags,
+                'orderby' => 'date',
+                'order' => 'DESC',
                 // if exclude sticky posts and exclude post id 
                 'posts_per_page' => 4
             )

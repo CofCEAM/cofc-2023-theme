@@ -50,7 +50,6 @@ if ($category) {
                 'paged' => $paged,
                 // pull default posts per page from settings
                 'posts_per_page' => get_option('posts_per_page'),
-                // Set the number of posts per page
                 'orderby' => 'date',
                 'order' => 'DESC'
             );

@@ -44,7 +44,9 @@ class RailNewsSectionWidget extends WP_Widget
                 'tag__in' => $post_tags,
                 'post__not_in' => $post_not_in_arg,
                 // if exclude sticky posts and exclude post id 
-                'posts_per_page' => $posts_limit
+                'posts_per_page' => $posts_limit,
+                'orderby' => 'date',
+                'order' => 'DESC'
             )
         );
         ?>

@@ -158,10 +158,9 @@ function display_featured_post_card(
 	bool $wide = false
 ) {
 	$wideClass = $wide ? 'card-news--wide' : '';
-	?>
+?>
 
-	<div class="card-news <?php echo $wideClass ?> card-news--featured cofc-post-grid-item" itemscope
-		itemtype="https://schema.org/NewsArticle">
+	<div class="card-news <?php echo $wideClass ?> card-news--featured cofc-post-grid-item" itemscope itemtype="https://schema.org/NewsArticle">
 		<?php
 		$featured_image_id = get_post_thumbnail_id($post->ID);
 		$featured_image = get_post($featured_image_id);
@@ -169,12 +168,11 @@ function display_featured_post_card(
 			// conditionally display featured image
 			$featured_image_title = $featured_image->post_title;
 			$featured_image_url = get_the_post_thumbnail_url($post);
-			?>
+		?>
 			<figure class="card-news__figure">
-				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image"
-					itemprop="image" width="926" height="695" />
+				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" width="926" height="695" />
 			</figure>
-			<?php
+		<?php
 		}
 		?>
 		<div class="card-news__wrapper">
@@ -200,8 +198,7 @@ function display_featured_post_card(
 				</p>
 			</div>
 
-			<a href="<?php echo get_post_permalink($post) ?>" title="Read more about <?php echo $post->post_title ?>"
-				class="card-news__button">
+			<a href="<?php echo get_post_permalink($post) ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 				<p class="btn btn-card" aria-hidden="true">
 					<span class="text-arrow">
 						<svg class="brei-icon brei-icon-arrows" focusable="false">
@@ -220,7 +217,7 @@ function display_featured_post_card(
 				<?php echo $post->post_title ?>"
 			</span></a>
 	</div>
-	<?php
+<?php
 }
 
 
@@ -240,10 +237,9 @@ function display_single_post_card(
 	$wideclass = $wide ? 'card-news--wide' : '';
 	$podcastCardClass = $podcast ? 'card-news--podcast' : '';
 	$podcastBtnClass = $podcast ? 'btn-card--podcast' : '';
-	?>
+?>
 	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
-		<div class="card-news <?php echo $wideclass ?> <?php echo $podcastCardClass ?>" itemscope
-			itemtype="https://schema.org/NewsArticle">
+		<div class="card-news <?php echo $wideclass ?> <?php echo $podcastCardClass ?>" itemscope itemtype="https://schema.org/NewsArticle">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
 			$featured_image = get_post($featured_image_id);
@@ -251,10 +247,9 @@ function display_single_post_card(
 				// conditionally display featured image
 				$featured_image_title = $featured_image->post_title;
 				$featured_image_url = get_the_post_thumbnail_url($post->ID);
-				?>
+			?>
 				<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
-					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>"
-						class="card-news__image" itemprop="image" width="926" height="695" />
+					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" width="926" height="695" />
 				</figure>
 			<?php } ?>
 
@@ -270,7 +265,7 @@ function display_single_post_card(
 						<p class="rail-news__copy">
 							<?php echo $post->post_excerpt ?>
 						</p>
-						<?php
+					<?php
 					}
 					if ($display_published_date) { ?>
 						<p class="card-news__date card-icon">
@@ -281,7 +276,7 @@ function display_single_post_card(
 								<?php echo get_the_date('F j, Y', $post) ?>
 							</span>
 						</p>
-						<?php
+					<?php
 					}
 					if ($display_author) { ?>
 						<p class="card-news__author card-icon">
@@ -292,12 +287,11 @@ function display_single_post_card(
 								<?php echo get_the_author_meta('display_name', $post->post_author) ?>
 							</span>
 						</p>
-						<?php
+					<?php
 					} ?>
 				</div>
 
-				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
-					class="card-news__button">
+				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 					<p class="btn btn-card <?php echo $podcastBtnClass ?>" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
@@ -318,7 +312,7 @@ function display_single_post_card(
 			</a>
 		</div>
 	</div>
-	<?php
+<?php
 }
 
 
@@ -329,7 +323,7 @@ function display_single_rail_post_card(
 	bool $display_author = true,
 ) {
 	/* display a simple card in the sidebar (rail) with a post title and excerpt; link it to the post permalink */
-	?>
+?>
 	<div class="rail-news">
 		<div class="rail-news__inner">
 			<p class="rail-news__title font-h6">
@@ -375,12 +369,11 @@ function display_single_rail_post_card(
 					</svg>
 				</span>
 			</a>
-
-
 			<!--span class="btn__icon"></span-->
 		</div>
 	</div>
-	<?php
+
+<?php
 }
 
 
@@ -389,7 +382,7 @@ function display_main_feature_article_card(
 	bool $wide = true
 ) {
 	$wideClass = $wide ? 'card-news--wide' : '';
-	?>
+?>
 	<div class="card-news <?php echo $wideClass ?> card-news--featured" itemscope itemtype="https://schema.org/NewsArticle">
 		<?php
 		$featured_image_id = get_post_thumbnail_id($post->ID);
@@ -398,10 +391,9 @@ function display_main_feature_article_card(
 			// conditionally display featured image
 			$featured_image_title = $featured_image->post_title;
 			$featured_image_url = get_the_post_thumbnail_url($post->ID);
-			?>
+		?>
 			<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
-				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image"
-					itemprop="image" width="926" height="695" />
+				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" width="926" height="695" />
 			</figure>
 		<?php } ?>
 
@@ -430,8 +422,7 @@ function display_main_feature_article_card(
 				</p>
 			</div>
 
-			<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
-				class="card-news__button">
+			<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 				<p class="btn btn-card" aria-hidden="true">
 					<span class="text-arrow">
 						<svg class="brei-icon brei-icon-arrows" focusable="false">
@@ -451,7 +442,7 @@ function display_main_feature_article_card(
 			</span>
 		</a>
 	</div>
-	<?php
+<?php
 }
 
 function display_single_magazine_article_card(
@@ -459,7 +450,7 @@ function display_single_magazine_article_card(
 	string $medium_screen_class = 'medium-6',
 	string $large_screen_class = '',
 ) {
-	?>
+?>
 	<div class="aggregate__content xsmall-12 <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cell">
 		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle">
 			<?php
@@ -469,10 +460,9 @@ function display_single_magazine_article_card(
 				// conditionally display featured image
 				$featured_image_title = $featured_image->post_title;
 				$featured_image_url = get_the_post_thumbnail_url($post->ID);
-				?>
+			?>
 				<figure data-featured-image-id="<?php echo $featured_image_id ?>" class="card-news__figure">
-					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>"
-						class="card-news__image" itemprop="image" />
+					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" />
 				</figure>
 			<?php } ?>
 
@@ -499,8 +489,7 @@ function display_single_magazine_article_card(
 					</p>
 				</div>
 
-				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>"
-					class="card-news__button">
+				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 					<p class="btn btn-card" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
@@ -521,7 +510,7 @@ function display_single_magazine_article_card(
 			</a>
 		</div>
 	</div>
-	<?php
+<?php
 }
 
 
@@ -581,7 +570,7 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 	if (is_null($links) || sizeof($links) == 0) {
 		return;
 	}
-	?>
+?>
 	<div class="aggregate__subset">
 		<div class="row level__row grid-x grid-margin-x grid-margin-y">
 			<div class="content xsmall-12 cell">
@@ -598,18 +587,17 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 				$new_tab = isset($link['new_tab']) ? $link['new_tab'] : false;
 				$target = $new_tab ? 'target="_blank"' : '';
 				$link_url = isset($link['url']) ? $link['url'] : '';
-				?>
+			?>
 				<div class="aggregate__content xsmall-12 medium-6 large-4 cell">
 					<div class="card-magazine">
 						<?php
 						// if properties are present for media then display featured image 
 						if (!empty($media_url)) {
-							?>
+						?>
 							<figure class="card-magazine__figure">
-								<img src="<?php echo $media_url ?>" alt="<?php echo $media_alt ?>" class="card-magazine__image"
-									itemprop="image">
+								<img src="<?php echo $media_url ?>" alt="<?php echo $media_alt ?>" class="card-magazine__image" itemprop="image">
 							</figure>
-							<?php
+						<?php
 						}
 						?>
 
@@ -623,20 +611,19 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 
 						<?php
 						?>
-						<a href="<?php echo $link_url ?>" <?php echo $target ?> class="card-magazine__link"><span
-								class="show-for-sr">
+						<a href="<?php echo $link_url ?>" <?php echo $target ?> class="card-magazine__link"><span class="show-for-sr">
 								<?php echo $label ?>
 							</span></a>
 
 					</div>
 				</div>
-				<?php
+			<?php
 			}
 			?>
 		</div>
 	</div>
 
-	<?php
+<?php
 }
 
 
@@ -654,7 +641,7 @@ function display_rail_podcast_component(
 	$GOOGLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-google.svg';
 
 	$desktopClass = $desktop ? "rail-podcast--desktop" : "";
-	?>
+?>
 	<div class="rail-podcast <?php echo $desktopClass ?>">
 		<div class="rail-podcast__content">
 			<h2 class="font-h5">
@@ -663,60 +650,50 @@ function display_rail_podcast_component(
 			<hr>
 			<ul class="rail-podcast__list">
 				<li class="rail-podcast__item podcast_platform__apple" <?php if (empty(get_option('podcast_platform__apple'))) {
-					echo 'style="display:none';
-				} ?>>
-					<a href="<?php echo esc_attr(get_option('podcast_platform__apple')) ?>" class="rail-podcast__link"
-						aria-label="" target="_blank">
-						<img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25"
-							aria-hidden="true">
+																			echo 'style="display:none';
+																		} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__apple')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25" aria-hidden="true">
 						<div class="rail-podcast__text">
 							Listen on<br><span>Apple Podcasts</span>
 						</div>
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__spotify" <?php if (empty(get_option('podcast_platform__spotify'))) {
-					echo 'style="display:none';
-				} ?>>
-					<a href="<?php echo esc_attr(get_option('podcast_platform__spotify')) ?>" class="rail-podcast__link"
-						aria-label="" target="_blank">
-						<img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25"
-							aria-hidden="true">
+																				echo 'style="display:none';
+																			} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__spotify')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25" aria-hidden="true">
 						<div class="rail-podcast__text">
 							Listen on<br><span>Spotify</span>
 						</div>
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__stitcher" <?php if (empty(get_option('podcast_platform__stitcher'))) {
-					echo 'style="display:none';
-				} ?>>
-					<a href="<?php echo esc_attr(get_option('podcast_platform__stitcher')) ?>" class="rail-podcast__link"
-						aria-label="" target="_blank">
-						<img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25"
-							aria-hidden="true">
+																				echo 'style="display:none';
+																			} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__stitcher')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25" aria-hidden="true">
 						<div class="rail-podcast__text">
 							Listen on<br><span>Stitcher</span>
 						</div>
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__google" <?php if (empty(get_option('podcast_platform__google'))) {
-					echo 'style="display:none';
-				} ?>>
-					<a href="<?php echo esc_attr(get_option('podcast_platform__google')) ?>" class="rail-podcast__link"
-						aria-label="" target="_blank">
-						<img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25"
-							aria-hidden="true">
+																			echo 'style="display:none';
+																		} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__google')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25" aria-hidden="true">
 						<div class="rail-podcast__text">
 							Listen on<br><span>Google Podcasts</span>
 						</div>
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__iheart" <?php if (empty(get_option('podcast_platform__iheart'))) {
-					echo 'style="display:none';
-				} ?>>
-					<a href="<?php echo esc_attr(get_option('podcast_platform__iheart')) ?>" class="rail-podcast__link"
-						aria-label="" target="_blank">
-						<img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25"
-							aria-hidden="true">
+																			echo 'style="display:none';
+																		} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__iheart')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25" aria-hidden="true">
 						<div class="rail-podcast__text">
 							Listen on<br><span>iHeartRadio</span>
 						</div>
@@ -726,7 +703,7 @@ function display_rail_podcast_component(
 		</div>
 	</div>
 
-	<?php
+<?php
 }
 
 function display_single_rail_link(array $link)
@@ -746,7 +723,7 @@ function display_single_rail_link(array $link)
 	$description = isset($link['description']) ? $link['description'] : '';
 	$new_tab = isset($link['new_tab']) ? $link['new_tab'] : false;
 	$target = $new_tab ? 'target="_blank"' : '';
-	?>
+?>
 	<div class="rail-news">
 		<div class="rail-news__inner">
 			<a href="<?php echo $url ?>" <?php echo $target ?> class="btn btn-tertiary btn-tertiary-left">
@@ -770,7 +747,7 @@ function display_single_rail_link(array $link)
 			<?php } ?>
 		</div>
 	</div>
-	<?php
+<?php
 }
 
 function display_rail_links_list(
@@ -789,7 +766,7 @@ function display_rail_links_list(
 	// leverage same component as rail news section rather
 	// than rebuilding the exact same thing with different class names
 
-	?>
+?>
 	<div class="rail-home__section">
 		<h2 class="rail-header">
 			<?php echo $title ?>
@@ -802,7 +779,7 @@ function display_rail_links_list(
 		?>
 	</div>
 
-	<?php
+<?php
 }
 
 
@@ -910,7 +887,7 @@ function aggregate_rail_filter_component(
 	// base_url is just path 
 	// need absolute 
 	$base_url = get_site_url() . $base_url;
-	?>
+?>
 	<section class="filter">
 		<div class="filter__border">
 			<div class="filter__inner">
@@ -919,13 +896,12 @@ function aggregate_rail_filter_component(
 				</h2>
 				<hr>
 				<div class="filter__set">
-					<ul class="filter__accordion accordion" data-accordion="hvmgsx-accordion" data-multi-expand="true"
-						data-allow-all-closed="true">
-						<?php // expanded by default ?>
+					<ul class="filter__accordion accordion" data-accordion="hvmgsx-accordion" data-multi-expand="true" data-allow-all-closed="true">
+						<?php // expanded by default 
+						?>
 						<?php if (!empty($filterable_category_ids)) { ?>
 							<li class="filter__item accordion-item is-active" data-accordion-item="">
-								<a href="#categoryFilterSection" class="filter__heading accordion-title"
-									aria-controls="categoryFilterSection" id="categoryFilterSection-label" aria-expanded="true">
+								<a href="#categoryFilterSection" class="filter__heading accordion-title" aria-controls="categoryFilterSection" id="categoryFilterSection-label" aria-expanded="true">
 									<span class="filter__label">Filter By Category</span>
 									<span class="trigger">
 										<svg class="brei-icon brei-icon-plus" focusable="false">
@@ -936,18 +912,16 @@ function aggregate_rail_filter_component(
 										</svg>
 									</span>
 								</a>
-								<div class="filter__content accordion-content" data-tab-content="" id="categoryFilterSection"
-									role="region" aria-labelledby="categoryFilterSection-label">
+								<div class="filter__content accordion-content" data-tab-content="" id="categoryFilterSection" role="region" aria-labelledby="categoryFilterSection-label">
 									<fieldset>
 										<legend class="show-for-sr">year</legend>
 										<?php
 										foreach ($filterable_category_ids as $category_id) {
 											$category = get_category($category_id);
 											$checked = in_array($category_id, $checked_category_ids) ? 'checked="checked"' : '';
-											?>
+										?>
 											<div class="form__field">
-												<input id="catFilter-<?php echo $category_id ?>" name="catFilter[]" type="checkbox"
-													value="<?php echo $category_id ?>" <?php echo $checked ?>>
+												<input id="catFilter-<?php echo $category_id ?>" name="catFilter[]" type="checkbox" value="<?php echo $category_id ?>" <?php echo $checked ?>>
 												<label for="catFilter-<?php echo $category_id ?>">
 													<?php echo $category->name ?>
 													<span class="checkbox" role="none">
@@ -957,7 +931,7 @@ function aggregate_rail_filter_component(
 													</span>
 												</label>
 											</div>
-											<?php
+										<?php
 										} ?>
 									</fieldset>
 								</div>
@@ -967,10 +941,9 @@ function aggregate_rail_filter_component(
 						// expand if there are active tag filters
 						$expanded = sizeof($checked_tag_ids) > 0 ? 'is-active' : '';
 						if (!empty($filterable_tag_ids)) {
-							?>
+						?>
 							<li class="filter__item accordion-item <?php echo $expanded ?>" data-accordion-item="">
-								<a href="#tagFilterSection" class="filter__heading accordion-title"
-									aria-controls="tagFilterSection" id="tagFilterSection-label" aria-expanded="true">
+								<a href="#tagFilterSection" class="filter__heading accordion-title" aria-controls="tagFilterSection" id="tagFilterSection-label" aria-expanded="true">
 									<span class="filter__label">Filter By Tag</span>
 									<span class="trigger">
 										<svg class="brei-icon brei-icon-plus" focusable="false">
@@ -981,18 +954,16 @@ function aggregate_rail_filter_component(
 										</svg>
 									</span>
 								</a>
-								<div class="filter__content accordion-content" data-tab-content="" id="tagFilterSection"
-									role="region" aria-labelledby="tagFilterSection-label">
+								<div class="filter__content accordion-content" data-tab-content="" id="tagFilterSection" role="region" aria-labelledby="tagFilterSection-label">
 									<fieldset>
 										<legend class="show-for-sr">year</legend>
 										<?php
 										foreach ($filterable_tag_ids as $tag_id) {
 											$tag = get_term($tag_id);
 											$checked = in_array($tag_id, $checked_tag_ids) ? 'checked="checked"' : '';
-											?>
+										?>
 											<div class="form__field">
-												<input id="tagFilter-<?php echo $tag_id ?>" name="tagFilter[]" type="checkbox"
-													value="<?php echo $tag_id ?>" <?php echo $checked ?>>
+												<input id="tagFilter-<?php echo $tag_id ?>" name="tagFilter[]" type="checkbox" value="<?php echo $tag_id ?>" <?php echo $checked ?>>
 												<label for="tagFilter-<?php echo $tag_id ?>">
 													<?php echo $tag->name ?>
 													<span class="checkbox" role="none">
@@ -1002,21 +973,20 @@ function aggregate_rail_filter_component(
 													</span>
 												</label>
 											</div>
-											<?php
+										<?php
 										} ?>
 									</fieldset>
 								</div>
 							</li>
-							<?php
+						<?php
 						}
 
 						if (!empty($filterable_years)) {
 							// expand if there are active year filters
 							$expanded = sizeof($checked_years) > 0 ? 'is-active' : '';
-							?>
+						?>
 							<li class="filter__item accordion-item <?php echo $expanded ?>" data-accordion-item="">
-								<a href="#yearFilterSection" class="filter__heading accordion-title"
-									aria-controls="yearFilterSection" id="yearFilterSection-label">
+								<a href="#yearFilterSection" class="filter__heading accordion-title" aria-controls="yearFilterSection" id="yearFilterSection-label">
 									<span class="filter__label">Filter By Year</span>
 									<span class="trigger">
 										<svg class="brei-icon brei-icon-plus" focusable="false">
@@ -1027,17 +997,15 @@ function aggregate_rail_filter_component(
 										</svg>
 									</span>
 								</a>
-								<div class="filter__content accordion-content" data-tab-content="" id="yearFilterSection"
-									role="region" aria-labelledby="yearFilterSection-label">
+								<div class="filter__content accordion-content" data-tab-content="" id="yearFilterSection" role="region" aria-labelledby="yearFilterSection-label">
 									<fieldset>
 										<legend class="show-for-sr">year</legend>
 										<?php
 										foreach ($filterable_years as $year) {
 											$checked = in_array($year, $checked_years) ? 'checked="checked"' : '';
-											?>
+										?>
 											<div class="form__field">
-												<input id="yearFilter-<?php echo $year ?>" name="yearFilter[]" type="checkbox"
-													value="<?php echo $year ?>" <?php echo $checked ?>>
+												<input id="yearFilter-<?php echo $year ?>" name="yearFilter[]" type="checkbox" value="<?php echo $year ?>" <?php echo $checked ?>>
 												<label for="yearFilter-<?php echo $year ?>">
 													<?php echo $year ?>
 													<span class="checkbox" role="none">
@@ -1047,25 +1015,24 @@ function aggregate_rail_filter_component(
 													</span>
 												</label>
 											</div>
-											<?php
+										<?php
 										} ?>
 									</fieldset>
 								</div>
 							</li>
-							<?php
+						<?php
 						} ?>
 					</ul>
 
 				</div>
 
-				<button class="btn btn--primary-small filter__button"
-					onclick="applyFilters({baseUrl: '<?php echo $base_url ?>'})">
+				<button class="btn btn--primary-small filter__button" onclick="applyFilters({baseUrl: '<?php echo $base_url ?>'})">
 					<span class="text">Apply Filters</span>
 				</button>
 			</div>
 		</div>
 	</section>
-	<?php
+<?php
 }
 
 

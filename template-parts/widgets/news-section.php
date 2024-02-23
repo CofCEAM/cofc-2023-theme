@@ -76,7 +76,7 @@ class NewsSectionWidget extends WP_Widget
                 'order' => 'DESC'
             )
         );
-        ?>
+?>
         <section class="news-content news-content--latest news-content--single component">
             <div class="cell xsmall-12 news-content__home">
                 <h2 class="font-h2">
@@ -106,21 +106,20 @@ class NewsSectionWidget extends WP_Widget
             </div>
             <?php
             if (!empty($section_link) && !ctype_space($section_link)) {
-                ?>
+            ?>
                 <div class="button-dotted-line">
-                    <a <?php if ($section_link_new_tab) { ?> target="_blank" <?php } ?> href="<?php echo $section_link ?>"
-                        title="Read more about the news items in this section" class="btn btn--primary">
+                    <a <?php echo $section_link_new_tab ? 'target="_blank"' : '' ?> href="<?php echo $section_link ?>" title="Read more about the news items in this section" class="btn btn--primary">
                         <span class="text">
                             <?php echo $section_link_label ?>
                         </span>
                     </a>
                 </div>
-                <?php
+            <?php
             }
             ?>
 
         </section>
-        <?php
+    <?php
     } //widget
 
     function update($new_instance, $old_instance)
@@ -168,6 +167,7 @@ class NewsSectionWidget extends WP_Widget
             'title' => 'Section Title',
             'section_link' => null,
             'section_link_label' => 'Read more',
+            'section_link_new_tab' => 'no',
             'columns' => 3,
             'posts_limit' => 3,
             'post_categories' => array(),
@@ -181,9 +181,14 @@ class NewsSectionWidget extends WP_Widget
 
         $post_categories = $instance['post_categories'];
         $post_tags = $instance['post_tags'];
+
+
+        $section_link_new_tab = $instance['section_link_new_tab'];
         $display_post_excerpt = $this->booltostr($instance['display_post_excerpt']);
         $display_post_published_date = $this->booltostr($instance['display_post_published_date']);
         $display_post_author = $this->booltostr($instance['display_post_author']);
+
+
 
 
         $categories = get_categories();
@@ -191,114 +196,101 @@ class NewsSectionWidget extends WP_Widget
 
 
         // what to display
-        echo ' 
-        <div> 
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('title') . '">Section Title</label>
-        <input class="widefat" value="' . $instance['title'] . '" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '"> 
-        </p>  
-        <h4>Optional Link Below Section</h4>
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('section_link') . '">Section Link URL (If you add a URL here, the widget will include a button linking to that URL in a new tab below the section. If empty, no button will display)</label> 
-        <input type="url" class="widefat" value="' . $instance['section_link'] . '" id="' . $this->get_field_id('section_link') . '" name="' . $this->get_field_name('section_link') . '"> 
-        </p>
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('section_link_label') . '">Section Link Label (the text that displays on the button)</label> 
-        <input type="text" class="widefat" value="' . $instance['section_link_label'] . '" id="' . $this->get_field_id('section_link_label') . '" name="' . $this->get_field_name('section_link_label') . '"> 
-        </p> 
-        <p>
-        <h5>Open Link in New Tab?</h5>
-        <label class="widefat"  for="' . $this->get_field_id('section_link_new_tab') . '-yes">Yes</label> 
-        <input type="radio" class="widefat" value="yes" id="' . $this->get_field_id('section_link_new_tab') . '-yes" name="' . $this->get_field_name('section_link_new_tab') . '"> 
-        <label class="widefat"  for="' . $this->get_field_id('section_link_new_tab') . '-no">No</label> 
-        <input type="radio" class="widefat" value="no" id="' . $this->get_field_id('section_link_new_tab') . '-no" name="' . $this->get_field_name('section_link_new_tab') . '"> 
-        </p> 
-        <h4>Layout</h4>
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('columns') . '">Number of Columns (between 1 and 4)?</label>
-        <input min="1" max="4" type="number" class="widefat" value="' . $instance['columns'] . '" id="' . $this->get_field_id('columns') . '" name="' . $this->get_field_name('columns') . '"> 
-        </p>
-        <p>
-        <label class="widefat"  for="' . $this->get_field_id('posts_limit') . '">Max Number of Posts (best to use multiple of columns e.g. 4 columns, 4 posts or 8 posts)</label>
-        <input max="8"  type="number" class="widefat" value="' . $instance['posts_limit'] . '" id="' . $this->get_field_id('posts_limit') . '" name="' . $this->get_field_name('posts_limit') . '"> 
-        </p>
-         
-        <h4>Show Excerpts</h4>
-        <p>
-        <label  for="' . $this->get_field_id('display_post_excerpt') . '-yes">Yes</label>
-        <input ' . checked($display_post_excerpt, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_excerpt') . '-yes" name="' . $this->get_field_name('display_post_excerpt') . '"> 
-        <label for="' . $this->get_field_id('display_post_excerpt') . '-no">No</label>
-        <input ' . checked($display_post_excerpt, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_excerpt') . '-no" name="' . $this->get_field_name('display_post_excerpt') . '"> 
-        </p>';
-        echo '
+    ?>
+        <div>
+            <p>
+                <label class="widefat" for="<?php echo $this->get_field_id('title'); ?>">Section Title</label>
+                <input class="widefat" value="<?php echo $instance['title']; ?>" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>">
+            </p>
+            <h4>Optional Link Below Section</h4>
+            <p>
+                <label class="widefat" for="<?php echo $this->get_field_id('section_link'); ?>">Section Link URL (If you add a URL here, the widget will include a button linking to that URL below the section. If empty, no button will display)</label>
+                <input type="url" class="widefat" value="<?php echo $instance['section_link']; ?>" id="<?php echo $this->get_field_id('section_link'); ?>" name="<?php echo $this->get_field_name('section_link'); ?>">
+            </p>
+            <p>
+                <label class="widefat" for="<?php echo $this->get_field_id('section_link_label'); ?>">Section Link Label (the text that displays on the button)</label>
+                <input type="text" class="widefat" value="<?php echo $instance['section_link_label']; ?>" id="<?php echo $this->get_field_id('section_link_label'); ?>" name="<?php echo $this->get_field_name('section_link_label'); ?>">
+            </p>
+            <p>
+            <h5>Open Link in New Tab?</h5>
+            <label class="widefat" for="<?php echo $this->get_field_id('section_link_new_tab'); ?>-yes">Yes</label>
+            <input <?php echo checked($section_link_new_tab, 'yes', true) ?> type="radio" class="widefat" value="yes" id="<?php echo $this->get_field_id('section_link_new_tab'); ?>-yes" name="<?php echo $this->get_field_name('section_link_new_tab'); ?>">
+            <label class="widefat" for="<?php echo $this->get_field_id('section_link_new_tab'); ?>-no">No</label>
+            <input <?php echo checked($section_link_new_tab, 'no', true) ?> type="radio" class="widefat" value="no" id="<?php echo $this->get_field_id('section_link_new_tab'); ?>-no" name="<?php echo $this->get_field_name('section_link_new_tab'); ?>">
+            </p>
+            <h4>Layout</h4>
+            <p>
+                <label class="widefat" for="<?php echo $this->get_field_id('columns'); ?>">Number of Columns (between 1 and 4)?</label>
+                <input min="1" max="4" type="number" class="widefat" value="<?php echo $instance['columns']; ?>" id="<?php echo $this->get_field_id('columns'); ?>" name="<?php echo $this->get_field_name('columns'); ?>">
+            </p>
+            <p>
+                <label class="widefat" for="<?php echo $this->get_field_id('posts_limit'); ?>">Max Number of Posts (best to use multiple of columns e.g. 4 columns, 4 posts or 8 posts)</label>
+                <input max="8" type="number" class="widefat" value="<?php echo $instance['posts_limit']; ?>" id="<?php echo $this->get_field_id('posts_limit'); ?>" name="<?php echo $this->get_field_name('posts_limit'); ?>">
+            </p>
+            <h4>Show Excerpts</h4>
+            <p>
+                <label for="<?php echo $this->get_field_id('display_post_excerpt'); ?>-yes">Yes</label>
+                <input <?php checked($display_post_excerpt, 'yes', true); ?> type="radio" value="yes" id="<?php echo $this->get_field_id('display_post_excerpt'); ?>-yes" name="<?php echo $this->get_field_name('display_post_excerpt'); ?>">
+                <label for="<?php echo $this->get_field_id('display_post_excerpt'); ?>-no">No</label>
+                <input <?php checked($display_post_excerpt, 'no', true); ?> type="radio" value="no" id="<?php echo $this->get_field_id('display_post_excerpt'); ?>-no" name="<?php echo $this->get_field_name('display_post_excerpt'); ?>">
+            </p>
+        </div>
+        <?php
+
+
+
+
+        ?>
         <h4>Show Published Date</h4>
         <p>
-        <label for="' . $this->get_field_id('display_post_published_date') . '-yes">Yes</label>
-        <input ' . checked($display_post_published_date, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_published_date') . '-yes" name="' . $this->get_field_name('display_post_published_date') . '"> 
-        <label for="' . $this->get_field_id('display_post_published_date') . '-no">No</label>
-        <input ' . checked($display_post_published_date, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_published_date') . '-no" name="' . $this->get_field_name('display_post_published_date') . '"> 
-        </p>';
+            <label for="<?php echo $this->get_field_id('display_post_published_date'); ?>-yes">Yes</label>
+            <input <?php checked($display_post_published_date, 'yes', true); ?> type="radio" value="yes" id="<?php echo $this->get_field_id('display_post_published_date'); ?>-yes" name="<?php echo $this->get_field_name('display_post_published_date'); ?>">
+            <label for="<?php echo $this->get_field_id('display_post_published_date'); ?>-no">No</label>
+            <input <?php checked($display_post_published_date, 'no', true); ?> type="radio" value="no" id="<?php echo $this->get_field_id('display_post_published_date'); ?>-no" name="<?php echo $this->get_field_name('display_post_published_date'); ?>">
+        </p>
 
-        echo '
         <h4>Show Author</h4>
         <p>
-        <label for="' . $this->get_field_id('display_post_author') . '-yes">Yes</label>
-        <input ' . checked($display_post_author, 'yes', false) . ' type="radio" value="yes" id="' . $this->get_field_id('display_post_author') . '-yes" name="' . $this->get_field_name('display_post_author') . '"> 
-        <label for="' . $this->get_field_id('display_post_author') . '-no">No</label>
-        <input ' . checked($display_post_author, 'no', false) . ' type="radio" value="no" id="' . $this->get_field_id('display_post_author') . '-no" name="' . $this->get_field_name('display_post_author') . '"> 
-        </p>';
+            <label for="<?php echo $this->get_field_id('display_post_author'); ?>-yes">Yes</label>
+            <input <?php checked($display_post_author, 'yes', true); ?> type="radio" value="yes" id="<?php echo $this->get_field_id('display_post_author'); ?>-yes" name="<?php echo $this->get_field_name('display_post_author'); ?>">
+            <label for="<?php echo $this->get_field_id('display_post_author'); ?>-no">No</label>
+            <input <?php checked($display_post_author, 'no', true); ?> type="radio" value="no" id="<?php echo $this->get_field_id('display_post_author'); ?>-no" name="<?php echo $this->get_field_name('display_post_author'); ?>">
+        </p>
 
-        echo '</div>';
-        // end display 
+        </div>
+        <hr />
 
-        echo '<hr/>';
+        <div>
+            <h3>Filtering</h3>
+            <h4>Limit to Categories</h4>
+            <?php
+            foreach ($categories as $cat) {
+                $inputId = $this->get_field_id('post_categories') . '-' . $cat->cat_ID;
+            ?>
+                <p>
+                    <input <?php checked(in_array($cat->cat_ID, $post_categories), true, true) ?> type="checkbox" value="<?php echo $cat->cat_ID; ?>" id="<?php echo $inputId; ?>" name="<?php echo $this->get_field_name('post_categories'); ?>[]">
 
-
-        echo '<div><h3>Filtering</h3>';
-        echo '<h4>Limit to Categories</h4>';
-
-
-
-        foreach ($categories as $cat) {
-            $checked = in_array($cat->cat_ID, $post_categories) ? 'checked' : '';
-            $inputId = $this->get_field_id('post_categories') . '-' . $cat->cat_ID;
-            echo '
-            <p>
-                <input ' .
-                $checked . '   
-                    type="checkbox" 
-                    value="' . $cat->cat_ID . '" 
-                    id="' . $inputId . '" 
-                    name="' . $this->get_field_name('post_categories') . '[]">
-                <label for="' . $inputId . '">' . $cat->name . '</label>
-            </p>
-            ';
-        }
-        echo '</div>';
-        //end category checkboxes
-
-        echo '<hr/>';
-
-        // tag checkboxes
-        echo '
-         <div>
-             <h4>Limit to Tags</h4>
-         ';
-        foreach ($tags as $tag) {
-            $inputId = $this->get_field_id('post_tags') . '-' . $tag->term_id;
-            $checked = in_array($tag->term_id, $post_tags) ? 'checked' : '';
-            echo '
-             <p>
-                 <input ' . $checked . ' 
-                 type="checkbox" value="' . $tag->term_id . '" 
-                 id="' . $inputId . '"
-                 name="' . $this->get_field_name('post_tags') . '[]">
-                 <label for="' . $inputId . '">' . $tag->name . '</label>
-             </p>
-             ';
-        }
-
-        echo '</div>';
+                    <label for="<?php echo $inputId ?>"><?php echo $cat->name ?></label>
+                </p> <?php
+                    }
+                        ?>
+        </div>
+        <hr />
+        <div>
+            <h4>Limit to Tags</h4>
+            <?php
+            foreach ($tags as $tag) {
+                $inputId = $this->get_field_id('post_tags') . '-' . $tag->term_id;
+            ?>
+                <p>
+                    <input <?php echo checked(in_array($tag->term_id, $post_tags), true, true) ?> type="checkbox" value="<?php echo $tag->term_id; ?>" id="<?php echo $inputId; ?>" name="<?php echo $this->get_field_name('post_tags'); ?>[]">
+                    <label for="<?php echo $inputId ?>"><?php echo $tag->name ?></label>
+                </p>
+            <?php
+            }
+            ?>
+        </div>
+<?php
     }
 }
 

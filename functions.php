@@ -644,7 +644,7 @@ function display_rail_podcast_component(
 ?>
 	<div class="rail-podcast <?php echo $desktopClass ?>">
 		<div class="rail-podcast__content">
-			<h2 class="font-h5">
+			<h2 class="rail-header">
 				<?php echo $title ?>
 			</h2>
 			<hr>

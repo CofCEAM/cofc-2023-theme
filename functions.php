@@ -1081,6 +1081,14 @@ function cofctheme_enqueue_custom_block_scripts()
 	}
 }
 
+/* SearchWP configuration 
+Documentation: https://searchwp.com/v3/docs/hooks/searchwp_return_orderby_date/
+Solves problem: when searching on MultiSite, the search results are not ordered by date
+ALWAYS return search results ordered by date
+*/
+add_filter('searchwp_return_orderby_date', '__return_true');
+
+
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';
 require get_template_directory() . '/blocks/src/testimonial/index.php';

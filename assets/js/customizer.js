@@ -183,7 +183,7 @@
     });
   });
 
-  ["spotify", "apple", "iheart", "stitcher", "google"].forEach((platform) => {
+  ["spotify", "apple", "iheart", "stitcher", "youtube", "google"].forEach((platform) => {
     let key = `podcast_platform__${platform}`;
     wp.customize(key, function (value) {
       value.bind(function (newval) {

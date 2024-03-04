@@ -632,7 +632,10 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 
 function display_rail_podcast_component(
 	string $title = "Subscribe on your preferred platform",
-	bool $desktop = false
+	bool $desktop = false,
+	string $section_header_link = '',
+	string $section_header_link_label = 'View all podcast episodes',
+	string $section_header_link_new_tab = 'no'
 ) {
 
 	$SPOTIFY_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-spotify.svg';
@@ -649,6 +652,20 @@ function display_rail_podcast_component(
 			<h2 class="rail-header">
 				<?php echo $title ?>
 			</h2>
+			<?php
+			if (!empty($section_header_link)) { ?>
+				<a href="<?php echo $section_header_link ?>" class="btn btn-tertiary btn-tertiary-left" <?php echo $section_header_link_new_tab == 'yes' ? 'target="_blank"' : '' ?>>
+					<span class="text"><?php echo $section_header_link_label ?></span>
+					<span class="text-arrow">
+						<svg class="brei-icon brei-icon-arrows" focusable="false">
+							<use href="#brei-icon-arrows"></use>
+						</svg>
+						<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
+							<use href="#brei-icon-arrows-arrow"></use>
+						</svg>
+					</span>
+				</a>
+			<?php } ?>
 			<hr>
 			<ul class="rail-podcast__list">
 				<li class="rail-podcast__item podcast_platform__apple" <?php if (empty(get_option('podcast_platform__apple'))) {

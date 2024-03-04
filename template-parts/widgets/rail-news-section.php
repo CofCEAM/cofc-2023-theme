@@ -185,6 +185,7 @@ class RailNewsSectionWidget extends WP_Widget
                 <input <?php checked($section_header_link_new_tab, 'yes', true); ?> type="radio" value="yes" id="<?php echo $this->get_field_id('section_header_link_new_tab'); ?>-yes" name="<?php echo $this->get_field_name('section_header_link_new_tab'); ?>">
                 <label for="<?php echo $this->get_field_id('section_header_link_new_tab'); ?>-no">Open in same tab</label>
                 <input <?php checked($section_header_link_new_tab, 'no', true); ?> type="radio" value="no" id="<?php echo $this->get_field_id('section_header_link_new_tab'); ?>-no" name="<?php echo $this->get_field_name('section_header_link_new_tab'); ?>">
+            </p>
             <p>
                 <label class="widefat" for="<?php echo $this->get_field_id('posts_limit'); ?>">Max Number of Posts</label>
                 <input max="8" type="number" class="widefat" value="<?php echo $instance['posts_limit']; ?>" id="<?php echo $this->get_field_id('posts_limit'); ?>" name="<?php echo $this->get_field_name('posts_limit'); ?>">

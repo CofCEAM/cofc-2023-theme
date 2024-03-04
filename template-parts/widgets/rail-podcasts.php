@@ -31,6 +31,7 @@ class RailPodcastSectionWidget extends WP_Widget
             'podcast_platform__apple',
             'podcast_platform__stitcher',
             'podcast_platform__google',
+            'podcast_platform__youtube',
             'podcast_platform__iheart',
         );
 
@@ -46,11 +47,11 @@ class RailPodcastSectionWidget extends WP_Widget
         }
         $title = $instance['title'];
         display_rail_podcast_component($title);
-        ?>
+?>
 
 
 
-        <?php
+    <?php
     } //widget
 
     function update($new_instance, $old_instance)
@@ -66,15 +67,14 @@ class RailPodcastSectionWidget extends WP_Widget
             'title' => 'Section Title',
         );
         $instance = wp_parse_args((array) $instance, $defaults);
-        ?>
+    ?>
         <div>
             <p>Podcast Links are Globally Edited in Appearance > Customize > Podcast Platforms. You can adjust the section title
                 above those podcast links in the sidebar here.</p>
             <label class="widefat" for="<?php echo $this->get_field_id('title') ?>">Section Title</label>
-            <input class="widefat" value="<?php echo esc_attr($instance['title']) ?>"
-                id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>">
+            <input class="widefat" value="<?php echo esc_attr($instance['title']) ?>" id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>">
         </div>
-        <?php
+<?php
     } //form 
 }
 

@@ -639,6 +639,7 @@ function display_rail_podcast_component(
 	$APPLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-apple.svg';
 	$STITCHER_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-stitcher.svg';
 	$GOOGLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-google.svg';
+	$YOUTUBE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-youtube.svg';
 
 	$desktopClass = $desktop ? "rail-podcast--desktop" : "";
 ?>
@@ -650,7 +651,7 @@ function display_rail_podcast_component(
 			<hr>
 			<ul class="rail-podcast__list">
 				<li class="rail-podcast__item podcast_platform__apple" <?php if (empty(get_option('podcast_platform__apple'))) {
-																			echo 'style="display:none';
+																			echo 'style="display:none"';
 																		} ?>>
 					<a href="<?php echo esc_attr(get_option('podcast_platform__apple')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
 						<img src="<?php echo $APPLE_PODCAST_ICON ?>" alt="Apple Podcast" width="25" height="25" aria-hidden="true">
@@ -660,7 +661,7 @@ function display_rail_podcast_component(
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__spotify" <?php if (empty(get_option('podcast_platform__spotify'))) {
-																				echo 'style="display:none';
+																				echo 'style="display:none"';
 																			} ?>>
 					<a href="<?php echo esc_attr(get_option('podcast_platform__spotify')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
 						<img src="<?php echo $SPOTIFY_PODCAST_ICON ?>" alt="Spotify" width="25" height="25" aria-hidden="true">
@@ -670,7 +671,7 @@ function display_rail_podcast_component(
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__stitcher" <?php if (empty(get_option('podcast_platform__stitcher'))) {
-																				echo 'style="display:none';
+																				echo 'style="display:none"';
 																			} ?>>
 					<a href="<?php echo esc_attr(get_option('podcast_platform__stitcher')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
 						<img src="<?php echo $STITCHER_PODCAST_ICON ?>" alt="Stitcher" width="25" height="25" aria-hidden="true">
@@ -680,7 +681,7 @@ function display_rail_podcast_component(
 					</a>
 				</li>
 				<li class="rail-podcast__item podcast_platform__google" <?php if (empty(get_option('podcast_platform__google'))) {
-																			echo 'style="display:none';
+																			echo 'style="display:none"';
 																		} ?>>
 					<a href="<?php echo esc_attr(get_option('podcast_platform__google')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
 						<img src="<?php echo $GOOGLE_PODCAST_ICON ?>" alt="Google Podcasts" width="25" height="25" aria-hidden="true">
@@ -689,8 +690,18 @@ function display_rail_podcast_component(
 						</div>
 					</a>
 				</li>
+				<li class="rail-podcast__item podcast_platform__youtube" <?php if (empty(get_option('podcast_platform__youtube'))) {
+																				echo 'style="display:none"';
+																			} ?>>
+					<a href="<?php echo esc_attr(get_option('podcast_platform__youtube')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
+						<img src="<?php echo $YOUTUBE_PODCAST_ICON ?>" alt="YouTube Podcasts" width="25" height="25" aria-hidden="true">
+						<div class="rail-podcast__text">
+							Listen on<br><span>YouTube Podcasts</span>
+						</div>
+					</a>
+				</li>
 				<li class="rail-podcast__item podcast_platform__iheart" <?php if (empty(get_option('podcast_platform__iheart'))) {
-																			echo 'style="display:none';
+																			echo 'style="display:none"';
 																		} ?>>
 					<a href="<?php echo esc_attr(get_option('podcast_platform__iheart')) ?>" class="rail-podcast__link" aria-label="" target="_blank">
 						<img src="<?php echo $IHEART_PODCAST_ICON ?>" alt="iHeart Radio" width="25" height="25" aria-hidden="true">

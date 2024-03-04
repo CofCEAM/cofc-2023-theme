@@ -400,9 +400,6 @@ function create_logo_customizer($wp_customize)
             )
         )
     );
-
-
-
 }
 
 
@@ -715,8 +712,6 @@ function create_page_post_display_customizers($wp_customize)
             )
         )
     );
-
-
 }
 function create_meta_customizer($wp_customize)
 {
@@ -904,6 +899,11 @@ function create_podcast_platforms_customizer($wp_customize)
             'label' => 'Google Podcasts',
             'slug' => 'podcast_platform__google',
             'default' => 'https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5idXp6c3Byb3V0LmNvbS8xNzQ1MTU5LnJzcw?sa=X&ved=0CBwQ27cFahcKEwio_L62_-z7AhUAAAAAHQAAAAAQTg'
+        ),
+        array(
+            'label' => 'YouTube Podcasts',
+            'slug' => 'podcast_platform__youtube',
+            'default' => 'https://www.youtube.com/@collegeofcharleston/podcasts'
         )
     );
     foreach ($podcast_platforms as $platform) {
@@ -935,9 +935,6 @@ function create_podcast_platforms_customizer($wp_customize)
                 )
             )
         );
-
-
-
     }
 }
 

@@ -383,7 +383,8 @@ function display_main_feature_article_card(
 ) {
 	$wideClass = $wide ? 'card-news--wide' : '';
 ?>
-	<div class="card-news <?php echo $wideClass ?> card-news--featured" itemscope itemtype="https://schema.org/NewsArticle">
+	<div class="card-news <?php echo $wideClass ?> card-news--featured" itemscope itemtype="https://schema.org/NewsArticle" onclick="window.location='<?php echo get_permalink($post); ?>'">
+		>
 		<?php
 		$featured_image_id = get_post_thumbnail_id($post->ID);
 		$featured_image = get_post($featured_image_id);
@@ -452,7 +453,7 @@ function display_single_magazine_article_card(
 ) {
 ?>
 	<div class="aggregate__content xsmall-12 <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cell">
-		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle">
+		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle" onclick="window.location='<?php echo get_permalink($post); ?>'">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
 			$featured_image = get_post($featured_image_id);

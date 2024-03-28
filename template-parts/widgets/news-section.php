@@ -59,18 +59,11 @@ class NewsSectionWidget extends WP_Widget
         $section_link_label = $instance['section_link_label'];
         $section_link = $instance['section_link'];
         $section_link_new_tab = $instance['section_link_new_tab'] == 'yes';
-        $post_not_in_arg = array();
-
-        // always exclude current post
         global $post;
-        array_push($post_not_in_arg, $post->ID);
-
         $query = new WP_Query(
             array(
                 'category__in' => $post_categories,
                 'tag__in' => $post_tags,
-                'post__not_in' => $post_not_in_arg,
-                // if exclude sticky posts and exclude post id 
                 'posts_per_page' => $posts_limit,
                 'orderby' => 'date',
                 'order' => 'DESC'

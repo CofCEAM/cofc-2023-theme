@@ -51,13 +51,11 @@ class RecentPostsWidget extends WP_Widget
 
         // always exclude current post
         global $post;
-        array_push($post_not_in_arg, $post->ID);
 
         $query = new WP_Query(
             array(
                 'category__in' => $post_categories,
                 'tag__in' => $post_tags,
-                'post__not_in' => $post_not_in_arg,
                 // if exclude sticky posts and exclude post id 
                 'posts_per_page' => $posts_limit,
                 'offset' => $posts_offset,
@@ -312,7 +310,6 @@ class RecentPostsWidget extends WP_Widget
         }
         echo '</div>';
     }
-
 }
 
 function register_RecentPostsWidget()

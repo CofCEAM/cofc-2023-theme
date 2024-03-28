@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Search Page
+ * Template Name: Search Page for SearchWP (when ?searchwp= is set in URL)
  */
 get_header();
 

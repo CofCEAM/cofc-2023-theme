@@ -28,8 +28,7 @@
 
 <body>
 	<?php do_action('after_body_open_tag'); ?>
-	<header id="global-header" class="header"
-		style="background-color: <?php echo get_option('header_background_color') ?>">
+	<header id="global-header" class="header" style="background-color: <?php echo get_option('header_background_color') ?>">
 		<div class="header__identity" style="background-color: <?php echo get_option('header_background_color') ?>">
 			<div class="wrapper">
 				<?php
@@ -44,13 +43,11 @@
 						<?php
 						$site_logo = get_option('site_logo'); // Get the site logo ID
 						$logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image
-						
-						if ($logo_url): ?>
-							<img src="<?php echo esc_url($logo_url[0]); ?>"
-								alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
-						<?php else: ?>
-							<img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>"
-								alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+
+						if ($logo_url) : ?>
+							<img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+						<?php else : ?>
+							<img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 						<?php endif; ?>
 					</span>
 				</a>
@@ -70,11 +67,9 @@
 
 					<div class="search-desktop">
 
-						<button class="search-desktop__toggle" aria-controls="search-form" aria-pressed="false"
-							aria-label="Open site search">
+						<button class="search-desktop__toggle" aria-controls="search-form" aria-pressed="false" aria-label="Open site search">
 
-							<svg class="brei-icon brei-icon-search" focusable="false"
-								style="color: <?php echo get_option('top_nav_text_color') ?>">
+							<svg class="brei-icon brei-icon-search" focusable="false" style="color: <?php echo get_option('top_nav_text_color') ?>">
 								<use href="#brei-icon-search"></use>
 							</svg>
 
@@ -84,19 +79,15 @@
 
 						</button>
 
-						<form id="search-form" class="search-desktop__form" method="get"
-							action="<?php echo get_site_url() ?>" hidden>
+						<form id="search-form" class="search-desktop__form" method="get" action="<?php echo get_site_url() ?>" hidden>
 							<label class="show-for-sr" for="q">What're you looking for?</label>
-							<input name="<?php echo get_option('search_query_parameter_key') ?>" id="s-desktop"
-								class="search-desktop__input" type="search" placeholder="What're you looking for?"
-								aria-label="Search" tabindex="-1">
+							<input name="<?php echo get_option('search_query_parameter_key') ?>" id="s-desktop" class="search-desktop__input" type="search" placeholder="What're you looking for?" aria-label="Search" tabindex="-1">
 						</form>
 
 					</div>
 				</div>
 
-				<button class="header__toggle" aria-controls="header_navigation" aria-pressed="false"
-					aria-label="Open primary navigation">
+				<button class="header__toggle" aria-controls="header_navigation" aria-pressed="false" aria-label="Open primary navigation">
 
 					<svg class="brei-icon brei-icon-menu" focusable="false">
 						<use href="#brei-icon-menu"></use>

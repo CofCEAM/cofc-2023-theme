@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template Name: Search Page for SearchWP (when ?searchwp= is set in URL)
  */
@@ -45,7 +46,44 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 		)
 	);
 }
+
+function order_searchwp_results_in_reverse_chronological_order($searchwp_results = array(), $current_blog_id)
+{
+	/* 
+	Args: 
+		$searchwp_results: array of search_results from SearchWP
+		$current_blog_id: current blog ID
+
+	Returns:
+		$search_results: array of WP_Post objects sorted by post date in descending order
+	*/
+
+	// Since SearchWP is failing to order by post date, do it manually here. 
+	// search_results from SearchWP looks like this: array(10) { [0]=> object(stdClass)#3210 (4) { ["id"]=> string(6) "132691" ["source"]=> string(9) "post.post" ["site"]=> string(1) "2" ["relevance"]=> string(1) "6" } .... }
+	$reverse_chronological_order_search_results = array();
+	foreach ($searchwp_results as $search_result) {
+		if ($current_blog_id !== $search_result->site) {
+			switch_to_blog($search_result->site);
+			$post = get_post($search_result->id);
+			$reverse_chronological_order_search_results[$post->post_date] = $post;
+			restore_current_blog();
+		} else {
+			$post = get_post($search_result->id);
+			$reverse_chronological_order_search_results[$post->post_date] = $post;
+		}
+	}
+	wp_reset_postdata();
+	// sort by post date in descending order (keys)
+	krsort($reverse_chronological_order_search_results);
+	// reassign the sorted search results to $search_results
+	$search_results = array_values($reverse_chronological_order_search_results);
+	return $search_results; // array of WP_Post objects
+}
+
+$search_results = order_searchwp_results_in_reverse_chronological_order($search_results, $current_blog_id);
+
 ?>
+
 <main id="main" class="search-results">
 	<!-- current blog ID: <?php echo $current_blog_id ?> -->
 	<div class="search-results__wrapper wrapper">
@@ -56,12 +94,9 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 						<?php echo 'Search results for "' . $search_query . '"' ?>
 					</h1>
 					<hr>
-					<form class="search-results__search" role="search" method="get"
-						action="<?php echo get_site_url() ?>">
+					<form class="search-results__search" role="search" method="get" action="<?php echo get_site_url() ?>">
 						<div class="form__field form__field--is-search form__field--is-valid">
-							<input id="searchwp" name="searchwp" type="search"
-								value="<?php echo isset($_GET['searchwp']) ? esc_attr($_GET['searchwp']) : '' ?>"
-								required="required" title="<?php echo esc_attr_x('Search for:', 'label') ?>">
+							<input id="searchwp" name="searchwp" type="search" value="<?php echo isset($_GET['searchwp']) ? esc_attr($_GET['searchwp']) : '' ?>" required="required" title="<?php echo esc_attr_x('Search for:', 'label') ?>">
 							<label for="search" style="visibility:hidden;">Search term</label>
 							<button type="submit" class="search-button">
 								<span class="show-for-sr">Search</span>
@@ -98,39 +133,19 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 						<?php echo 'Search results for "' . $search_query . '"' ?>
 					</h2>
 
-					<div id="results-listings-container"
-						class="aggregate__results row level_events11 grid-x grid-margin-x grid-margin-y column"
-						data-src="../../data/search.json">
+					<div id="results-listings-container" class="aggregate__results row level_events11 grid-x grid-margin-x grid-margin-y column" data-src="../../data/search.json">
 						<section class="news-content">
 							<div class="news-content__cards grid-x grid-margin-x grid-margin-y">
 
 								<?php if (!empty($search_query) && !empty($search_results)) {
-									foreach ($search_results as $search_result) {
-										if ($current_blog_id !== $search_result->site) {
-											echo "<!-- current blog id " . $current_blog_id . " NOT EQUAL TO search result site ID " . $search_result->site . "-->";
-											switch_to_blog($search_result->site);
-											$post = get_post($search_result->id);
-											?>
-											<div
-												class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?> site-<?php echo $search_result->site ?>">
-												<?php
-												display_featured_post_card($post, wide: false);
-												?>
-											</div>
+									foreach ($search_results as $post) {
+								?>
+										<div class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?>">
 											<?php
-											restore_current_blog();
-										} else {
-											echo "<!-- current blog id " . $current_blog_id . " EQUAL TO post site ID " . $search_result->site . "-->";
-											$post = get_post($search_result->id);
+											display_featured_post_card($post, wide: false);
 											?>
-											<div
-												class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?> site-<?php echo $search_result->site ?>">
-												<?php
-												display_featured_post_card($post, wide: false);
-												?>
-											</div>
-											<?php
-										}
+										</div>
+									<?php
 									}
 									wp_reset_postdata(); // At the end reset your query 
 									?>
@@ -147,9 +162,9 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 											?>
 										</div>
 									</div>
-									<?php
+								<?php
 								} else {
-									?>
+								?>
 									<div class="component">
 										<div class="row level__row">
 											<div class="level__content large-8 large-push-2 columns">
@@ -159,7 +174,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 											</div>
 										</div>
 									</div>
-									<?php
+								<?php
 								} ?>
 							</div>
 					</div>

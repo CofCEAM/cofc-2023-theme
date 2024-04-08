@@ -34,7 +34,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 		'fields' => 'default',          // Retain site ID info with results.
 		'site' => $search_site_ids, // Limit results to specified sites
 		'page' => $search_page,
-		'per_page' => get_option('posts_per_page'), 
+		'per_page' => get_option('posts_per_page'),
 	]);
 	$search_results = $searchwp_query->get_results();
 
@@ -65,11 +65,17 @@ function order_searchwp_results_in_reverse_chronological_order($searchwp_results
 		if ($current_blog_id !== $search_result->site) {
 			switch_to_blog($search_result->site);
 			$post = get_post($search_result->id);
-			$reverse_chronological_order_search_results[$post->post_date] = $post;
+			$reverse_chronological_order_search_results[$post->post_date] = array(
+				'site' => $search_result->site,
+				'post' => $post
+			);
 			restore_current_blog();
 		} else {
 			$post = get_post($search_result->id);
-			$reverse_chronological_order_search_results[$post->post_date] = $post;
+			$reverse_chronological_order_search_results[$post->post_date] = array(
+				'site' => $search_result->site,
+				'post' => $post
+			);
 		}
 	}
 	wp_reset_postdata();
@@ -139,6 +145,13 @@ $search_results = order_searchwp_results_in_reverse_chronological_order($search_
 
 								<?php if (!empty($search_query) && !empty($search_results)) {
 									foreach ($search_results as $post) {
+										if ($current_blog_id !== $post['site']) {
+											switch_to_blog($post['site']);
+											$post = $post['post'];
+										} else {
+											$post = $post['post'];
+										}
+
 								?>
 										<div class="cell xsmall-12 medium-6 large-4 post-<?php echo $post->ID ?>">
 											<?php
@@ -146,6 +159,7 @@ $search_results = order_searchwp_results_in_reverse_chronological_order($search_
 											?>
 										</div>
 									<?php
+										restore_current_blog();
 									}
 									wp_reset_postdata(); // At the end reset your query 
 									?>

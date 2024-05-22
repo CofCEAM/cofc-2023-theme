@@ -7,46 +7,6 @@ get_header();
 
 global $post;
 
-// appearance > customize > search options 
-$searchwp_engine_name = get_option('searchwp_engine_name');
-$searchwp_engine_name = empty($searchwp_engine_name) ? 'cofcengine' : $searchwp_engine_name;
-$search_site_ids = str_replace(' ', '', get_option('search_site_ids'));
-$search_site_ids = empty($search_site_ids) ? 'all' : $search_site_ids;
-// if not "all", then convert to array
-$search_site_ids = $search_site_ids == 'all' ? $search_site_ids : explode(',', $search_site_ids);
-// if $search_site_ids is an array, then convert each element to int (site id) 
-if (is_array($search_site_ids)) {
-	$search_site_ids = array_map('intval', $search_site_ids);
-}
-
-// get query and page number from URL
-$search_query = isset($_GET['searchwp']) ? sanitize_text_field($_GET['searchwp']) : null;
-$search_page = isset($_GET['swppg']) ? absint($_GET['swppg']) : 1;
-$current_blog_id = get_current_blog_id();
-
-// init search results to empty 
-$search_results = array();
-$search_pagination = '';
-
-if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
-	$searchwp_query = new \SearchWP\Query($search_query, [
-		'engine' => $searchwp_engine_name, // The Engine name.
-		'fields' => 'default',          // Retain site ID info with results.
-		'site' => $search_site_ids, // Limit results to specified sites
-		'page' => $search_page,
-		'per_page' => get_option('posts_per_page'),
-	]);
-	$search_results = $searchwp_query->get_results();
-
-	$search_pagination = paginate_links(
-		array(
-			'format' => '?swppg=%#%',
-			'current' => $search_page,
-			'total' => $searchwp_query->max_num_pages,
-		)
-	);
-}
-
 function order_searchwp_results_in_reverse_chronological_order($searchwp_results = array(), $current_blog_id)
 {
 	/* 
@@ -86,8 +46,54 @@ function order_searchwp_results_in_reverse_chronological_order($searchwp_results
 	return $search_results; // array of WP_Post objects
 }
 
-$search_results = order_searchwp_results_in_reverse_chronological_order($search_results, $current_blog_id);
+// appearance > customize > search options 
+$searchwp_engine_name = get_option('searchwp_engine_name');
+$searchwp_engine_name = empty($searchwp_engine_name) ? 'cofcengine' : $searchwp_engine_name;
+$search_site_ids = str_replace(' ', '', get_option('search_site_ids'));
+$search_site_ids = empty($search_site_ids) ? 'all' : $search_site_ids;
+// if not "all", then convert to array
+$search_site_ids = $search_site_ids == 'all' ? $search_site_ids : explode(',', $search_site_ids);
+// if $search_site_ids is an array, then convert each element to int (site id) 
+if (is_array($search_site_ids)) {
+	$search_site_ids = array_map('intval', $search_site_ids);
+}
 
+// get query and page number from URL
+$search_query = isset($_GET['searchwp']) ? sanitize_text_field($_GET['searchwp']) : null;
+$search_page = isset($_GET['swppg']) ? absint($_GET['swppg']) : 1;
+$current_blog_id = get_current_blog_id();
+
+// init search results to empty 
+$search_results = array();
+$search_pagination = '';
+
+if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
+	$searchwp_query = new \SearchWP\Query($search_query, [
+		'engine' => $searchwp_engine_name, // The Engine name.
+		'fields' => 'default',          // Retain site ID info with results.
+		'site' => $search_site_ids, // Limit results to specified sites
+		'page' => $search_page,
+		'per_page' => -1, // get all results to enforce global chronological order; enforce pagination manually below
+	]);
+	$search_results = $searchwp_query->get_results();
+
+	$search_results = order_searchwp_results_in_reverse_chronological_order($search_results, $current_blog_id);
+	// Implement manual pagination
+	$posts_per_page = get_option('posts_per_page');
+	$total_results = count($search_results);
+	$max_num_pages = ceil($total_results / $posts_per_page);
+	$offset = ($search_page - 1) * $posts_per_page;
+
+	$search_results = array_slice($search_results, $offset, $posts_per_page);
+
+	$search_pagination = paginate_links(
+		array(
+			'format' => '?swppg=%#%',
+			'current' => $search_page,
+			'total' => $max_num_pages,
+		)
+	);
+}
 ?>
 
 <main id="main" class="search-results">

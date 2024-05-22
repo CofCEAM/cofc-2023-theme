@@ -93,8 +93,6 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 	echo "<!-- total_results: $total_results -->";
 	echo "<!-- max_num_pages: $max_num_pages -->";
 	echo "<!-- offset: $offset -->";
-	echo "<!-- search_results: " . print_r($search_results, true) . " -->";
-
 
 	$search_pagination = paginate_links(
 		array(

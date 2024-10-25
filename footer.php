@@ -131,37 +131,37 @@
             <?php
             $accounts = array(
                 array(
-                    'label' => 'Open Facebook account' . get_option('facebook'),
+                    'label' => 'Open Facebook account ' . get_option('facebook'),
                     'slug' => 'facebook',
                     'link' => get_option('facebook'),
                     'icon' => 'brei-icon-social-facebook'
                 ),
                 array(
-                    'label' => 'Open Twitter account' . get_option('twitter'),
+                    'label' => 'Open Twitter account ' . get_option('twitter'),
                     'slug' => 'twitter',
                     'link' => get_option('twitter'),
                     'icon' => 'brei-icon-social-twitter'
                 ),
                 array(
-                    'label' => 'Open LinkedIn account' . get_option('linkedin'),
+                    'label' => 'Open LinkedIn account ' . get_option('linkedin'),
                     'slug' => 'linkedin',
                     'link' => get_option('linkedin'),
                     'icon' => 'brei-icon-social-linkedin'
                 ),
                 array(
-                    'label' => 'Open YouTube channel' . get_option('youtube'),
+                    'label' => 'Open YouTube channel ' . get_option('youtube'),
                     'slug' => 'youtube',
                     'link' => get_option('youtube'),
                     'icon' => 'brei-icon-social-youtube'
                 ),
                 array(
-                    'label' => 'Open TikTok account' . get_option('tiktok'),
+                    'label' => 'Open TikTok account ' . get_option('tiktok'),
                     'slug' => 'tiktok',
                     'link' => get_option('tiktok'),
                     'icon' => 'brei-icon-social-tiktok'
                 ),
                 array(
-                    'label' => 'Open Instagram account' . get_option('instagram'),
+                    'label' => 'Open Instagram account ' . get_option('instagram'),
                     'slug' => 'instagram',
                     'link' => get_option('instagram'),
                     'icon' => 'brei-icon-social-instagram'
@@ -197,7 +197,7 @@
                             ?>
                                 <li class="<?php echo $class ?>" id="social-media-footer-link-<?php echo $slug ?>">
                                     <a style="color: <?php echo get_option('footer_bar_text_color') ?>;"
-                                        href="<?php echo $link ?>" class="social-links__link" aria-label="Go to <?php echo $label ?> account"
+                                        href="<?php echo $link ?>" class="social-links__link" aria-label="<?php echo $label ?>"
                                         target="_blank">
                                         <svg style="color: <?php echo get_option('footer_bar_text_color') ?>;"
                                             class="brei-icon <?php echo $icon ?>" focusable="false">

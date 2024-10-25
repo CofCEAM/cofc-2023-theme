@@ -38,7 +38,7 @@ global $post; ?>
                                     </div>
                                 <?php }
                                 if (get_option('display_post_categories_list') == 'yes') {
-                                    ?>
+                                ?>
 
                                     <div class="article-header__data post__categories-list">
                                         <span class="article-header__icon post__categories">
@@ -55,7 +55,7 @@ global $post; ?>
                                     </div>
                                 <?php } ?>
                             </div>
-                            <?php
+                        <?php
                         }
                         // strip the excerpt - remove whitespace
                         $excerpt = get_the_excerpt($post->ID);
@@ -96,7 +96,7 @@ global $post; ?>
                             <ul class="share-links__list">
                                 <li class="share-links__item">
                                     <a href="<?php echo $fb_share_url ?>" class="share-links__link"
-                                        aria-label="Facebook" target="_blank">
+                                        aria-label="Share to Facebook" target="_blank">
                                         <svg class="brei-icon brei-icon-social-facebook" focusable="false">
                                             <use href="#brei-icon-social-facebook"></use>
                                         </svg>
@@ -105,7 +105,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $twitter_share_url ?>" class="share-links__link"
-                                        aria-label="Twitter" target="_blank">
+                                        aria-label="Share to Twitter" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-twitter" focusable="false">
                                             <use href="#brei-icon-social-twitter"></use>
@@ -115,7 +115,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $reddit_share_url ?>" class="share-links__link"
-                                        aria-label="Reddit" target="_blank">
+                                        aria-label="Share to Reddit" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-reddit" focusable="false">
                                             <use href="#brei-icon-social-reddit"></use>
@@ -125,7 +125,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $linkedin_share_url ?>" class="share-links__link"
-                                        aria-label="LinkedIn" target="_blank">
+                                        aria-label="Share to LinkedIn" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-linkedin" focusable="false">
                                             <use href="#brei-icon-social-linkedin"></use>
@@ -135,7 +135,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $whatsapp_share_url ?>" class="share-links__link"
-                                        aria-label="WhatsApp" target="_blank">
+                                        aria-label="Share to WhatsApp" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-whatsapp" focusable="false">
                                             <use href="#brei-icon-social-whatsapp"></use>
@@ -145,7 +145,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $tumblr_share_url ?>" class="share-links__link"
-                                        aria-label="Tumblr" target="_blank">
+                                        aria-label="Share to Tumblr" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-tumblr" focusable="false">
                                             <use href="#brei-icon-social-tumblr"></use>
@@ -155,7 +155,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $pinterest_share_url ?>" class="share-links__link"
-                                        aria-label="Pinterest" target="_blank">
+                                        aria-label="Share to Pinterest" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-pinterest" focusable="false">
                                             <use href="#brei-icon-social-pinterest"></use>
@@ -165,7 +165,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href=" <?php echo $vk_share_url ?>" class="share-links__link"
-                                        aria-label="VKontakte" target="_blank">
+                                        aria-label="Share to VKontakte" target="_blank">
 
                                         <svg class="brei-icon brei-icon-social-vk" focusable="false">
                                             <use href="#brei-icon-social-vk"></use>
@@ -175,7 +175,7 @@ global $post; ?>
                                 </li>
                                 <li class="share-links__item">
                                     <a href="<?php echo $email_share_url ?>" class="share-links__link"
-                                        aria-label="Email" target="_blank">
+                                        aria-label="Share via Email" target="_blank">
 
                                         <svg class="brei-icon brei-icon-email" focusable="false">
                                             <use href="#brei-icon-email"></use>
@@ -198,7 +198,7 @@ global $post; ?>
             $first_related_category_link = get_site_url() . '/category/' . $first_related_category_slug;
 
             if ($related) {
-                ?>
+            ?>
                 <div class=" article__news xsmall-12 medium-10 medium-offset-1 column">
                     <section class="news-content news-content--article news-content--single component">
                         <div class="cell xsmall-12">

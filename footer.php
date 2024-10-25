@@ -13,7 +13,7 @@
                 $footer_logo_url = wp_get_attachment_image_src($footer_logo, 'full'); // Get the URL of the image  
                 if ($footer_logo_link) {
                     // custom footer logo link provided
-                    ?>
+            ?>
                     <a href="<?php echo $footer_logo_link ?>" <?php echo $target ?>>
 
                         <?php
@@ -25,10 +25,10 @@
                                 alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         <?php endif; ?>
                     </a>
-                    <?php
+                <?php
                 } else {
                     // no custom footer logo link provided. use the site URL
-                    ?>
+                ?>
                     <a href="<?php echo get_home_url() ?>" <?php echo $target ?>>
                         <?php
                         if ($footer_logo_url): ?>
@@ -39,7 +39,7 @@
                                 alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         <?php endif; ?>
                     </a>
-                    <?php
+                <?php
                 }
 
 
@@ -51,7 +51,7 @@
                 $logo_url = wp_get_attachment_image_src($site_logo, 'full'); // Get the URL of the image 
                 if ($footer_logo_link) {
                     // custom footer logo link provided
-                    ?>
+                ?>
                     <a href="<?php echo $footer_logo_link ?>" <?php echo $target ?>>
                         <?php
                         if ($logo_url): ?>
@@ -61,10 +61,10 @@
                                 alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         <?php endif; ?>
                     </a>
-                    <?php
+                <?php
                 } else {
                     // no custom footer logo link provided. use the site URL
-                    ?>
+                ?>
                     <a href="<?php echo get_home_url() ?>" <?php echo $target ?>>
                         <?php
                         if ($logo_url): ?>
@@ -74,7 +74,7 @@
                                 alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                         <?php endif; ?>
                     </a>
-                    <?php
+            <?php
                 }
             } ?>
 
@@ -131,49 +131,49 @@
             <?php
             $accounts = array(
                 array(
-                    'label' => 'Facebook',
+                    'label' => 'Open Facebook account' . get_option('facebook'),
                     'slug' => 'facebook',
                     'link' => get_option('facebook'),
                     'icon' => 'brei-icon-social-facebook'
                 ),
                 array(
-                    'label' => 'Twitter',
+                    'label' => 'Open Twitter account' . get_option('twitter'),
                     'slug' => 'twitter',
                     'link' => get_option('twitter'),
                     'icon' => 'brei-icon-social-twitter'
                 ),
                 array(
-                    'label' => 'LinkedIn',
+                    'label' => 'Open LinkedIn account' . get_option('linkedin'),
                     'slug' => 'linkedin',
                     'link' => get_option('linkedin'),
                     'icon' => 'brei-icon-social-linkedin'
                 ),
                 array(
-                    'label' => 'YouTube',
+                    'label' => 'Open YouTube channel' . get_option('youtube'),
                     'slug' => 'youtube',
                     'link' => get_option('youtube'),
                     'icon' => 'brei-icon-social-youtube'
                 ),
                 array(
-                    'label' => 'TikTok',
+                    'label' => 'Open TikTok account' . get_option('tiktok'),
                     'slug' => 'tiktok',
                     'link' => get_option('tiktok'),
                     'icon' => 'brei-icon-social-tiktok'
                 ),
                 array(
-                    'label' => 'Instagram',
+                    'label' => 'Open Instagram account' . get_option('instagram'),
                     'slug' => 'instagram',
                     'link' => get_option('instagram'),
                     'icon' => 'brei-icon-social-instagram'
                 ),
                 array(
-                    'label' => 'Email Address',
+                    'label' => 'Send an email to ' . get_option('email'),
                     'slug' => 'email',
                     'link' => get_option('email'),
                     'icon' => 'brei-icon-email'
                 ),
                 array(
-                    'label' => 'RSS Feed',
+                    'label' => 'Subscribe to RSS feed ' . get_option('rss'),
                     'slug' => 'rss',
                     'link' => get_option('rss'),
                     'icon' => 'brei-icon-social-rss'
@@ -194,10 +194,10 @@
                                 if ($slug == 'email') {
                                     $link = 'mailto:' . $link;
                                 }
-                                ?>
+                            ?>
                                 <li class="<?php echo $class ?>" id="social-media-footer-link-<?php echo $slug ?>">
                                     <a style="color: <?php echo get_option('footer_bar_text_color') ?>;"
-                                        href="<?php echo $link ?>" class="social-links__link" aria-label="<?php echo $label ?>"
+                                        href="<?php echo $link ?>" class="social-links__link" aria-label="Go to <?php echo $label ?> account"
                                         target="_blank">
                                         <svg style="color: <?php echo get_option('footer_bar_text_color') ?>;"
                                             class="brei-icon <?php echo $icon ?>" focusable="false">
@@ -205,7 +205,7 @@
                                         </svg>
                                     </a>
                                 </li>
-                                <?php
+                            <?php
                             } ?>
                         </ul>
                     </div>

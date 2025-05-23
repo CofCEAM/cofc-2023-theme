@@ -44,8 +44,9 @@ You may want to create a custom block if you want to display specific kinds of e
 3. Push your changes to the CofCEAM/cofc-2023-theme repo (the repo that is connected to the Git Updater plugin on the CofC Wordpress sites). `git push -u origin some-new-feature`
 4. Open the repo in a browser. You should see a prompt to create a new pull request from the new branch into main. Create that pull request, and IDEALLY, have another team member review those changes. Once those changes have been reviewed and approved, go ahead and merge that feature branch into main (click Merge in the open pull request).
 5. Now we move on to pulling that updated theme code from the repo into the site using Git Updater.
-6. Assuming the site using the theme is on Pantheon:
-   a. Open the DEV site's admin dashboard. Example for TCT: [dev-the-college-today.pantheonsite.io/wp-admin](https://dev-the-college-today.pantheonsite.io/wp-admin). Go to settings > Git Updater. Click Refresh Cache.
+   a. Open the target WordPress site's admin dashboard (/wp-admin). Go to Settings > Git Updater.
    b. You should see a new update notification next to Themes in the left navigation. Click Themes.
-   c. You should see the CofC 2023 Theme has an update. Click update now. You have now updated the DEV site.
-   d. You must now use Pantheon to migrate those DEV changes up through TEST and to PROD. Generally speaking, **do not pull files and data down from live into test** as this often breaks the test site. Once you have migrated the code change (theme update) from DEV to TEST and from TEST to PROD in Pantheon, you can open the PROD site's admin dashboard and try to leverage your new feature in the site.
+   c. You should see the CofC 2023 Theme has an update. Click update now. The theme has now been updated.
+
+## Git Updater Failure - Need a new GitHub Token
+If the Git Updater plugin fails, you most likely need to generate a new GitHub personal access token. This token must be created on a GitHub account that has, at minimum, read access to this repository. See instructions here: [Managing GitHub Personal Access Tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)

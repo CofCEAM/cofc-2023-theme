@@ -31,7 +31,7 @@ if (post_password_required()) {
                         '%1$s thoughts on "%2$s"',
                         get_comments_number(),
                         'comments title',
-                        'twentythirteen'
+                        'college-of-charleston-2023'
                     ),
                     number_format_i18n(get_comments_number()),
                     '<span>' . get_the_title() . '</span>'
@@ -56,20 +56,20 @@ if (post_password_required()) {
                 <nav class="navigation comment-navigation" role="navigation">
 
                     <h1 class="screen-reader-text section-heading">
-                        <?php _e('Comment navigation', 'twentythirteen'); ?>
+                        <?php _e('Comment navigation', 'college-of-charleston-2023'); ?>
                     </h1>
                     <div class="nav-previous">
-                        <?php previous_comments_link(__('&larr; Older Comments', 'twentythirteen')); ?>
+                        <?php previous_comments_link(__('&larr; Older Comments', 'college-of-charleston-2023')); ?>
                     </div>
                     <div class="nav-next">
-                        <?php next_comments_link(__('Newer Comments &rarr;', 'twentythirteen')); ?>
+                        <?php next_comments_link(__('Newer Comments &rarr;', 'college-of-charleston-2023')); ?>
                     </div>
                 </nav><!-- .comment-navigation -->
             <?php endif; // Check for comment navigation ?>
 
             <?php if (!comments_open() && get_comments_number()): ?>
                 <p class="no-comments">
-                    <?php _e('Comments are closed.', 'twentythirteen'); ?>
+                    <?php _e('Comments are closed.', 'college-of-charleston-2023'); ?>
                 </p>
             <?php endif; ?>
 

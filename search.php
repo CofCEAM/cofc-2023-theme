@@ -23,7 +23,7 @@ $query = new WP_Query($args);
 			<div class="search-results__content xsmall-12 cell">
 				<div class="search-results__inner">
 					<h1 class="font-special-2">
-						<?php printf(esc_html__('Search Results for: %s', 'torba'), '<span>' . get_search_query() . '</span>'); ?>
+						<?php printf(esc_html__('Search Results for: %s', 'college-of-charleston-2023'), '<span>' . get_search_query() . '</span>'); ?>
 					</h1>
 					<hr>
 					<form class="search-results__search" method="get" action="<?php echo get_site_url() ?>">
@@ -64,7 +64,7 @@ $query = new WP_Query($args);
 					</div-->
 
 					<h2 class="show-for-sr">
-						<?php printf(esc_html__('Search Results for: %s', 'torba'), '<span>' . get_search_query() . '</span>'); ?>
+						<?php printf(esc_html__('Search Results for: %s', 'college-of-charleston-2023'), '<span>' . get_search_query() . '</span>'); ?>
 					</h2>
 
 					<div id="results-listings-container"

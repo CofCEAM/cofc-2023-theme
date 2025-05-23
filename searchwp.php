@@ -107,7 +107,7 @@ if (!empty($search_query) && class_exists('\\SearchWP\\Query')) {
 					<hr>
 					<form class="search-results__search" role="search" method="get" action="<?php echo get_site_url() ?>">
 						<div class="form__field form__field--is-search form__field--is-valid">
-							<input id="searchwp" name="searchwp" type="search" value="<?php echo isset($_GET['searchwp']) ? esc_attr($_GET['searchwp']) : '' ?>" required="required" title="<?php echo esc_attr_x('Search for:', 'label') ?>">
+							<input id="searchwp" name="searchwp" type="search" value="<?php echo isset($_GET['searchwp']) ? esc_attr($_GET['searchwp']) : '' ?>" required="required" title="<?php echo esc_attr_x('Search for:', 'label', 'college-of-charleston-2023') ?>">
 							<label for="search" style="visibility:hidden;">Search term</label>
 							<button type="submit" class="search-button">
 								<span class="show-for-sr">Search</span>

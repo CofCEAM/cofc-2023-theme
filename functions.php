@@ -42,8 +42,10 @@ add_filter('upload_mimes', 'cc_mime_types');
 
 function cofctheme_theme_support()
 { // automatically inject dynamic title tag into head. 
+	load_theme_textdomain( 'college-of-charleston-2023', get_template_directory() . '/languages' );
 	add_theme_support('title-tag');
 	add_theme_support('post-thumbnails');
+
 }
 
 add_action('after_setup_theme', 'cofctheme_theme_support');
@@ -51,7 +53,7 @@ add_action('after_setup_theme', 'cofctheme_theme_support');
 // Register navigation menu LOCATIONS. Site editor will create menus and add them to these locations.
 register_nav_menus(
 	array(
-		'header-navigation' => __('Header Navigation')
+		'header-navigation' => __('Header Navigation', 'college-of-charleston-2023')
 	)
 );
 
@@ -1093,7 +1095,7 @@ function cofctheme_enqueue_custom_block_scripts()
 		);
 		wp_localize_script(
 			'cofctheme/' . $block,
-			'cofctheme',
+			'college-of-charleston-2023',
 			localize_block_vars()
 		);
 	}

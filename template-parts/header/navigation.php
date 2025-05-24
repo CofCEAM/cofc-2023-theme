@@ -1,9 +1,72 @@
 <?php
 
-
 // customize the navigation menu walker for the header. default HTML does not work with barkley design. 
 class HeaderNavigationCustomWalker extends Walker_Nav_Menu
 {
+    /**
+     * Starts the list before the elements are added.
+     *
+     * @see Walker_Nav_Menu::start_lvl()
+     *
+     * @since 3.0.0
+     *
+     * @param string   $output Used to append additional content (passed by reference).
+     * @param int      $depth  Depth of menu item. Used for padding.
+     * @param stdClass $args   An object of wp_nav_menu() arguments.
+     */
+    function start_lvl(&$output, $depth = 0, $args = null)
+    {
+        if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
+            $t = '';
+            $n = '';
+        } else {
+            $t = "\t";
+            $n = "\n";
+        }
+        $indent = str_repeat($t, $depth);
+
+        // Add classes for dropdown menu
+        $classes = array('sub-menu', 'nav-primary__dropdown');
+
+        /**
+         * Filters the CSS classes applied to a menu list element.
+         *
+         * @since 4.8.0
+         *
+         * @param string[] $classes Array of the CSS classes that are applied to the menu `<ul>` element.
+         * @param int      $depth   Depth of menu item. Used for padding.
+         * @param stdClass $args    An object of wp_nav_menu() arguments.
+         */
+        $class_names = implode(' ', apply_filters('nav_menu_submenu_css_class', $classes, $depth, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+
+        $output .= "{$n}{$indent}<ul{$class_names}>{$n}";
+    }
+
+    /**
+     * Ends the list of after the elements are added.
+     *
+     * @see Walker_Nav_Menu::end_lvl()
+     *
+     * @since 3.0.0
+     *
+     * @param string   $output Used to append additional content (passed by reference).
+     * @param int      $depth  Depth of menu item. Used for padding.
+     * @param stdClass $args   An object of wp_nav_menu() arguments.
+     */
+    function end_lvl(&$output, $depth = 0, $args = null)
+    {
+        if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
+            $t = '';
+            $n = '';
+        } else {
+            $t = "\t";
+            $n = "\n";
+        }
+        $indent = str_repeat($t, $depth);
+        $output .= "{$indent}</ul>{$n}";
+    }
+
     // Copy all the start_el code from source, and modify
     function start_el(&$output, $data_object, $depth = 0, $args = null, $current_object_id = 0)
     {
@@ -21,6 +84,11 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
 
         $classes = empty($menu_item->classes) ? array() : (array) $menu_item->classes;
         array_push($classes, 'menu-item-' . $menu_item->ID, 'nav-primary__item');
+
+        // Add specific classes for parent items with children
+        if ($args->walker->has_children) {
+            array_push($classes, 'menu-item-has-children', 'nav-primary__item--has-dropdown');
+        }
 
         /**
          * Filters the arguments for a single nav menu item.
@@ -84,6 +152,15 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
 
         $atts['aria-current'] = $menu_item->current ? 'page' : '';
 
+        // Add dropdown-specific attributes for parent items
+        if ($args->walker->has_children && $depth === 0) { // Only for top-level parents
+            $atts['href'] = '#'; // Or keep the original URL if you want it to be clickable
+            $atts['aria-haspopup'] = 'true';
+            $atts['aria-expanded'] = 'false'; // Will be toggled by JS
+            $atts['class'] = (isset($atts['class']) ? $atts['class'] . ' ' : '') . 'nav-primary__link--dropdown';
+        }
+
+
         /**
          * Filters the HTML attributes applied to a menu item's anchor element.
          *
@@ -91,13 +168,13 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
          * @since 4.1.0 The `$depth` parameter was added.
          *
          * @param array $atts {
-         *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+         * The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
          *
-         *     @type string $title        Title attribute.
-         *     @type string $target       Target attribute.
-         *     @type string $rel          The rel attribute.
-         *     @type string $href         The href attribute.
-         *     @type string $aria-current The aria-current attribute.
+         * @type string $title        Title attribute.
+         * @type string $target       Target attribute.
+         * @type string $rel          The rel attribute.
+         * @type string $href         The href attribute.
+         * @type string $aria-current The aria-current attribute.
          * }
          * @param WP_Post  $menu_item The current menu item object.
          * @param stdClass $args      An object of wp_nav_menu() arguments.
@@ -131,6 +208,12 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
         $item_output = $args->before;
         $item_output .= '<a class="menu-audience font-bold" ' . $attributes . '><span class="text" style="color: ' . get_option('top_nav_text_color') . '">';
         $item_output .= $args->link_before . $title . $args->link_after;
+
+        // Add a dropdown indicator (e.g., a caret icon) for parent items
+        if ($args->walker->has_children && $depth === 0) {
+            $item_output .= '<span class="dropdown-indicator"></span>'; // You'll style this with CSS
+        }
+        
         $item_output .= '</span></a>';
         $item_output .= $args->after;
 
@@ -150,5 +233,29 @@ class HeaderNavigationCustomWalker extends Walker_Nav_Menu
          */
         $output .= apply_filters('walker_nav_menu_start_el', $item_output, $menu_item, $depth, $args);
 
+    }
+
+    /**
+     * Ends the element output, if required.
+     *
+     * @see Walker_Nav_Menu::end_el()
+     *
+     * @since 3.0.0
+     *
+     * @param string   $output Used to append additional content (passed by reference).
+     * @param WP_Post  $data_object Menu item data object.
+     * @param int      $depth  Depth of menu item. Used for padding.
+     * @param stdClass $args   An object of wp_nav_menu() arguments.
+     */
+    function end_el(&$output, $data_object, $depth = 0, $args = null)
+    {
+        if (isset($args->item_spacing) && 'discard' === $args->item_spacing) {
+            $t = '';
+            $n = '';
+        } else {
+            $t = "\t";
+            $n = "\n";
+        }
+        $output .= "</li>{$n}";
     }
 }

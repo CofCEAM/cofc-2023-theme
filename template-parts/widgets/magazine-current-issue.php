@@ -149,19 +149,19 @@ class MagazineCurrentIssueWidget extends WP_Widget
         <p>For this widget, all you need to specify is what filter(s) (can be tags or categories) to use to pull all of the
             current issue articles. You can also specify a title to display above the grid of articles.</p>
         <div>
-            <label for="<?= $this->get_field_id('title') ?>">Title</label>
-            <input type="text" id="<?= $this->get_field_id('title') ?>" name="<?= $this->get_field_name('title') ?>"
-                value="<?= $title ?>">
+            <label for="<?php echo $this->get_field_id('title') ?>">Title</label>
+            <input type="text" id="<?php echo $this->get_field_id('title') ?>" name="<?php echo $this->get_field_name('title') ?>"
+                value="<?php echo $title ?>">
 
             <h3>Categories</h3>
             <div style="max-height: 250px; overflow-y: scroll">
                 <?php foreach ($categories as $cat): ?>
                     <p>
-                        <input <?= in_array($cat->cat_ID, $post_categories) ? 'checked' : '' ?> type="checkbox"
-                            value="<?= $cat->cat_ID ?>" id="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>"
-                            name="<?= $this->get_field_name('post_categories') ?>[]">
-                        <label for="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>">
-                            <?= $cat->name ?>
+                        <input <?php echo in_array($cat->cat_ID, $post_categories) ? 'checked' : '' ?> type="checkbox"
+                            value="<?php echo $cat->cat_ID ?>" id="<?php echo $this->get_field_id('post_categories') ?>-<?php echo $cat->cat_ID ?>"
+                            name="<?php echo $this->get_field_name('post_categories') ?>[]">
+                        <label for="<?php echo $this->get_field_id('post_categories') ?>-<?php echo $cat->cat_ID ?>">
+                            <?php echo $cat->name ?>
                         </label>
                     </p>
                 <?php endforeach; ?>
@@ -173,11 +173,11 @@ class MagazineCurrentIssueWidget extends WP_Widget
             <div style="max-height: 250px; overflow-y: scroll">
                 <?php foreach ($tags as $tag): ?>
                     <p>
-                        <input <?= in_array($tag->term_id, $post_tags) ? 'checked' : '' ?> type="checkbox"
-                            value="<?= $tag->term_id ?>" id="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>"
-                            name="<?= $this->get_field_name('post_tags') ?>[]">
-                        <label for="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>">
-                            <?= $tag->name ?>
+                        <input <?php echo in_array($tag->term_id, $post_tags) ? 'checked' : '' ?> type="checkbox"
+                            value="<?php echo $tag->term_id ?>" id="<?php echo $this->get_field_id('post_tags') ?>-<?php echo $tag->term_id ?>"
+                            name="<?php echo $this->get_field_name('post_tags') ?>[]">
+                        <label for="<?php echo $this->get_field_id('post_tags') ?>-<?php echo $tag->term_id ?>">
+                            <?php echo $tag->name ?>
                         </label>
                     </p>
                 <?php endforeach; ?>

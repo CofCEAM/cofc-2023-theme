@@ -20363,6 +20363,251 @@ screen and (min-width: 64em) {
   }
 }
 
+/* sub navigations / nested navigation */
+
+@media print,
+screen and (min-width: 64em) {
+
+  /* Main navigation list on desktop */
+  .header__navigation .nav-primary__list {
+    display: flex;
+    /* Makes top-level items horizontal */
+    justify-content: center;
+    /* Center your main navigation items */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Top-level navigation items */
+  .header__navigation .nav-primary__item {
+    position: relative;
+    /* Crucial for positioning the dropdown */
+    margin: 0 15px;
+    /* Adjust spacing between top-level items */
+  }
+
+  /* Top-level navigation links */
+  .header__navigation .nav-primary__item .menu-audience {
+    display: block;
+    padding: 15px 0;
+    /* Adjust padding for top-level links */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    /* Smooth transition for hover effects */
+  }
+
+  /* Hover effect for top-level links */
+  .header__navigation .nav-primary__item .menu-audience:hover {
+    /* Define your hover color or effects here */
+    color: #fefefe !important;
+    /* Example: lighten text on hover */
+  }
+
+  /* Dropdown menu container */
+  .nav-primary__dropdown {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    /* Positions the dropdown directly below the parent item */
+    left: 0;
+    min-width: 200px;
+    /* Ensures dropdown has enough width */
+    background-color: #79242f;
+    /* Match header background or choose a contrasting color */
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow for depth */
+    z-index: 200;
+    /* Ensure dropdown is above other content */
+  }
+
+  /* Show dropdown on hover of the parent list item */
+  .nav-primary__item--has-dropdown:hover>.nav-primary__dropdown {
+    display: block;
+  }
+
+  /* Styles for items within the dropdown */
+  .nav-primary__dropdown .nav-primary__item {
+    margin: 0;
+    /* Reset margins from top-level items */
+  }
+
+  /* Styles for links within the dropdown */
+  .nav-primary__dropdown .menu-audience {
+    padding: 8px 20px;
+    /* Padding for dropdown links */
+    white-space: nowrap;
+    /* Prevents text wrapping in dropdown items */
+  }
+
+  /* Hover effect for dropdown links */
+  .nav-primary__dropdown .menu-audience:hover {
+    background-color: #6a1e27;
+    /* Example: slightly darker background on hover */
+    color: #fefefe !important;
+    /* Ensure text color remains readable */
+  }
+
+  /* Dropdown Indicator (Caret) for top-level items */
+  .nav-primary__item--has-dropdown>.menu-audience .dropdown-indicator {
+    margin-left: 8px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid currentColor;
+    /* Uses the current text color */
+    vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  /* Rotate caret when top-level dropdown is open */
+  .nav-primary__item--has-dropdown:hover>.menu-audience .dropdown-indicator {
+    transform: rotate(180deg);
+  }
+
+  /* Styles for nested dropdowns (e.g., third level) */
+  .nav-primary__dropdown .nav-primary__item--has-dropdown>.nav-primary__dropdown {
+    left: 100%;
+    /* Position to the right of its parent dropdown item */
+    top: 0;
+    /* Align with the top of its parent dropdown item */
+    margin-left: 5px;
+    /* Small gap between parent and child dropdowns */
+  }
+
+  /* Dropdown Indicator for nested dropdowns */
+  .nav-primary__dropdown .nav-primary__item--has-dropdown>.menu-audience .dropdown-indicator {
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid currentColor;
+    /* Caret points to the right */
+    transform: none;
+    /* Reset rotation for nested carets */
+    margin-left: 5px;
+    /* Adjust spacing */
+  }
+
+  /* Rotate caret for nested dropdowns on hover */
+  .nav-primary__dropdown .nav-primary__item--has-dropdown:hover>.menu-audience .dropdown-indicator {
+    border-left-color: currentColor;
+    /* Ensure color is maintained */
+    transform: rotate(0deg);
+    /* No rotation needed if pointing right */
+  }
+}
+
+
+@media print,
+screen and (max-width: 63.99875em) {
+
+  /* Ensure the mobile navigation list is stacked vertically */
+  .header__navigation .nav-primary__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* Take full width of the navigation overlay */
+  }
+
+  /* Mobile navigation items */
+  .header__navigation .nav-primary__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle separator */
+  }
+
+  /* Mobile navigation links */
+  .header__navigation .nav-primary__item .menu-audience {
+    display: block;
+    padding: 15px 20px;
+    /* Generous padding for tap targets */
+    text-decoration: none;
+    color: #fefefe;
+    /* Ensure text color is visible on dark background */
+    font-size: 1.125rem;
+    /* Adjust font size for mobile */
+    font-weight: bold;
+    position: relative;
+    /* For positioning the indicator/toggle */
+  }
+
+  /* Dropdown indicator for mobile (could be an icon or a plus/minus) */
+  .nav-primary__item--has-dropdown>.menu-audience .dropdown-indicator {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fefefe;
+    font-size: 1.2rem;
+  }
+
+  /* Example: Plus/Minus indicator for mobile dropdowns */
+  .nav-primary__item--has-dropdown>.menu-audience .dropdown-indicator::before {
+    content: '+';
+    /* Plus icon when closed */
+  }
+
+  /* When the dropdown is "active" (opened via JS), change the indicator */
+  /* This requires JavaScript to add an "is-open" class to the parent li */
+  .nav-primary__item--has-dropdown.is-open>.menu-audience .dropdown-indicator::before {
+    content: '-';
+    /* Minus icon when open */
+  }
+
+  /* Mobile dropdown menu container */
+  .nav-primary__dropdown {
+    display: none;
+    /* Hidden by default */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Slightly darker background for sub-menus */
+  }
+
+  /* When the parent item has the "is-open" class, show the dropdown */
+  .nav-primary__item--has-dropdown.is-open>.nav-primary__dropdown {
+    display: block;
+  }
+
+  /* Styles for items within mobile dropdowns */
+  .nav-primary__dropdown .nav-primary__item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Lighter separator for sub-items */
+  }
+
+  /* Styles for links within mobile dropdowns */
+  .nav-primary__dropdown .menu-audience {
+    padding: 12px 30px;
+    /* Indent sub-items */
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  /* Further nested dropdowns (e.g., third level on mobile) */
+  .nav-primary__dropdown .nav-primary__dropdown .menu-audience {
+    padding: 10px 40px;
+    /* Further indent */
+  }
+
+  /* Adjustments for `nav-primary__link--dropdown` if you use it on mobile */
+  .nav-primary__link--dropdown {
+    cursor: pointer;
+    /* Indicate it's clickable */
+  }
+}
+
+
 .media {
   --border-radius: 16px;
   --hr-color: #ff6065;

@@ -7,9 +7,9 @@
  * @package WordPress
  * @subpackage Twenty_Thirteen
  * @since Twenty Thirteen 1.0
- */
+ */ 
+require get_template_directory() . '/commentsutil/util.php'; 
 require get_template_directory() . '/commentsutil/walker.php';
-require get_template_directory() . '/commentsutil/util.php';
 /*
  * If the current post is protected by a password and the visitor has not yet
  * entered the password we will return early without loading the comments.

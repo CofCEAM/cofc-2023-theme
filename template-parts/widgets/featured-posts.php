@@ -142,36 +142,36 @@ class FeaturedPostsWidget extends WP_Widget
             <h3>Display</h3>
             <h4>Show Excerpts</h4>
             <p>
-                <label for="<?= $this->get_field_id('display_post_excerpt') ?>-yes">Yes</label>
-                <input <?= checked($display_post_excerpt, 'yes', false) ?> type="radio" value="yes"
-                    id="<?= $this->get_field_id('display_post_excerpt') ?>-yes"
-                    name="<?= $this->get_field_name('display_post_excerpt') ?>">
-                <label for="<?= $this->get_field_id('display_post_excerpt') ?>-no">No</label>
-                <input <?= checked($display_post_excerpt, 'no', false) ?> type="radio" value="no"
-                    id="<?= $this->get_field_id('display_post_excerpt') ?>-no"
-                    name="<?= $this->get_field_name('display_post_excerpt') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_excerpt') ?>-yes">Yes</label>
+                <input <?php echo checked($display_post_excerpt, 'yes', false) ?> type="radio" value="yes"
+                    id="<?php echo $this->get_field_id('display_post_excerpt') ?>-yes"
+                    name="<?php echo $this->get_field_name('display_post_excerpt') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_excerpt') ?>-no">No</label>
+                <input <?php echo checked($display_post_excerpt, 'no', false) ?> type="radio" value="no"
+                    id="<?php echo $this->get_field_id('display_post_excerpt') ?>-no"
+                    name="<?php echo $this->get_field_name('display_post_excerpt') ?>">
             </p>
             <h4>Show Published Date</h4>
             <p>
-                <label for="<?= $this->get_field_id('display_post_published_date') ?>-yes">Yes</label>
-                <input <?= checked($display_post_published_date, 'yes', false) ?> type="radio" value="yes"
-                    id="<?= $this->get_field_id('display_post_published_date') ?>-yes"
-                    name="<?= $this->get_field_name('display_post_published_date') ?>">
-                <label for="<?= $this->get_field_id('display_post_published_date') ?>-no">No</label>
-                <input <?= checked($display_post_published_date, 'no', false) ?> type="radio" value="no"
-                    id="<?= $this->get_field_id('display_post_published_date') ?>-no"
-                    name="<?= $this->get_field_name('display_post_published_date') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_published_date') ?>-yes">Yes</label>
+                <input <?php echo checked($display_post_published_date, 'yes', false) ?> type="radio" value="yes"
+                    id="<?php echo $this->get_field_id('display_post_published_date') ?>-yes"
+                    name="<?php echo $this->get_field_name('display_post_published_date') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_published_date') ?>-no">No</label>
+                <input <?php echo checked($display_post_published_date, 'no', false) ?> type="radio" value="no"
+                    id="<?php echo $this->get_field_id('display_post_published_date') ?>-no"
+                    name="<?php echo $this->get_field_name('display_post_published_date') ?>">
             </p>
             <h4>Show Author</h4>
             <p>
-                <label for="<?= $this->get_field_id('display_post_author') ?>-yes">Yes</label>
-                <input <?= checked($display_post_author, 'yes', false) ?> type="radio" value="yes"
-                    id="<?= $this->get_field_id('display_post_author') ?>-yes"
-                    name="<?= $this->get_field_name('display_post_author') ?>">
-                <label for="<?= $this->get_field_id('display_post_author') ?>-no">No</label>
-                <input <?= checked($display_post_author, 'no', false) ?> type="radio" value="no"
-                    id="<?= $this->get_field_id('display_post_author') ?>-no"
-                    name="<?= $this->get_field_name('display_post_author') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_author') ?>-yes">Yes</label>
+                <input <?php echo checked($display_post_author, 'yes', false) ?> type="radio" value="yes"
+                    id="<?php echo $this->get_field_id('display_post_author') ?>-yes"
+                    name="<?php echo $this->get_field_name('display_post_author') ?>">
+                <label for="<?php echo $this->get_field_id('display_post_author') ?>-no">No</label>
+                <input <?php echo checked($display_post_author, 'no', false) ?> type="radio" value="no"
+                    id="<?php echo $this->get_field_id('display_post_author') ?>-no"
+                    name="<?php echo $this->get_field_name('display_post_author') ?>">
             </p>
         </div>
         <hr />
@@ -181,11 +181,11 @@ class FeaturedPostsWidget extends WP_Widget
             <div style="max-height: 250px; overflow-y: scroll">
                 <?php foreach ($categories as $cat): ?>
                     <p>
-                        <input <?= in_array($cat->cat_ID, $post_categories) ? 'checked' : '' ?> type="checkbox"
-                            value="<?= $cat->cat_ID ?>" id="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>"
-                            name="<?= $this->get_field_name('post_categories') ?>[]">
-                        <label for="<?= $this->get_field_id('post_categories') ?>-<?= $cat->cat_ID ?>">
-                            <?= $cat->name ?>
+                        <input <?php echo in_array($cat->cat_ID, $post_categories) ? 'checked' : '' ?> type="checkbox"
+                            value="<?php echo $cat->cat_ID ?>" id="<?php echo $this->get_field_id('post_categories') ?>-<?php echo $cat->cat_ID ?>"
+                            name="<?php echo $this->get_field_name('post_categories') ?>[]">
+                        <label for="<?php echo $this->get_field_id('post_categories') ?>-<?php echo $cat->cat_ID ?>">
+                            <?php echo $cat->name ?>
                         </label>
                     </p>
                 <?php endforeach; ?>
@@ -197,11 +197,11 @@ class FeaturedPostsWidget extends WP_Widget
             <div style="max-height: 250px; overflow-y: scroll">
                 <?php foreach ($tags as $tag): ?>
                     <p>
-                        <input <?= in_array($tag->term_id, $post_tags) ? 'checked' : '' ?> type="checkbox"
-                            value="<?= $tag->term_id ?>" id="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>"
-                            name="<?= $this->get_field_name('post_tags') ?>[]">
-                        <label for="<?= $this->get_field_id('post_tags') ?>-<?= $tag->term_id ?>">
-                            <?= $tag->name ?>
+                        <input <?php echo in_array($tag->term_id, $post_tags) ? 'checked' : '' ?> type="checkbox"
+                            value="<?php echo $tag->term_id ?>" id="<?php echo $this->get_field_id('post_tags') ?>-<?php echo $tag->term_id ?>"
+                            name="<?php echo $this->get_field_name('post_tags') ?>[]">
+                        <label for="<?php echo $this->get_field_id('post_tags') ?>-<?php echo $tag->term_id ?>">
+                            <?php echo $tag->name ?>
                         </label>
                     </p>
                 <?php endforeach; ?>

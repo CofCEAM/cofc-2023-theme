@@ -8,7 +8,6 @@ jQuery(document).ready(function () {
   jQuery("#mc_embed_signup form .mc-field-group").addClass("form__field");
   jQuery("#mc_embed_signup form .mc-field-group label").each((el) => {
     let asterisk = $(el).find("span.asterisk");
-    console.log(asterisk);
     if (asterisk) {
       $(asterisk).replaceWith('<sup class="required" aria-label="Required">*</sup>');
     }
@@ -23,7 +22,7 @@ jQuery(document).ready(function () {
                 <use href="#brei-icon-warning"></use>
             </svg>
         </div>
-        <div class="form__error-message">Field is required</div>`
+        <div class="form__error-message">Field is required</div>`,
     );
   });
   jQuery("#mc_embed_signup form input[type=submit]").addClass("btn btn--primary");

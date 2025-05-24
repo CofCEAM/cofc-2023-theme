@@ -1,5 +1,4 @@
 const applyFilters = ({ baseUrl = "" }) => {
-  console.log("apply filters");
   try {
     let tagFilter = [];
     let catFilter = [];
@@ -33,6 +32,6 @@ const applyFilters = ({ baseUrl = "" }) => {
     // reload the page with the query string
     window.location.href = `${baseUrl}?${queryString}`;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

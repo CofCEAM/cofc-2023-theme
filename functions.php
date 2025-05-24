@@ -1,8 +1,5 @@
 <?php
-
-
 add_filter('template_include', 'load_search_template');
-
 function update_array_meta($post_id, $key)
 {
 	if (isset($_POST[$key])) {
@@ -31,59 +28,45 @@ function load_search_template($template)
 	}
 	return $template;
 }
-
-function cc_mime_types($mimes)
-{
-	$mimes['svg'] = 'image/svg+xml';
-	return $mimes;
-}
-add_filter('upload_mimes', 'cc_mime_types');
-
-
+ 
 function cofctheme_theme_support()
 { // automatically inject dynamic title tag into head. 
-	load_theme_textdomain( 'college-of-charleston-2023', get_template_directory() . '/languages' );
+	load_theme_textdomain('college-of-charleston-2023', get_template_directory() . '/languages');
 	add_theme_support('title-tag');
 	add_theme_support('post-thumbnails');
-
+	add_theme_support( 'automatic-feed-links' );
+	// Register navigation menu LOCATIONS. Site editor will create menus and add them to these locations.
+	register_nav_menus(
+		array(
+			'header-navigation' => __('Header Navigation', 'college-of-charleston-2023')
+		)
+	);
 }
-
 add_action('after_setup_theme', 'cofctheme_theme_support');
-
-// Register navigation menu LOCATIONS. Site editor will create menus and add them to these locations.
-register_nav_menus(
-	array(
-		'header-navigation' => __('Header Navigation', 'college-of-charleston-2023')
-	)
-);
-
 // Custom paginate_links filter
 function custom_pagination_links($max_num_pages, $current_page, $base_url = '', $query = null, $searchwp_pagination = false, $append_to_end_of_url = '')
 {
 	$output = '<ul class="pagination__list clearfix" aria-label="Pagination">';
 	$base_url = get_site_url() . $base_url;
-
 	// Previous link
 	$disabledLiClass = ($current_page === 1 or $current_page === $max_num_pages) ? 'pagination__item--disabled' : '';
 	$disabledAnchorAttribute = 'style="pointer-events: none"';
-
 	$output .= '<li class="pagination__item pagination__item--prev ' . $disabledLiClass . '">';
 	if ($query) {
 		if ($searchwp_pagination) {
-			$link = $base_url . '/?swppg=' . $current_page - 1 . '&searchwp=' . $query;
+			$link = $base_url . '/?swppg=' . ($current_page - 1) . '&searchwp=' . $query;
 		} else {
 			// native search pagination
-			$link = $base_url . '/page/' . $current_page - 1 . '?s=' . $query;
+			$link = $base_url . '/page/' . ($current_page - 1) . '?s=' . $query;
 		}
 	} else {
-		$link = $base_url . '/page/' . $current_page - 1;
+		$link = $base_url . '/page/' . ($current_page - 1);
 	}
 	$link = $link . $append_to_end_of_url;
 	$output .= '<a ' . ($current_page === 1 ? $disabledAnchorAttribute : '') . ' href="' . $link . '" class="btn btn--small" aria-label="Go to the previous page"><span class="btn__icon">';
 	$output .= '<svg class="brei-icon brei-icon-chevron"> <use xlink:href="#brei-icon-chevron"></use></svg>';
 	$output .= '</span></a>';
 	$output .= '</li>';
-
 	// Individual page links
 	$dotsAdded = false;
 	for ($i = 1; $i <= $max_num_pages; $i++) {
@@ -126,23 +109,21 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 			$itemstyle = 'style="width:0px; min-width: 0px;"';
 			$content = '';
 		}
-
 		$output .= '<li data-item="' . $i . '" class="pagination__item ' . $itemclass . '" ' . $itemstyle . '>';
 		$output .= $content;
 		$output .= '</li>';
 	}
-
 	// Next link 
 	$output .= '<li class="pagination__item pagination__item--next ' . $disabledLiClass . '">';
 	if ($query) {
 		if ($searchwp_pagination) {
-			$link = $base_url . '/?swppg=' . $current_page + 1 . '&searchwp=' . $query;
+			$link = $base_url . '/?swppg=' . ($current_page + 1) . '&searchwp=' . $query;
 		} else {
 			//native search (?s) pagination
-			$link = $base_url . '/page/' . $current_page + 1 . '?s=' . $query;
+			$link = $base_url . '/page/' . ($current_page + 1) . '?s=' . $query;
 		}
 	} else {
-		$link = $base_url . '/page/' . $current_page + 1;
+		$link = $base_url . '/page/' . ($current_page + 1);
 	}
 	$link = $link . $append_to_end_of_url;
 	$output .= '<a  ' . ($current_page == $max_num_pages ? $disabledAnchorAttribute : '') . ' href="' . $link . '" class="btn btn--small" aria-label="Go to the next page"><span class="btn__icon">';
@@ -150,19 +131,15 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 	$output .= '</span></a>';
 	$output .= '</li>';
 	$output .= '</ul>';
-
 	return $output;
 }
-
-
 function display_featured_post_card(
 	WP_Post $post,
 	bool $wide = false
 ) {
 	$wideClass = $wide ? 'card-news--wide' : '';
 ?>
-
-	<div class="card-news <?php echo $wideClass ?> card-news--featured cofc-post-grid-item" itemscope itemtype="https://schema.org/NewsArticle">
+	<div <?php post_class('card-news ' . $wideClass . ' card-news--featured cofc-post-grid-item') ?> itemscope itemtype="https://schema.org/NewsArticle">
 		<?php
 		$featured_image_id = get_post_thumbnail_id($post->ID);
 		$featured_image = get_post($featured_image_id);
@@ -199,14 +176,12 @@ function display_featured_post_card(
 					</span>
 				</p>
 			</div>
-
 			<a href="<?php echo get_post_permalink($post) ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 				<p class="btn btn-card" aria-hidden="true">
 					<span class="text-arrow">
 						<svg class="brei-icon brei-icon-arrows" focusable="false">
 							<use href="#brei-icon-arrows"></use>
 						</svg>
-
 						<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 							<use href="#brei-icon-arrows-arrow"></use>
 						</svg>
@@ -221,9 +196,6 @@ function display_featured_post_card(
 	</div>
 <?php
 }
-
-
-
 function display_single_post_card(
 	WP_Post $post,
 	bool $wide = false,
@@ -235,12 +207,11 @@ function display_single_post_card(
 	string $title_heading_size = 'h4',
 	bool $podcast = false
 ) {
-
 	$wideclass = $wide ? 'card-news--wide' : '';
 	$podcastCardClass = $podcast ? 'card-news--podcast' : '';
 	$podcastBtnClass = $podcast ? 'btn-card--podcast' : '';
 ?>
-	<div class="cell xsmall-12  <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cofc-post-grid-item">
+	<div <?php post_class('cell xsmall-12 ' . $medium_screen_class . ' ' . $large_screen_class . ' cofc-post-grid-item')?>>
 		<div class="card-news <?php echo $wideclass ?> <?php echo $podcastCardClass ?>" itemscope itemtype="https://schema.org/NewsArticle">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
@@ -254,7 +225,6 @@ function display_single_post_card(
 					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" width="926" height="695" />
 				</figure>
 			<?php } ?>
-
 			<div class="card-news__wrapper">
 				<div class="card-news__content">
 					<p class="card-news__heading font-<?php echo $title_heading_size ?>">
@@ -292,14 +262,12 @@ function display_single_post_card(
 					<?php
 					} ?>
 				</div>
-
 				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 					<p class="btn btn-card <?php echo $podcastBtnClass ?>" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
 								<use href="#brei-icon-arrows"></use>
 							</svg>
-
 							<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 								<use href="#brei-icon-arrows-arrow"></use>
 							</svg>
@@ -316,8 +284,6 @@ function display_single_post_card(
 	</div>
 <?php
 }
-
-
 function display_single_rail_post_card(
 	WP_Post $post,
 	bool $display_excerpt = false,
@@ -326,7 +292,7 @@ function display_single_rail_post_card(
 ) {
 	/* display a simple card in the sidebar (rail) with a post title and excerpt; link it to the post permalink */
 ?>
-	<div class="rail-news">
+	<div <?php post_class('rail-news')?>>
 		<div class="rail-news__inner">
 			<p class="rail-news__title font-h6">
 				<?php echo $post->post_title ?>
@@ -336,7 +302,6 @@ function display_single_rail_post_card(
 					<?php echo $post->post_excerpt ?>
 				</p>
 			<?php } ?>
-
 			<?php if ($display_published_date) { ?>
 				<p class="rail-news__date card-icon">
 					<svg class="brei-icon brei-icon-calendar" focusable="false">
@@ -347,7 +312,6 @@ function display_single_rail_post_card(
 					</span>
 				</p>
 			<?php } ?>
-
 			<?php if ($display_author) { ?>
 				<p class="rail-news__author card-icon">
 					<svg class="brei-icon brei-icon-avatar" focusable="false">
@@ -358,14 +322,12 @@ function display_single_rail_post_card(
 					</span>
 				</p>
 			<?php } ?>
-
 			<a href="<?php echo get_post_permalink($post) ?>" class="btn btn-tertiary btn-tertiary-left">
 				<span class="text">Read more</span>
 				<span class="text-arrow">
 					<svg class="brei-icon brei-icon-arrows" focusable="false">
 						<use href="#brei-icon-arrows"></use>
 					</svg>
-
 					<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 						<use href="#brei-icon-arrows-arrow"></use>
 					</svg>
@@ -374,18 +336,16 @@ function display_single_rail_post_card(
 			<!--span class="btn__icon"></span-->
 		</div>
 	</div>
-
 <?php
 }
-
-
 function display_main_feature_article_card(
 	WP_Post $post,
 	bool $wide = true
 ) {
 	$wideClass = $wide ? 'card-news--wide' : '';
 ?>
-	<div class="card-news <?php echo $wideClass ?> card-news--featured" itemscope itemtype="https://schema.org/NewsArticle" onclick="window.location='<?php echo get_permalink($post); ?>'">
+	<div
+	<?php post_class('card-news ' . $wideClass . ' card-news--featured') ?> itemscope itemtype="https://schema.org/NewsArticle" onclick="window.location='<?php echo get_permalink($post); ?>'">
 		>
 		<?php
 		$featured_image_id = get_post_thumbnail_id($post->ID);
@@ -399,7 +359,6 @@ function display_main_feature_article_card(
 				<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" width="926" height="695" />
 			</figure>
 		<?php } ?>
-
 		<div class="card-news__wrapper">
 			<div class="card-news__content">
 				<p class="card-news__heading font-h3">
@@ -424,14 +383,12 @@ function display_main_feature_article_card(
 					</span>
 				</p>
 			</div>
-
 			<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 				<p class="btn btn-card" aria-hidden="true">
 					<span class="text-arrow">
 						<svg class="brei-icon brei-icon-arrows" focusable="false">
 							<use href="#brei-icon-arrows"></use>
 						</svg>
-
 						<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 							<use href="#brei-icon-arrows-arrow"></use>
 						</svg>
@@ -447,14 +404,13 @@ function display_main_feature_article_card(
 	</div>
 <?php
 }
-
 function display_single_magazine_article_card(
 	WP_Post $post,
 	string $medium_screen_class = 'medium-6',
 	string $large_screen_class = '',
 ) {
 ?>
-	<div class="aggregate__content xsmall-12 <?php echo $medium_screen_class ?> <?php echo $large_screen_class ?> cell">
+	<div <?php post_class('aggregate__content xsmall-12 ' .  $medium_screen_class . ' ' . $large_screen_class . ' cell') ?>>
 		<div class="card-news" itemscope="" itemtype="https://schema.org/NewsArticle" onclick="window.location='<?php echo get_permalink($post); ?>'">
 			<?php
 			$featured_image_id = get_post_thumbnail_id($post->ID);
@@ -468,7 +424,6 @@ function display_single_magazine_article_card(
 					<img src="<?php echo $featured_image_url ?>" alt="<?php echo $featured_image_title ?>" class="card-news__image" itemprop="image" />
 				</figure>
 			<?php } ?>
-
 			<div class="card-news__wrapper">
 				<div class="card-news__content">
 					<p class="card-news__heading font-h4"><span itemprop="headline">
@@ -491,14 +446,12 @@ function display_single_magazine_article_card(
 						</span>
 					</p>
 				</div>
-
 				<a href="<?php echo get_permalink($post); ?>" title="Read more about <?php echo $post->post_title ?>" class="card-news__button">
 					<p class="btn btn-card" aria-hidden="true">
 						<span class="text-arrow">
 							<svg class="brei-icon brei-icon-arrows" focusable="false">
 								<use href="#brei-icon-arrows"></use>
 							</svg>
-
 							<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 								<use href="#brei-icon-arrows-arrow"></use>
 							</svg>
@@ -515,10 +468,6 @@ function display_single_magazine_article_card(
 	</div>
 <?php
 }
-
-
-
-
 function display_post_card_grid_by_category(
 	string $category_name,
 	int $limit = null,
@@ -526,7 +475,6 @@ function display_post_card_grid_by_category(
 	string $medium_screen_class = 'medium-6',
 	string $large_screen_class = ''
 ) {
-
 	$category = get_category_by_slug($category_name);
 	$posts = get_posts(
 		array(
@@ -540,7 +488,6 @@ function display_post_card_grid_by_category(
 		}
 		if (sizeof($posts) > 0) {
 			// if still not empty after slice. 
-
 			foreach ($posts as $post) {
 				if (!is_null($limit) && $counter++ >= $limit) {
 					break;
@@ -552,14 +499,12 @@ function display_post_card_grid_by_category(
 					display_published_date: true,
 					display_author: true,
 					medium_screen_class: $medium_screen_class,
-					large_screen_class: $large_screen_class,
+					large_screen_class: $large_screen_class
 				);
 			}
 		}
 	}
 }
-
-
 function display_image_link_grid(array $links = null, string $title = "Related Links")
 {
 	// Each link:
@@ -569,7 +514,6 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 	//  'media_url' => 'featured image url',
 	//  'new_tab' => bool
 	// )  
-
 	if (is_null($links) || sizeof($links) == 0) {
 		return;
 	}
@@ -603,7 +547,6 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 						<?php
 						}
 						?>
-
 						<div class="card-magazine__button" s>
 							<p class="btn btn--primary">
 								<span class="text">
@@ -611,13 +554,11 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 								</span>
 							</p>
 						</div>
-
 						<?php
 						?>
 						<a href="<?php echo $link_url ?>" <?php echo $target ?> class="card-magazine__link"><span class="show-for-sr">
 								<?php echo $label ?>
 							</span></a>
-
 					</div>
 				</div>
 			<?php
@@ -625,13 +566,8 @@ function display_image_link_grid(array $links = null, string $title = "Related L
 			?>
 		</div>
 	</div>
-
 <?php
 }
-
-
-
-
 function display_rail_podcast_component(
 	string $title = "Subscribe on your preferred platform",
 	bool $desktop = false,
@@ -639,14 +575,12 @@ function display_rail_podcast_component(
 	string $section_header_link_label = 'View all podcast episodes',
 	string $section_header_link_new_tab = 'no'
 ) {
-
 	$SPOTIFY_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-spotify.svg';
 	$IHEART_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-iheart-radio.svg';
 	$APPLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-apple.svg';
 	$STITCHER_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-stitcher.svg';
 	$GOOGLE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-google.svg';
 	$YOUTUBE_PODCAST_ICON = get_template_directory_uri() . '/assets/images/icon-youtube.svg';
-
 	$desktopClass = $desktop ? "rail-podcast--desktop" : "";
 ?>
 	<div class="rail-podcast <?php echo $desktopClass ?>">
@@ -733,10 +667,8 @@ function display_rail_podcast_component(
 			</ul>
 		</div>
 	</div>
-
 <?php
 }
-
 function display_single_rail_link(array $link)
 {
 	// $link array structure:
@@ -755,7 +687,7 @@ function display_single_rail_link(array $link)
 	$new_tab = isset($link['new_tab']) ? $link['new_tab'] : false;
 	$target = $new_tab ? 'target="_blank"' : '';
 ?>
-	<div class="rail-news">
+	<div <?php post_class('rail-news') ?>>
 		<div class="rail-news__inner">
 			<a href="<?php echo $url ?>" <?php echo $target ?> class="btn btn-tertiary btn-tertiary-left">
 				<span class="text">
@@ -765,7 +697,6 @@ function display_single_rail_link(array $link)
 					<svg class="brei-icon brei-icon-arrows" focusable="false">
 						<use href="#brei-icon-arrows"></use>
 					</svg>
-
 					<svg class="brei-icon brei-icon-arrows-arrow" focusable="false">
 						<use href="#brei-icon-arrows-arrow"></use>
 					</svg>
@@ -780,7 +711,6 @@ function display_single_rail_link(array $link)
 	</div>
 <?php
 }
-
 function display_rail_links_list(
 	array $links = array(),
 	string $title = "Related Links"
@@ -796,7 +726,6 @@ function display_rail_links_list(
 	// )
 	// leverage same component as rail news section rather
 	// than rebuilding the exact same thing with different class names
-
 ?>
 	<div class="rail-home__section">
 		<h2 class="rail-header">
@@ -809,12 +738,8 @@ function display_rail_links_list(
 		}
 		?>
 	</div>
-
 <?php
 }
-
-
-
 function atLeastOneAccountLinkPopulated($accounts)
 {
 	foreach ($accounts as $account) {
@@ -829,40 +754,33 @@ function atLeastOneAccountLinkPopulated($accounts)
 	}
 	return false; // all empty 
 }
-
-
 function cofctheme_enqueue_styles()
 {
 	$version = wp_get_theme()->get('Version');
 	wp_enqueue_style('cofc-css', get_template_directory_uri() . "/assets/css/main.css", array(), $version);
 }
-
 function cofctheme_enqueue_scripts()
 {
 	// scripts 
-	wp_enqueue_script('cofc-js-jquery', 'https://code.jquery.com/jquery-3.6.4.min.js', array(), '3.6.4', true);
-	wp_enqueue_script('cofc-js-modernizr', get_template_directory_uri() . '/assets/js/plugins/modernizr.js', array('cofc-js-jquery'), '1.0', true);
-	wp_enqueue_script('cofc-js-vendor', get_template_directory_uri() . '/assets/js/vendor.js', array('cofc-js-modernizr'), '1.0', true);
-	wp_enqueue_script('cofc-js-main', get_template_directory_uri() . "/assets/js/main.js", array('cofc-js-vendor'), '1.0', true);
-	wp_enqueue_script('cofc-js-news-aggregate-template', get_template_directory_uri() . '/assets/js/filterable_news_aggregate.js', array('cofc-js-main'), '1.0', true);
-	wp_enqueue_script('cofc-js-level', get_template_directory_uri() . '/assets/js/level.js', array('cofc-js-main'), '1.0', true);
-	wp_enqueue_script('cofc-js-postgrid', get_template_directory_uri() . '/assets/js/postgrid.js', array('cofc-js-main'), '1.0', true);
-	wp_enqueue_script('cofc-js-prettifymailchimpforms', get_template_directory_uri() . '/assets/js/prettifymailchimpforms.js', array('cofc-js-main'), '1.0', true);
+	wp_enqueue_script('cofc-js-jquery', esc_url(get_template_directory_uri() . '/assets/js/jquery-3.6.4.min.js'), array(), '3.6.4', true);
+	wp_enqueue_script('cofc-js-modernizr', esc_url(get_template_directory_uri() . '/assets/js/plugins/modernizr.js'), array('cofc-js-jquery'), '1.0', true);
+	wp_enqueue_script('cofc-js-vendor', esc_url(get_template_directory_uri() . '/assets/js/vendor.js'), array('cofc-js-modernizr'), '1.0', true);
+	wp_enqueue_script('cofc-js-main', esc_url(get_template_directory_uri() . "/assets/js/main.js"), array('cofc-js-vendor'), '1.0', true);
+	wp_enqueue_script('cofc-js-news-aggregate-template', esc_url(get_template_directory_uri() . '/assets/js/filterable_news_aggregate.js'), array('cofc-js-main'), '1.0', true);
+	wp_enqueue_script('cofc-js-level', esc_url(get_template_directory_uri() . '/assets/js/level.js'), array('cofc-js-main'), '1.0', true);
+	wp_enqueue_script('cofc-js-postgrid', esc_url(get_template_directory_uri() . '/assets/js/postgrid.js'), array('cofc-js-main'), '1.0', true);
+	wp_enqueue_script('cofc-js-prettifymailchimpforms', esc_url(get_template_directory_uri() . '/assets/js/prettifymailchimpforms.js'), array('cofc-js-main'), '1.0', true);
 	cofctheme_enqueue_custom_block_scripts();
 }
-
-
 function cofctheme_enqueue_admin_scripts()
 {
 	// scripts 
-	wp_enqueue_script('cofc-js-jquery', 'https://code.jquery.com/jquery-3.6.4.min.js', array(), '3.6.4', true);
+	wp_enqueue_script('cofc-js-jquery', esc_url(get_template_directory_uri() . '/assets/js/jquery-3.6.4.min.js'), array(), '3.6.4', true);
 	cofctheme_enqueue_custom_block_scripts();
-
 	// enqueue utilities for media file handling in Admin UI
 	wp_enqueue_script('media-upload');
 	wp_enqueue_media();
 	wp_enqueue_script('custom-media', get_template_directory_uri() . '/assets/js/media.js', array('jquery'), '1.0', false);
-
 	// enqueue admin JS for meta box conditional display (dependent on selected Page Template) 
 	wp_enqueue_script(
 		'cofctheme_metabox_display_admin_script',
@@ -871,12 +789,10 @@ function cofctheme_enqueue_admin_scripts()
 		'1.0',
 		true
 	);
-
 	// widget editor scripts 
 	wp_enqueue_script('widget-editor-image-link-grid', get_template_directory_uri() . '/assets/js/widget-editors/image-link-grid.js', array('jquery'), '1.0', false);
 	wp_enqueue_script('rail-link-list-widget-script', get_template_directory_uri() . '/assets/js/widget-editors/rail-link-list.js', array('jquery'), '1.0', true);
 }
-
 function cofctheme_enqueue_styles_and_scripts()
 {
 	cofctheme_enqueue_styles();
@@ -884,20 +800,13 @@ function cofctheme_enqueue_styles_and_scripts()
 }
 add_action('wp_enqueue_scripts', 'cofctheme_enqueue_styles_and_scripts');
 add_action('admin_enqueue_scripts', 'cofctheme_enqueue_admin_scripts');
-
-
-
 add_theme_support('customize-selective-refresh-widgets');
-
 
 require get_template_directory() . '/customizers.php';
 require get_template_directory() . '/template-parts/svg_defs.php';
-require get_template_directory() . '/template-parts/widgets/index.php';
 require get_template_directory() . '/template-parts/header/navigation.php';
-
-
+require get_template_directory() . '/template-parts/widgets/index.php';
 // Custom blocks 
-
 function localize_block_vars()
 {
 	return array(
@@ -967,7 +876,6 @@ function aggregate_rail_filter_component(
 									</fieldset>
 								</div>
 							</li>
-
 						<?php }
 						// expand if there are active tag filters
 						$expanded = sizeof($checked_tag_ids) > 0 ? 'is-active' : '';
@@ -1011,7 +919,6 @@ function aggregate_rail_filter_component(
 							</li>
 						<?php
 						}
-
 						if (!empty($filterable_years)) {
 							// expand if there are active year filters
 							$expanded = sizeof($checked_years) > 0 ? 'is-active' : '';
@@ -1054,9 +961,7 @@ function aggregate_rail_filter_component(
 						<?php
 						} ?>
 					</ul>
-
 				</div>
-
 				<button class="btn btn--primary-small filter__button" onclick="applyFilters({baseUrl: '<?php echo $base_url ?>'})">
 					<span class="text">Apply Filters</span>
 				</button>
@@ -1065,9 +970,6 @@ function aggregate_rail_filter_component(
 	</section>
 <?php
 }
-
-
-
 function cofctheme_enqueue_custom_block_scripts()
 {
 	// register all of the scripts for each custom block - each block has a distribution file called bundle.js
@@ -1100,21 +1002,17 @@ function cofctheme_enqueue_custom_block_scripts()
 		);
 	}
 }
-
 /* SearchWP configuration 
 Documentation: https://searchwp.com/v3/docs/hooks/searchwp_return_orderby_date/
 Solves problem: when searching on MultiSite, the search results are not ordered by date
 ALWAYS return search results ordered by date
 */
 add_filter('searchwp_return_orderby_date', '__return_true');
-
-
 require get_template_directory() . '/blocks/src/post-grid/index.php';
 require get_template_directory() . '/blocks/src/media-carousel/index.php';
 require get_template_directory() . '/blocks/src/testimonial/index.php';
 require get_template_directory() . '/blocks/src/tag-grid/index.php';
 require get_template_directory() . '/blocks/src/podcast-platforms/index.php';
-
 /* meta boxes for specific templates */
 require get_template_directory() . '/metaboxes/filterable_news_aggregate/index.php';
 require get_template_directory() . '/metaboxes/prefiltered_news_aggregate/index.php';

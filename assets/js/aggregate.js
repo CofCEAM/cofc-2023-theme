@@ -190,7 +190,7 @@
             i.resolve(e);
           },
           error: function (e, t, n) {
-            console.log(e, n), i.reject(t);
+            // do nothing
           },
         }),
         i.promise()
@@ -319,7 +319,7 @@
             }, 500);
           })
           .fail(function () {
-            console.log("API ERROR: No results were returned");
+            console.error("API ERROR: No results were returned");
           });
     },
   };
@@ -359,7 +359,7 @@
             return ("string" === t ? String : Number)(e);
           })(s, "string")),
           "symbol" === i(r) ? r : String(r)),
-          a
+          a,
         );
     }
     var s, r;

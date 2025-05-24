@@ -1,6 +1,6 @@
 <?php get_header();
 global $post; ?>
-<main id="main" class="article">
+<main id="main"  <?php post_class('article'); ?>>
     <div class="article__wrapper wrapper">
         <div class="row">
             <div class="article__content xsmall-12 medium-10 medium-offset-1 column">

@@ -14,14 +14,8 @@ jQuery(document).ready(function ($) {
     mediaUrlInputId = mediaUrlInputId.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
     mediaAltInputId = mediaAltInputId.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
 
-    console.log(mediaUrlInputId);
-    console.log(mediaAltInputId);
-
     const $urlInput = jQuery(`#${mediaUrlInputId}`);
     const $altInput = jQuery(`#${mediaAltInputId}`);
-
-    console.log($urlInput);
-    console.log($altInput);
 
     frame = wp.media({
       title: "Custom Image",
@@ -172,7 +166,7 @@ jQuery(document).ready(function ($) {
     removeLinkbutton.classList.add("is-secondary");
     removeLinkbutton.textContent = `Remove Link ${newLinkFriendlyIndex}`;
     removeLinkbutton.addEventListener("click", () => {
-      removeLinkFromRailLinkList({ button: removeLinkbutton });
+      removeLinkFromImageLinkGridList({ button: removeLinkbutton });
     });
     div6.appendChild(removeLinkbutton);
 

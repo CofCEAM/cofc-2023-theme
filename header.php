@@ -47,7 +47,7 @@
 						if ($logo_url) : ?>
 							<img src="<?php echo esc_url($logo_url[0]); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 						<?php else : ?>
-							<img src="<?php echo get_template_directory_uri() . '/assets/images/cofc-default-logo.png'; ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+							<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/cofc-default-logo.png'); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
 						<?php endif; ?>
 					</span>
 				</a>

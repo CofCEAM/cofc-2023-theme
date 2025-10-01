@@ -154,9 +154,14 @@ function custom_pagination_links($max_num_pages, $current_page, $base_url = '', 
 
 
 function display_featured_post_card(
-	WP_Post $post,
+	?WP_Post $post,
 	bool $wide = false
 ) {
+	// Early return if post is null
+	if (is_null($post)) {
+		return;
+	}
+
 	$wideClass = $wide ? 'card-news--wide' : '';
 ?>
 

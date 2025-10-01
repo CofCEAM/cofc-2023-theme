@@ -173,7 +173,6 @@ if ($prefiltered_news_aggregate_include_left_rail) {
                             <?php
                             // get first post from query 
                             $first_post = $query->posts[0];
-                            // display main feature article
                             display_featured_post_card($first_post, wide: true);
                             ?>
                         </div>
